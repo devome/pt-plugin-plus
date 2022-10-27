@@ -1,0 +1,113 @@
+{
+  "name": "JPopsuki",
+  "timezoneOffset": "+0000",
+  "description": "日韩音乐",
+  "url": "https://jpopsuki.eu/",
+  "icon": "https://jpopsuki.eu/favicon.ico",
+  "tags": ["音乐", "日韩"],
+  "schema": "Gazelle",
+  "host": "jpopsuki.eu",
+  "searchEntryConfig": {
+    "skipIMDbId": true
+  },
+  "plugins": [{
+    "name": "种子列表",
+    "pages": ["/artist.php"],
+    "scripts": ["/schemas/NexusPHP/common.js", "torrents.js"]
+  }],
+  "searchEntry": [{
+    "entry": "/torrents.php?searchstr=$key$&searchsubmit=1",
+    "name": "all",
+    "resultType": "html",
+    "parseScriptFile": "getSearchResult.js",
+    "resultSelector": "table.torrent_table:last > tbody > tr",
+    "enabled": true
+  }],
+  "torrentTagSelectors": [{
+    "name": "Free",
+    "selector": "strong:contains('Freeleech!')"
+  }],
+  "categories": [{
+    "entry": "*",
+    "result": "&filter_cat[$id$]=1",
+    "category": [{
+      "id": 1,
+      "name": "Album"
+    }, {
+      "id": 2,
+      "name": "Single"
+    }, {
+      "id": 3,
+      "name": "PV"
+    }, {
+      "id": 4,
+      "name": "DVD"
+    }, {
+      "id": 5,
+      "name": "TV-Music"
+    }, {
+      "id": 6,
+      "name": "TV-Variety"
+    }, {
+      "id": 7,
+      "name": "TV-Drama"
+    }, {
+      "id": 8,
+      "name": "Fansubs"
+    }, {
+      "id": 9,
+      "name": "Pictures"
+    }, {
+      "id": 10,
+      "name": "Misc"
+    }]
+  }],
+  "selectors": {
+    "userExtendInfo": {
+      "merge": true,
+      "fields": {
+	    "uploaded": {
+          "selector": "div:contains('Stats') + ul.stats > li:contains('Uploaded'), div:contains('統計情報') + ul.stats > li:contains('アップロード数')",
+          "filters": ["query.text().replace(/,/g,'').match(/[\\d.]+ ?[ZEPTGMK]?i?B/)", " query ?(query[0]).sizeToNumber():null"]
+        },
+        "downloaded": {
+          "selector": "div:contains('Stats') + ul.stats > li:contains('Downloaded'), div:contains('統計情報') + ul.stats > li:contains('Downloaded')",
+          "filters": ["query.text().replace(/,/g,'').match(/Downloaded.+?([\\d.]+ ?[ZEPTGMK]?i?B)/)", "(query && query.length>=2)?(query[1]).sizeToNumber():null"]
+        },
+        "seeding": {
+          "selector": "div:contains('Community') + ul.stats > li:contains('Seeding:'), div:contains('コミュニティ') + ul.stats > li:contains('シード中')",
+          "filters": ["query.text().match(/[\\d.]+/)", " query ?query[0]:null"]
+        },
+        "bonus": {
+          "selector": ["div:contains('Stats') + ul.stats > li:contains('Bonus Points:')", "div:contains('統計情報') + ul.stats > li:contains('ボーナスポイント')"],
+          "filters": ["query.text().replace(/,/g,'')", "query.match(/Bonus Points.+?([\\d.]+)/)||query.match(/ボーナスポイント.+?([\\d.]+)/)", "(query && query.length>=2)?query[1]:null"]
+        },
+        "levelName": {
+          "selector": "div:contains('Personal') + ul.stats > li:contains('Class:'), div:contains('個人情報') + ul.stats > li:contains('階級:')",
+          "filters": ["query.text().match(/(Class:|階級:).+?(.+)/)", "(query && query.length>=2)?query[2]:''"]
+        },
+        "joinTime": {
+          "selector": ["div:contains('Stats') + ul.stats > li:contains('Joined:') > span, div:contains('統計情報') + ul.stats > li:contains('Joined:') > span"],
+          "filters": ["query.attr('title')||query.text()", "dateTime(query).isValid()?dateTime(query).valueOf():query"]
+        },
+        "messageCount": {
+          "selector": ["#alerts > .alertbar > a[href='notice.php']", "div.alertbar > a[href*='inbox.php']"],
+          "filters": ["query.text().match(/(\\d+)/)", "(query && query.length>=2)?parseInt(query[1]):0"]
+        }
+      }
+    },
+    "userSeedingTorrents": {
+      "page": "/torrents.php?type=seeding&userid=$user.id$",
+      "parser": "getUserSeedingTorrents.js",
+      "fields": {
+        "seedingSize": {
+          "selector": ["tr.torrent"],
+          "filters": ["jQuery.map(query.find('td:eq(5)'), (item)=>{return $(item).text();})", "_self.getTotalSize(query)"]
+        }
+      }
+    }
+  },
+  "supportedFeatures": {
+    "imdbSearch": false
+  }
+}

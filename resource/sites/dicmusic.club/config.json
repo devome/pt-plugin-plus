@@ -1,0 +1,32 @@
+{
+  "name": "DIC",
+  "timezoneOffset": "+0800",
+  "description": "music",
+  "url": "https://dicmusic.club/",
+  "icon": "https://dicmusic.club/favicon.ico",
+  "tags": ["音乐"],
+  "schema": "GazelleJSONAPI",
+  "host": "dicmusic.club",
+  "collaborator": ["ylxb2016", "enigmaz"],
+  "searchEntryConfig": {
+    "skipIMDbId": true
+  },
+  "selectors": {
+    "userSeedingTorrents": {
+      "page": "/bonus.php?action=bprates",
+      "fields": {
+        "seedingSize": {
+          "selector": ["table#bprates_overview > tbody > tr > td:eq(1)"],
+          "filters": ["query.text().replace(/,/g,'').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)", "(query && query.length>=2)?(query[1]).sizeToNumber():0"]
+        },
+        "bonus": {
+          "selector": ["div#content > div.header > h3"],
+          "filters": ["query.text().replace(/,/g,'').match(/.+?([\\d.]+)/)", "(query && query.length>=2)?query[1]:null"]
+        }
+      }
+    }
+  },
+  "supportedFeatures": {
+    "imdbSearch": false
+  }
+}

@@ -1,0 +1,9 @@
+{
+    "name": "TorrentSeeds",
+    "url": "https://www.torrentseeds.org/",
+    "icon": "https://www.torrentseeds.org/favicon.ico",
+    "tags": ["综合"],
+    "schema": "UNIT3D",
+    "host": "www.torrentseeds.org",
+    "collaborator": "ian"
+}

@@ -1,0 +1,15 @@
+{
+  "name": "LzTr",
+  "timezoneOffset": "+0000",
+  "description": "music",
+  "url": "https://lztr.me/",
+  "icon": "https://lztr.me/favicon.ico",
+  "tags": ["音乐"],
+  "schema": "Gazelle",
+  "host": "lztr.me",
+  "collaborator": "ylxb2016",
+  "supportedFeatures": {
+    "imdbSearch": false,
+    "userData": "◐"
+  }
+}

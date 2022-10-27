@@ -1,0 +1,92 @@
+{
+  "name": "PTer",
+  "timezoneOffset": "+0800",
+  "description": "PT之友俱乐部",
+  "url": "https://pterclub.com/",
+  "icon": "https://pterclub.com/favicon.ico",
+  "tags": ["影视", "综合"],
+  "schema": "NexusPHP",
+  "host": "pterclub.com",
+  "formerHosts": [
+    "pter.club"
+  ],
+  "searchEntryConfig": {
+    "fieldSelector": {
+      "title": {
+        "selector": ["a[href*='details.php?id=']:first"],
+        "filters": ["query"]
+      },
+      "subTitle": {
+        "selector": ["div>span"],
+        "filters": ["query.text().trim()"]
+      },
+      "progress": {
+        "selector": [".progbargreen", ".progbarred + .progbarrest", ".progbarred", ".progbarrest", ""],
+        "switchFilters": [
+          ["100"],
+          ["query.prev().attr('style').replace('width: ','').replace('%;','')"],
+          ["100"],
+          ["0"],
+          ["null"]
+        ]
+      },
+      "status": {
+        "selector": [".progbargreen", ".progbarred + .progbarrest", ".progbarred", ".progbarrest"],
+        "switchFilters": [
+          ["2"],
+          ["3"],
+          ["255"],
+          ["3"]
+        ]
+      }
+    }
+  },
+  "searchEntry": [{
+    "name": "综合",
+    "enabled": true
+  }, {
+    "entry": "/music.php?search=$key$&notnewword=1",
+    "name": "音乐",
+    "enabled": true
+  }],
+  "selectors": {
+    "userExtendInfo": {
+      "merge": true,
+      "fields": {
+        "bonus": {
+          "selector": ["td.rowhead:contains('猫粮') + td, td.rowhead:contains('Karma Points') + td, td.rowhead:contains('貓糧') + td"],
+          "filters": ["query.text().replace(/,/g,'')", "parseFloat(query)"]
+        },
+        "seedingSize": {
+          "selector": ["td.rowhead:contains('做种大小') + td, td.rowhead:contains('Seeding Size') + td, td.rowhead:contains('做種大小') + td"],
+          "filters": ["query.text().trim().sizeToNumber()"]
+        }
+      }
+    },
+    "userSeedingTorrents": {
+      "page": "/getusertorrentlist.php?userid=$user.id$&type=seeding",
+      "fields": {
+        "seeding": {
+          "selector": ["tr:not(:eq(0))"],
+          "filters": ["query.find('td.rowfollow:eq(1)').length"]
+        }
+      }
+    }
+  },
+  "plugins": [
+    {
+    "name": "保种和官方列表",
+    "pages": ["/reseed.php", "/officialgroup.php"],
+    "scripts": ["/schemas/NexusPHP/common.js", "/schemas/NexusPHP/torrents.js"]
+    },{
+      "name": "游戏种子详情页面",
+      "pages": ["/detailsgame.php"],
+      "scripts": ["/schemas/NexusPHP/common.js", "/schemas/Common/details.js"]
+    }
+  ],
+  "mergeSchemaTagSelectors": true,
+  "torrentTagSelectors": [{
+    "name": "⛔️",
+    "selector": "a[href*='torrents.php?tag_exclusive=yes']"
+  }]
+}

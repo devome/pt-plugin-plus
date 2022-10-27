@@ -1,0 +1,169 @@
+{
+  "name": "PT@KEEPFRDS",
+  "timezoneOffset": "+0000",
+  "url": "https://pt.keepfrds.com/",
+  "icon": "https://pt.keepfrds.com/static/favicon-64x64.png",
+  "tags": [
+    "影视",
+    "综合"
+  ],
+  "schema": "NexusPHP",
+  "host": "pt.keepfrds.com",
+  "searchEntryConfig": {
+    "merge": true,
+    "fieldSelector": {
+      "progress": {
+        "selector": ["img[src='/static/pic/newpic/2s_dl.gif']", "img[src='/static/pic/newpic/2s_up.gif'], img[src='/static/pic/newpic/2s_dled.gif']", ""],
+        "switchFilters": [
+          ["query.parent().parent().next().attr('style').split(';')[0].replace('width: ','').replace('px','')/3"],
+          ["100"],
+          ["null"]
+        ]
+      },
+      "status": {
+        "selector": ["img[src='/static/pic/newpic/2s_dl.gif']", "img[src='/static/pic/newpic/2s_up.gif']", "img[src='/static/pic/newpic/2s_dled.gif']"],
+        "switchFilters": [
+          ["1"],
+          ["2"],
+          ["255"]
+        ]
+      }
+    }
+  },
+  "searchEntry": [{
+      "name": "全站",
+      "enabled": true
+    },
+    {
+      "queryString": "cat401=1",
+      "name": "Movies",
+      "enabled": false
+    },
+    {
+      "queryString": "cat404=1",
+      "name": "Documentaries",
+      "enabled": false
+    },
+    {
+      "queryString": "cat405=1",
+      "name": "Animations",
+      "enabled": false
+    },
+    {
+      "queryString": "cat402=1",
+      "name": "TV Series",
+      "enabled": false
+    },
+    {
+      "queryString": "cat403=1",
+      "name": "TV Shows",
+      "enabled": false
+    },
+    {
+      "queryString": "cat406=1",
+      "name": "Music Videos",
+      "enabled": false
+    },
+    {
+      "queryString": "cat407=1",
+      "name": "Sports",
+      "enabled": false
+    },
+    {
+      "queryString": "cat409=1",
+      "name": "Misc",
+      "enabled": false
+    },
+    {
+      "queryString": "cat408=1",
+      "name": "HQ Audio",
+      "enabled": false
+    }
+  ],
+  "categories": [{
+    "entry": "*",
+    "result": "&cat$id$=1",
+    "category": [{
+        "id": 401,
+        "name": "Movies"
+      },
+      {
+        "id": 404,
+        "name": "Documentaries"
+      },
+      {
+        "id": 405,
+        "name": "Animations"
+      },
+      {
+        "id": 402,
+        "name": "TV Series"
+      },
+      {
+        "id": 403,
+        "name": "TV Shows"
+      },
+      {
+        "id": 406,
+        "name": "Music Videos"
+      },
+      {
+        "id": 407,
+        "name": "Sports"
+      },
+      {
+        "id": 409,
+        "name": "Misc"
+      },
+      {
+        "id": 408,
+        "name": "HQ Audio"
+      }
+    ]
+  }],
+  "selectors": {
+    "userBaseInfo": {
+      "merge": true,
+      "fields": {
+        "messageCount": {
+          "selector": ["a[href*='messages.php'] b span[style*='color: red']"]
+        },
+        "seeding": {
+          "selector": ["img[alt='Torrents seeding']"],
+          "filters": ["$(query[0].nextSibling).text().trim()"]
+        }
+      }
+    },
+    "userExtendInfo": {
+      "merge": true,
+      "fields": {
+        "bonus": {
+          "selector": ["td.rowhead:contains('魔力值') + td, td.rowhead:contains('Karma Points') + td"],
+          "filters": ["query.text().replace(/,/g,'').match(/魔力值:.+?([\\d.]+)/)[1]", "parseFloat(query)"]
+        },
+        "seedingSize": {
+          "selector": ["td.rowhead:contains('当前做种') + td, td.rowhead:contains('Current Seeding') + td, td.rowhead:contains('目前做種') + td"],
+          "filters": ["query.text().trim().replace(/,/g,'').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)", "(query && query.length>=2)?(query[1]).sizeToNumber():0"]
+        }
+      }
+    },
+    "/details.php": {
+      "merge": true,
+      "fields": {
+        "downloadURL": {
+          "selector": ["input#download_link"],
+          "filters": ["query.val()"]
+        }
+      }
+    }
+  },
+  "mergeSchemaTagSelectors": true,
+  "torrentTagSelectors": [{
+    "name": "⛔️",
+    "selector": "td.embedded b > font.recommended:contains('禁转')"
+  },{
+    "name": "Neutral",
+    "selector": "img.pro_nl",
+    "color": "purple"
+  }]
+}

@@ -1,0 +1,22 @@
+{
+  "name": "JoyHD",
+  "timezoneOffset": "+0800",
+  "description": "JoyHD成立於2013年，發佈藍光原碟，藍光DIY和原抓音樂。",
+  "url": "https://www.joyhd.net",
+  "icon": "https://www.joyhd.net/favicon.ico",
+  "tags": ["影视", "综合"],
+  "schema": "NexusPHP",
+  "host": "joyhd.net",
+  "collaborator": "ylxb2016",
+  "selectors": {
+    "userExtendInfo": {
+      "merge": true,
+      "fields": {
+        "bonus": {
+          "selector": ["td.rowhead:contains('银元') + td"],
+          "filters": ["query.text().replace(/,/g,'')", "parseFloat(query)"]
+        }
+      }
+    }
+  }
+}

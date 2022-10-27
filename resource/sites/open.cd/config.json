@@ -1,0 +1,101 @@
+{
+  "name": "OpenCD",
+  "timezoneOffset": "+0800",
+  "description": "皇后，专一的音乐类PT站，是目前国内最大的无损音乐PT",
+  "url": "https://open.cd/",
+  "icon": "https://open.cd/favicon.ico",
+  "tags": ["音乐"],
+  "schema": "NexusPHP",
+  "host": "open.cd",
+  "searchEntryConfig": {
+    "skipIMDbId": true,
+    "fieldSelector": {
+      "progress": {
+        "selector": [".progress:eq(0) > div"],
+        "filters": ["query.attr('style')||''", "query.match(/width:([ \\d.]+)%/)", "(query && query.length>=2)?query[1]:null"]
+      },
+      "status": {
+        "selector": ["div.progress_seeding", "div.progress_completed, div.progress_completed_hr", "div.progress_no_downloading", "div.progress_downloading"],
+        "switchFilters": [
+          [2],
+          [255],
+          [3],
+          [1]
+        ]
+      }
+    }
+  },
+  "searchEntry": [{
+    "appendQueryString": "&boardid=2",
+    "name": "原抓区",
+    "enabled": true
+  }, {
+    "appendQueryString": "&boardid=1",
+    "name": "普通区",
+    "enabled": true
+  }],
+  "categories": [{
+    "entry": "*",
+    "result": "&source$id$=1",
+    "category": [{
+      "id": 2,
+      "name": "流行(Pop)"
+    }, {
+      "id": 3,
+      "name": "古典(Classical)"
+    }, {
+      "id": 11,
+      "name": "器乐(Instrumental)"
+    }, {
+      "id": 4,
+      "name": "原声(OST)"
+    }, {
+      "id": 5,
+      "name": "摇滚(Rock)"
+    }, {
+      "id": 8,
+      "name": "爵士(Jazz)"
+    }, {
+      "id": 12,
+      "name": "新世纪(NewAge)"
+    }, {
+      "id": 13,
+      "name": "舞曲(Dance)"
+    }, {
+      "id": 14,
+      "name": "电子(Electronic)"
+    }, {
+      "id": 15,
+      "name": "民谣(Folk)"
+    }, {
+      "id": 16,
+      "name": "独立(Indie)"
+    }, {
+      "id": 17,
+      "name": "嘻哈(Hip Hop)"
+    }, {
+      "id": 9,
+      "name": "其他(Others)"
+    }]
+  }],
+  "selectors": {
+    "userExtendInfo": {
+      "merge": true,
+      "fields": {
+        "seeding": {
+          "selector": ["div#ka1"],
+          "filters": ["query.parent().text().match(/\\(([\\d.]+)个种子/)", "(query && query.length>=2)?query[1]:0"]
+        },
+        "seedingSize": {
+          "selector": ["div#ka1"],
+          "filters": ["query.parent().text().match(/共计([\\d.]+ ?[ZEPTGMK]?i?B)/)", "(query && query.length>=2)?(query[1]).sizeToNumber():0"]
+        }
+      }
+    }
+  },
+  "mergeSchemaTagSelectors": true,
+  "torrentTagSelectors": [{
+    "name": "⛔️",
+    "selector": "img[src*='pic/share_rule_1.gif']"
+  }]
+}

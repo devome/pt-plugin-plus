@@ -1,0 +1,13 @@
+{
+  "name": "HDPOST",
+  "timezoneOffset": "+0800",
+  "description": "HDPOST",
+  "url": "https://pt.hdpost.top/",
+  "icon": "https://pt.hdpost.top/favicon.ico",
+  "tags": [
+    "电影",
+    "电视剧"
+  ],
+  "schema": "UNIT3D",
+  "host": "pt.hdpost.top"
+}

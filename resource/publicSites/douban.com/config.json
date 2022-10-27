@@ -1,0 +1,25 @@
+{
+  "name": "豆瓣",
+  "ver": "0.0.1",
+  "plugins": [{
+    "name": "电影详情页",
+    "pages": ["\/subject\/\\d+\/"],
+    "scripts": ["common.js", "subject.js"]
+  }, {
+    "name": "top250",
+    "pages": ["/top250"],
+    "scripts": ["common.js", "top250.js"]
+  }, {
+    "name": "explore",
+    "pages": ["/explore", "/tv/"],
+    "scripts": ["common.js", "explore.js"]
+  }, {
+    "name": "doulist",
+    "pages": ["\/doulist\/\\d+\/"],
+    "scripts": ["common.js", "doulist.js"]
+  }],
+  "schema": "publicSite",
+  "host": "movie.douban.com",
+  "path": "douban.com",
+  "cdn": ["www.douban.com"]
+}

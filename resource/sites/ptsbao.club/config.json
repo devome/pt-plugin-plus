@@ -1,0 +1,47 @@
+{
+  "name": "烧包",
+  "timezoneOffset": "+0800",
+  "schema": "NexusPHP",
+  "url": "https://ptsbao.club/",
+  "description": "烧包 - 扬帆远航 风雨同路",
+  "icon": "https://ptsbao.club/favicon.ico",
+  "tags": ["影视", "综合"],
+  "host": "ptsbao.club",
+  "collaborator": ["laizony", "ted423"],
+  "searchEntryConfig": {
+	"merge": true,
+    "fieldSelector": {
+      "progress": {
+        "selector": ["tr.finished,tr.seeders"],
+        "filters": ["query.length?100:null"]
+      },
+      "status": {
+        "selector": ["tr.finished", "tr.seeders"],
+        "switchFilters": [
+        	["255"],
+        	["2"]
+        ]
+      }
+    }
+  },
+  "selectors": {
+    "userBaseInfo": {
+      "merge": true,
+      "fields": {
+        "messageCount": {
+          "selector": ["td[style*='background: indigo'] a[href*='messages.php']"],
+          "filters": ["query.text().match(/(\\d+)/)", "(query && query.length>=2)?parseInt(query[1]):0"]
+        }
+      }
+    },
+    "userExtendInfo": {
+      "merge": true,
+      "fields": {
+        "levelName": {
+          "selector": ["td.rowhead:contains('等级') + td b b[class]"],
+          "filters": ["query.text().trim() + '(' + query.attr('class').replace('User_Name',' User') + ')'"]
+        }
+      }
+    }
+  }
+}

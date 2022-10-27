@@ -1,0 +1,146 @@
+{
+  "name": "MTV",
+  "timezoneOffset": "+0000",
+  "description": "",
+  "icon": "https://www.morethantv.me/favicon.ico",
+  "schema": "Common",
+  "tags": ["电视剧", "剧集"],
+  "url": "https://www.morethantv.me",
+  "collaborator": "luckiestone",
+  "host": "www.morethantv.me",
+  "formerHosts": [
+    "www.morethan.tv"
+  ],
+  "plugins": [{
+    "name": "种子详情页面",
+    "pages": ["/torrents.php"],
+    "scripts": ["/schemas/NexusPHP/common.js", "/schemas/Common/details.js"]
+  }, {
+    "name": "种子列表",
+    "pages": ["/torrents/browse", "/show/(\\d+)/$","/collages.php"],
+    "scripts": ["/schemas/NexusPHP/common.js", "/schemas/Common/torrents.js"]
+  }],
+  "searchEntry": [{
+    "name": "全部",
+    "enabled": true
+  }],
+  "searchEntryConfig": {
+    "page": "torrents/browse?searchtext=$key$",
+    "skipIMDbId": true,
+    "name": "全部",
+    "resultType": "html",
+    "resultSelector": "table.torrent_table",
+    "dataRowSelector": "> tbody > tr:not(:first-child)",
+    "fieldIndex": {
+	    "title": 1,
+	    "link": 1,
+	    "url": 1,
+        "time": 3,
+        "size": 4,
+        "author": 8,
+        "seeders": 6,
+        "leechers": 7,
+        "completed": 5
+	},
+	"fieldSelector": {
+	  "title": {
+		"selector": ["a.overlay_torrent"],
+        "filters": ["query.text()"]
+	  },
+	  "link": {
+		"selector": ["a.overlay_torrent"],
+        "filters": ["query.attr('href')", "'https://www.morethantv.me/'+query"]
+	  },
+	  "url": {
+		"selector": ["a[title='Download Torrent']"],
+        "filters": ["query.attr('href')", "'https://www.morethantv.me/'+query"]
+	  },
+	  "time": {
+		"selector": ["span.time"],
+        "filters": ["dateTime(query.attr('title')).format()"]
+	  }
+    }
+  },
+  "selectors": {
+    "userBaseInfo": {
+      "merge": true,
+      "page": "/index.php",
+      "fields": {
+        "id": {
+          "selector": ["a.username[href*='user.php']:first"],
+          "attribute": "href",
+          "filters": ["query ? query.getQueryString('id'):''"]
+        },
+        "name": {
+          "selector": ["a.username[href*='user.php']:first"]
+        },
+        "messageCount": {
+          "selector": ["div.alert-bar > a[href*='inbox.php']", "div.alertbar > a[href*='inbox.php']"],
+          "filters": ["query.text().match(/(\\d+)/)", "(query && query.length>=2)?parseInt(query[1]):0"]
+        },
+        "isLogged": {
+          "selector": ["form[action='/logout']"],
+          "filters": ["query.length>0"]
+        }
+      }
+    },
+    "userExtendInfo": {
+      "page": "/user.php?id=$user.id$",
+      "fields": {
+        "uploaded": {
+          "selector": "ul.stats > li:contains('Uploaded')",
+          "filters": ["query.text().replace(/,/g,'').match(/Uploaded.+?([\\d.]+ ?[ZEPTGMK]?i?B)/)", "(query && query.length>=2)?(query[1]).sizeToNumber():null"]
+        },
+        "downloaded": {
+          "selector": "ul.stats > li:contains('Downloaded')",
+          "filters": ["query.text().replace(/,/g,'').match(/Downloaded.+?([\\d.]+ ?[ZEPTGMK]?i?B)/)", "(query && query.length>=2)?(query[1]).sizeToNumber():null"]
+        },
+        "ratio": {
+          "selector": "ul.stats > li:contains('Ratio:')",
+          "filters": ["query.text().replace(/,/g,'').match(/Ratio.+?([\\d.]+)/)", "(query && query.length>=2)?query[1]:null"]
+        },
+        "seeding": {
+          "selector": ["ul.stats > li:contains('Seeding:')"],
+          "filters": [ "query.text().replace(/,/g, '').match(/Seeding:.+?([\\d]+)/)", "(query && query.length>=2)?query[1]:null" ]
+        },
+        "seedingSize": {
+          "selector": ["ul.stats > li:contains('Seeding Size:')"],
+          "filters": ["query.text().replace(/,/g,'').match(/Seeding Size:.+?([\\d.]+ ?[ZEPTGMK]?i?B)/)", "(query && query.length>=2)?(query[1]).sizeToNumber():0"]
+        },
+        "levelName": {
+          "selector": "ul.stats > li:contains('Class:')",
+          "filters": ["query.text().match(/Class:.+?(.+)/)", "(query && query.length>=2)?query[1]:''"]
+        },
+        "bonus": {
+          "selector": "#stats_credits",
+          "filters": ["query.text()"]
+        },
+        "joinTime": {
+          "selector": ["ul.stats > li:contains('Joined:') > span"],
+          "filters": ["query.attr('title')||query.text()", "dateTime(query).isValid()?dateTime(query).valueOf():query"]
+        }
+      }
+    },
+    "common": {
+	  "page": "/torrents.php",
+      "fields": {
+        "downloadURL": {
+          "selector": ["tr[id*='torrentinfo'][class!='hidden']"],
+          "filters": ["query.prev().find(\"a[href*='action=download']\").attr('href')"]
+        },
+        "size": {
+          "selector": ["tr.group_torrent > td.nobr"],
+          "filters": ["query.text().replace(/,/g,'').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)", "(query && query.length>1)?(query[1]).sizeToNumber():0"]
+        },
+        "downloadURLs": {
+          "selector": ["a[href*='action=download']"],
+          "filters": ["query.toArray()"]
+        },
+        "confirmSize": {
+          "selector": ["tr.group_torrent > td.nobr"],
+          "filters": ["query.text().replace(/,/g,'').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)", "(query && query.length>1)?(query[1]).sizeToNumber():0"]
+        }
+      }
+    }
+  }
+}
