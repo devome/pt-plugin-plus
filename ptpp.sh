@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+
+## 需要补充自己的GITHUB_TOKEN，或直接以 `GITHUB_TOKEN=XXX ./ptpp.sh` 来运行
+GITHUB_TOKEN=
+
+## 需要在上一层目录创建好pt-plugin-plus仓库并已经初始化
+dir_shell=$(cd $(dirname $0); pwd)
+dir_ptpp=$(cd "$dir_shell"; cd ../pt-plugin-plus; pwd)
+
+cd $dir_shell
+
+## 临时下载文件
+ptpp_tmp=$(mktemp).zip
+
+## artifacts基础网址
+art_url="https://api.github.com/repos/pt-plugins/PT-Plugin-Plus/actions/artifacts"
+repository_id=161980047
+
+## 获取artifacts清单
+art_list=$(curl -sSL -H "Accept: application/vnd.github+json" -H "Authorization: Bearer $GITHUB_TOKEN" "$art_url")
+art_name=( $(echo "$art_list" | jq -r .artifacts[].name) )
+art_dlurl=( $(echo "$art_list" | jq -r .artifacts[].archive_download_url) )
+art_sha=( $(echo "$art_list" | jq -r .artifacts[].workflow_run.head_sha) )
+art_headid=( $(echo "$art_list" | jq -r .artifacts[].workflow_run.head_repository_id) )
+
+## 获取最新zip的相关信息
+for ((i=0; i<${#art_name[@]}; i++)); do
+    if [[ ${art_name[i]} == dev-build-*-zip && ${art_headid[i]} == $repository_id ]]; then
+        ptpp_dlurl=${art_dlurl[i]}
+        ptpp_sha=${art_sha[i]}
+        break
+    fi
+done
+
+## 下载最新的dev-zip
+if [[ $(cat ptpp.sha 2>/dev/null) != $ptpp_sha ]]; then
+    curl "$ptpp_dlurl" -sSL -H "Accept: application/vnd.github+json" -H "Authorization: Bearer $GITHUB_TOKEN" -o "$ptpp_tmp" && {
+        echo "$ptpp_sha" > ptpp.sha
+        unzip -oqq "$ptpp_tmp" -d /tmp
+        filezip=$(unzip -l $ptpp_tmp | awk '/PT-Plugin-Plus/{print $4}')
+        unzip -oqq /tmp/$filezip -d "$dir_ptpp"
+        cd "$dir_ptpp"
+        git add . && git commit -m "$ptpp_sha" && git push
+        rm -rf "$ptpp_tmp"
+    }
+else
+    echo "The last commit sha256 $ptpp_sha is not change."
+fi
+
+
