@@ -1,11 +1,11 @@
-本仓库将 https://github.com/ronggang/PT-Plugin-Plus 通过Action构建的dev版本每天自动转换为git仓库，方便用户自动更新。
+本仓库将 https://github.com/pt-plugins/PT-Plugin-Plus 通过Action构建的dev版本每天自动转换为git仓库，方便用户自动更新。
 
 ## 使用
 
 1. 克隆本仓库（需要安装git，Linux用户自行安装，Windows请下载安装：https://gitforwindows.org/）
 ```shell
 cd ~  # 你可以指定为其他目录，如为其他目录，下面所有路径均作调整
-git clone https://github.com/devome/pt-plugin-plus.git
+git clone --depth=1 https://github.com/devome/pt-plugin-plus.git
 ```
 
 2. 打开`chrome://extensions`或`edge://extensions`，勾选左侧`开发人员模式`，点击`加载已解压的扩展程序...`，选择刚刚克隆的目录`~/pt-plugin-plus`即可。

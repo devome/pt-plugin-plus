@@ -37,14 +37,15 @@ if [[ $(cat ptpp.sha 2>/dev/null) != $ptpp_sha ]]; then
     curl "$ptpp_dlurl" -sSL -H "Accept: application/vnd.github+json" -H "Authorization: Bearer $GITHUB_TOKEN" -o "$ptpp_tmp" && {
         echo "$ptpp_sha" > ptpp.sha
         unzip -oqq "$ptpp_tmp" -d /tmp
-        filezip=$(unzip -l $ptpp_tmp | awk '/PT-Plugin-Plus/{print $4}')
-        unzip -oqq /tmp/$filezip -d "$dir_ptpp"
+        filezip=$(unzip -l $ptpp_tmp | awk '$4~/.+\.zip/{print $4}')
+        git -C "$dir_ptpp" checkout master
+        unzip -oqq /tmp/"$filezip" -d "$dir_ptpp"
         cd "$dir_ptpp"
         git add . && git commit -m "$ptpp_sha" && git push
-        rm -rf "$ptpp_tmp"
+        rm -rf "$filezip"
     }
 else
     echo "The last commit sha256 $ptpp_sha is not change."
 fi
-
+rm -rf "$ptpp_tmp"
 
