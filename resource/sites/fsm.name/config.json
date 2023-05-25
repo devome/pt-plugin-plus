@@ -1,0 +1,161 @@
+{
+  "name": "FSM",
+  "timezoneOffset": "+0800",
+  "description": "飞天拉面神教 - FSM",
+  "url": "https://fsm.name/",
+  "tags": [ "成人" ],
+  "schema": "Common",
+  "host": "fsm.name",
+  "formerHosts": [
+    "nextpt.net"
+  ],
+  "collaborator": [
+    "Ted423",
+    "IITII"
+  ],
+  "plugins": [
+    {
+      "name": "种子详情页面",
+      "pages": [ "/Torrents/details" ],
+      "scripts": [ "/schemas/NexusPHP/common.js", "/schemas/Common/details.js" ]
+    },
+    {
+      "name": "种子列表",
+      "pages": [ "/Torrents$" ],
+      "scripts": [ "/schemas/NexusPHP/common.js", "/schemas/Common/torrents.js" ]
+    }
+  ],
+  "searchEntryConfig": {
+    "skipIMDbId": true,
+    "page": "/Torrents?type=0&systematics=0&keyword=$key$",
+    "loggedRegex": "container-fluid",
+    "resultType": "html",
+    "resultSelector": "table",
+    "fieldIndex": {
+      "category": 0,
+      "title": 2,
+      "link": 2,
+      "url": 3,
+      "comments": 4,
+      "time": 5,
+      "size": 6,
+      "seeders": 7,
+      "leechers": 8,
+      "completed": 9
+    },
+    "fieldSelector": {
+      "title": {
+        "selector": [ "a[href*='/Torrents/details']" ],
+        "filters": [ "query" ]
+      },
+      "url": {
+        "selector": [ "a[href*='/Torrents/download?passkey=']" ],
+        "filters": [ "query.attr('href')", "'https://fsm.name'+query" ]
+      },
+      "progress": {
+        "selector": [ ".progress-bar.progress-bar-success", ".progress-bar.progress-bar-info,.progress-bar.progress-bar-danger", "" ],
+        "switchFilters": [
+          [ "100" ],
+          [ "query.attr('style').replace('width: ','').replace('%;','')" ],
+          [ "null" ]
+        ]
+      },
+      "status": {
+        "selector": [ ".progress-bar.progress-bar-success", ".progress-bar.progress-bar-info", ".progress-bar.progress-bar-danger" ],
+        "switchFilters": [
+          [ "2" ],
+          [ "1" ],
+          [ "3" ]
+        ]
+      }
+    }
+  },
+  "selectors": {
+    "userBaseInfo": {
+      "page": "/Rules",
+      "fields": {
+        "isLogged": {
+          "selector": [ "a.adminUser" ],
+          "filters": [ "query.length>0" ]
+        },
+        "name": {
+          "selector": [ "#header-navbar .dropdown-toggle" ],
+          "filters": [ "query.text().trim().replace(/工具\\s?/,'')" ]
+        },
+        "id": {
+          "selector": [ "a[href*='/Users/profile']" ],
+          "attribute": "href",
+          "filters": [ "query ? query.getQueryString('uid'):''" ]
+        },
+        "messageCount": {
+          "selector": [ "a[href='/Mail']" ],
+          "filters": [ "query.text().match(/(\\d+)/)", "(query && query.length>=2)?parseInt(query[1]):0" ]
+        },
+        "uploaded": {
+          "selector": [ "#data-upload" ],
+          "filters": [ "query.text().replace(/,/g,'').replace('上传量：','').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)", "(query && query.length>=2)?(query[1]).sizeToNumber():null" ]
+        },
+        "downloaded": {
+          "selector": [ "#data-download" ],
+          "filters": [ "query.text().replace(/,/g,'').replace('下载量：','').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)", "(query && query.length>=2)?(query[1]).sizeToNumber():null" ]
+        },
+        "seeding": {
+          "selector": [ "#data-now-seed" ],
+          "filters": [ "query.text().replace(/当前上传[：:]/,'')" ]
+        }
+      }
+    },
+    "userExtendInfo": {
+      "page": "/Users/profile?uid=$user.id$",
+      "fields": {
+        "comment": "暂不获取的数据置 0",
+        "bonusPerHour": {"value":"0"},
+        "joinTime": {
+          "selector": [ "th:contains('加入时间') + td" ],
+          "filters": [ "dateTime(query.text().trim()).isValid()?dateTime(query.text().trim()).valueOf():query.text().trim()"]
+        },
+        "levelName": {
+          "selector": [ "a[href*='/Users/profile'][class*='User']" ],
+          "filters": [ "query.attr('class').replace(/[^ ]*\\s/,'').replace(/User.*/,'').toUpperCase()"]
+        },
+        "bonus": {
+          "selector": [ "#data-seedGH" ],
+          "filters": [ "query.text()" ]
+        }
+      }
+    },
+      "userSeedingTorrents": {
+        "page": "/Torrents/mySeed",
+        "fields": {
+          "seedingSize": {
+            "selector": ".panel-primary .panel-body td(6)",
+            "filters": [
+              "(query != 0) ? query.sizeToNumber() : 0",
+              "query.text()"
+            ]
+          }
+        }
+      },
+    "common": {
+      "page": "/Torrents",
+      "fields": {
+        "downloadURL": {
+          "selector": [ "a[href*='/Torrents/download']" ],
+          "filters": [ "query.attr('href')" ]
+        },
+        "size": {
+          "selector": [ "div.visible-xs:contains('种子大小') + div" ],
+          "filters": [ "query.text().replace(/,/g,'').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)", "(query && query.length>1)?(query[1]).sizeToNumber():0" ]
+        },
+        "downloadURLs": {
+          "selector": [ "a[href*='/Torrents/download']" ],
+          "filters": [ "query.toArray()" ]
+        },
+        "confirmSize": {
+          "selector": [ "table.table.table-bordered > tbody td.center.tdCenter > div:contains('B')" ],
+          "filters": [ "query" ]
+        }
+      }
+    }
+  }
+}

@@ -181,6 +181,7 @@
       "getUserInfoError": "An error occurred",
       "getUserInfoAbort": "Get user profile request has been canceled. ({siteName})",
       "getUserInfoAbortError": "Cancellation failed to get user profile request. ({siteName})",
+      "offline":"Offline",
       "headers": {
         "date": "Date",
         "site": "Site",
@@ -717,6 +718,8 @@
           "priorityTip": "Can be used for search sorting",
           "offline": "Site is offline (downtime\/shutdown)",
           "timezone": "Timezone",
+          "upLoadLimit": "Upload limit",
+          "upLoadLimitTip": "Upload limit (KB\/s), 0 or empty for no limit",
           "disableMessageCount": "Display message count"
         },
         "userinfo": {
