@@ -12,7 +12,8 @@
   }],
   "host": "www.empornium.is",
   "formerHosts": [
-    "www.empornium.me"
+    "www.empornium.me",
+    "www.empornium.sx"
   ],
   "searchEntryConfig": {
     "page": "torrents.php?searchtext=$key$",
