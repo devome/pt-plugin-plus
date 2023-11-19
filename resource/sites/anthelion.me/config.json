@@ -9,8 +9,10 @@
   "host": "anthelion.me",
   "collaborator": "enigamz",
   "searchEntryConfig": {
-    "skipIMDbId": true,
-    "parseScriptFile": "getSearchResult.js"
+      "page": "/torrents.php",
+      "resultType": "html",
+      "parseScriptFile": "getSearchResult.js",
+      "queryString": "searchstr=$key$&group_results=0&searchsubmit=1"
   },
   "searchEntry": [{
       "name": "all",
@@ -18,7 +20,7 @@
   }],
   "selectors": {
     "userBaseInfo": {
-      "page": "index.php",
+      "page": "/store.php",
       "fields": {
         "id": {
           "selector": ["#nav_user a.username"],
@@ -31,11 +33,15 @@
         "isLogged": {
           "selector": ["a[href*='logout.php']"],
           "filters": ["query.length>0"]
+        },
+        "bonusPerHour": {
+          "selector": ["h3.float_right"],
+          "filters": ["query.text().match(/making ([\\d]+) Orbs/)", "(query && query.length>=2)?parseFloat(query[1]):null"]
         }
       }
     },
     "userExtendInfo": {
-      "page": "user.php?id=$user.id$",
+      "page": "/user.php?id=$user.id$",
       "fields": {
         "uploaded": {
           "selector": ["li.tooltip:contains('Uploaded: ')"],
@@ -46,8 +52,8 @@
           "filters": ["query.text().match(/\\d+/g)[0]"]
         },
         "downloaded": {
-          "selector": ["li.tooltip:contains('Downloaded:  ')"],
-          "filters": ["query.eq(0).text().replace(/Downloaded:/g,'').replace(/,/g,'').sizeToNumber()"]
+          "selector": ["li.tooltip:contains('Downloaded: ')"],
+          "filters": ["query.eq(0).text().replace(/Downloaded: /g,'').replace(/,/g,'').sizeToNumber()"]
         },
         "ratio": {
           "selector": ["li.tooltip:contains('Ratio: ') span"],
