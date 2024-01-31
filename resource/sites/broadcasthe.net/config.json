@@ -9,10 +9,22 @@
   "host": "broadcasthe.net",
   "collaborator": ["ylxb2016", "enigmaz"],
   "searchEntryConfig": {
+    "skipNonLatinCharacters": true,
     "page": "/torrents.php",
     "resultType": "html",
     "parseScriptFile": "getSearchResult.js",
-    "queryString": "searchstr=$key$"
+    "queryString": "searchstr=$key$",
+    "area": [{
+      "name": "IMDB",
+      "keyAutoMatch": "^(tt\\d+)$",
+      "queryString": "artistname=$name$&exactartist=1&action=advanced&year=$year$",
+      "replaceKeyByTVDB": [
+        "name", "year"
+      ],
+      "replaceKey": [
+        " ", "+"
+      ]
+    }]
   },
   "levelRequirements": [{
       "level": "1",
@@ -148,12 +160,6 @@
             "(query && query.length>=2)?(query[1]).sizeToNumber():0"
         ]
        },
-        "snatches": {
-          "selector": "ul.nobullet > li:contains('Snatched:'):last",
-          "filters": [ 
-            "query.text().replace(/,/g,'').match(/[\\d]+/)[0]", "parseInt(query)"
-          ]
-        },
         "totalSeedtime": {
           "selector": "ul.nobullet > li:contains('Total Time Seeded:')",
           "filters": [
@@ -200,9 +206,17 @@
           "filters": ["jQuery.map(query, item=>$(item).attr('href').match(/torrentid=(\\d+)/)[1])"]
         }
       }
+    },
+    "levelExtendInfo": {
+      "page": "/user.php?action=next_class",
+      "fields": {
+        "snatches": {
+          "selector": "td:contains('Minimum snatches') + td + td",
+          "filters": [ 
+            "query.text().replace(/,/g,'').match(/[\\d]+/)[0]", "parseInt(query)"
+          ]
+        }
+      }
     }
-  },
-  "supportedFeatures": {
-    "imdbSearch": false
   }
 }
