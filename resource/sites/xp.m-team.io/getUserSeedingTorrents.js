@@ -61,7 +61,7 @@
         return;
       }
 
-      this.pageInfo.count = this.rawData.data.totalPages;
+      this.pageInfo.count = Number(this.rawData.data.totalPages);
     }
 
     /**
@@ -77,7 +77,8 @@
         method: "POST",
         dataType: "JSON",
         data: JSON.stringify(postData),
-        contentType: "application/json"
+        contentType: "application/json",
+        headers: this.options.rule.headers
       })
         .done(result => {
           this.rawData = result;
@@ -93,7 +94,16 @@
     }
   }
 
-  let dataURL = options.site.activeURL + options.rule.page;
+  let dataURL;
+  if (
+    options.site.activeURL.endsWith("/") &&
+    options.rule.page.startsWith("/")
+  ) {
+    // 避免拼接出双斜杆网址，馒头会报错500
+    dataURL = options.site.activeURL + options.rule.page.substr(1);
+  } else {
+    dataURL = options.site.activeURL + options.rule.page;
+  }
 
   new Parser(options, dataURL);
 })(_options, _self);
