@@ -20,7 +20,7 @@ git clone -b dev https://github.com/devome/pt-plugin-plus.git
 #!/usr/bin/env bash
 
 cd ~/pt-plugin-plus
-git fetch
+git fetch origin
 git reset origin/dev --hard
 git pull
 ```
@@ -31,7 +31,7 @@ git pull
 
 ```bat
 cd ~\pt-plugin-plus
-git fetch
+git fetch origin
 git reset origin/dev --hard
 git pull
 ```
