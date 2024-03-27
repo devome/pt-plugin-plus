@@ -1,0 +1,201 @@
+{
+    "name": "憨憨",
+    "timezoneOffset": "+0800",
+    "description": "憨憨",
+    "url": "https://hhanclub.top/",
+    "icon": "https://hhanclub.top/favicon.ico",
+    "tags": ["综合", "纪录片"],
+    "schema": "NexusPHP",
+    "host": "hhanclub.top",
+    "levelRequirements": [
+        {
+            "level": 1,
+            "name": "Power User",
+            "interval": "4",
+            "downloaded": "50GB",
+            "ratio": "1.05",
+            "seedingPoints": "80000",
+            "privilege": "得到一个邀请名额；可以直接发布种子；可以查看NFO文档；可以查看用户列表；可以请求续种； 可以发送邀请； 可以查看排行榜；可以查看其它用户的种子历史(如果用户隐私等级未设置为\"强\")； 可以删除自己上传的字幕。"
+        },
+        {
+            "level": 2,
+            "name": "Elite User",
+            "interval": "8",
+            "downloaded": "120GB",
+            "ratio": "1.55",
+            "seedingPoints": "150000",
+            "privilege": "Elite User及以上用户封存账号后不会被删除。"
+        },
+        {
+            "level": 3,
+            "name": "Crazy User",
+            "interval": "15",
+            "downloaded": "300GB",
+            "ratio": "2.05",
+            "seedingPoints": "400000",
+            "privilege": "得到两个邀请名额；可以在做种/下载/发布的时候选择匿名模式。"
+        },
+        {
+            "level": 4,
+            "name": "Insane User",
+            "interval": "25",
+            "downloaded": "500GB",
+            "ratio": "2.55",
+            "seedingPoints": "500000",
+            "privilege": "可以查看普通日志。"
+        },
+        {
+            "level": 5,
+            "name": "Veteran User",
+            "interval": "40",
+            "downloaded": "750GB",
+            "ratio": "3.05",
+            "seedingPoints": "900000",
+            "privilege": "得到三个邀请名额；可以查看其它用户的评论、帖子历史。Veteran User及以上用户会永远保留账号。"
+        },
+        {
+            "level": 6,
+            "name": "Extreme User",
+            "interval": "60",
+            "downloaded": "1TB",
+            "ratio": "3.55",
+            "seedingPoints": "1100000",
+            "privilege": "可以更新过期的外部信息；可以查看Extreme User论坛。"
+        },
+        {
+            "level": 7,
+            "name": "Ultimate User",
+            "interval": "80",
+            "downloaded": "1.5TB",
+            "ratio": "4.05",
+            "seedingPoints": "1300000",
+            "privilege": "得到五个邀请名额。"
+        },
+        {
+            "level": 8,
+            "name": "Nexus Master",
+            "interval": "100",
+            "downloaded": "3TB",
+            "ratio": "4.55",
+            "seedingPoints": "1500000",
+            "privilege": "得到十个邀请名额。"
+        }
+    ],
+    "collaborator": ["koal", "zhuweitung"],
+    "selectors": {
+        "userBaseInfo": {
+            "merge": true,
+            "page": "/index.php",
+            "fields": {
+                "messageCount": {
+                    "selector": ["div.w-full > a[href='messages.php']"],
+                    "filters": ["query.text().match(/(\\d+)/)", "(query && query.length>=2)?parseInt(query[1]):0"]
+                }
+            }
+        },
+        "userExtendInfo": {
+            "merge": true,
+            "fields": {
+                "uploaded": {
+                    "selector": ["span:contains('上传量') + span", "span:contains('Uploaded') + span"],
+                    "filters": ["query[0].innerText.replace(/,/g,'')", "query.sizeToNumber()"]
+                },
+                "downloaded": {
+                    "selector": ["span:contains('下载量') + span", "span:contains('Downloaded') + span"],
+                    "filters": ["query[0].innerText.replace(/,/g,'')", "query.sizeToNumber()"]
+                },
+                "levelName": {
+                    "selector": ["span.font-bold:contains('等级')"],
+                    "filters": ["query.next().find('img').attr('title')", "query.replace(/[^a-z0-9 ]/gi, '').trim().length > 0 ? query.replace(/[^a-z0-9 ]/gi, '').trim() : query"]
+                },
+                "bonus": {
+                    "selector": ["span.font-bold:contains('憨豆') + div", "span.font-bold:contains('Seed points') + div"],
+                    "filters": ["parseFloat(query.text().replace(/,/g,''))"]
+                },
+                "seedingPoints": {
+                    "selector": ["span:contains('做种积分') + span", "span:contains('Seeding Points') + span"],
+                    "filters": ["parseFloat(query.text().replace(/,/g,''))"]
+                },
+                "joinTime": {
+                    "selector": ["span:contains('加入日期')", "span:contains('Join'):contains('date')"],
+                    "filters": ["query.next().text().split(' (')[0].trim()", "dateTime(query).isValid()?dateTime(query).valueOf():query"]
+                }
+            }
+        },
+        "userSeedingTorrents": {
+            "page": "/getusertorrentlistajax.php?type=size&userid=$user.id$",
+            "dataType": "json",
+            "headers": {
+                "Accept": "application/json, text/javascript, */*; q=0.01"
+            },
+            "fields": {
+                "seeding": {
+                    "selector": ["total_count"],
+                    "filters": ["query"]
+                },
+                "seedingSize": {
+                    "selector": ["total_size"],
+                    "filters": ["query.sizeToNumber()"]
+                }
+            }
+        },
+        "bonusExtendInfo": {
+            "prerequisites": "!user.bonusPerHour",
+            "page": "/mybonus.php",
+            "fields": {
+                "bonusPerHour": {
+                    "selector": ["h1:contains('每小时获得的合计憨豆') + div div:nth-child(2) div:nth-child(8)", "h1:contains('Total bonus gained per hour') + div div:nth-child(2) div:nth-child(8)"],
+                    "filters": ["parseFloat(query.text().match(/[\\d.]+/)[0])"]
+                }
+            }
+        },
+        "userUploadedTorrents": {
+            "prerequisites": "!user.uploads",
+            "page": "/getusertorrentlistajax.php?ajax=1&type=uploaded_size&userid=$user.id$",
+            "dataType": "json",
+            "headers": {
+                "Accept": "application/json, text/javascript, */*; q=0.01"
+            },
+            "fields": {
+                "uploads": {
+                    "selector": ["count"],
+                    "filters": ["query"]
+                }
+            }
+        }
+    },
+    "searchEntry": [{
+        "name": "全部",
+        "enabled": true
+    }],
+    "torrentTagSelectors": [{
+        "name": "Free",
+        "selector": "span.promotion-tag-free"
+    }, {
+        "name": "30%",
+        "selector": "span.promotion-tag-30"
+    }, {
+        "name": "50%",
+        "selector": "span.promotion-tag-50"
+    }, {
+        "name": "⛔️",
+        "selector": "span[style*='background-color:#990000']"
+    }],
+    "searchEntryConfig": {
+        "page": "/torrents.php",
+        "queryString": "search=$key$",
+        "resultType": "html",
+        "parseScriptFile": "getSearchResult.js",
+        "resultSelector": ".torrent-table-for-spider",
+        "fieldSelector": {
+            "progress": {
+                "selector": ["div[title^='seeding'], div[title^='leeching'], div[title^='inactivity']"],
+                "filters": ["query ? parseFloat(query.attr('title').match(/[\\d.]+/)) : null"]
+            },
+            "status": {
+                "selector": ["div[title^='seeding'], div[title^='leeching'], div[title^='inactivity']"],
+                "filters": ["query ? query.attr('title') : ''", "query.indexOf('seeding') != -1 ? 2 : query.indexOf('leeching') != -1 ? 1 : query.indexOf('100%') != -1 ? 255 : 3"]
+            }
+        }
+    }
+}
