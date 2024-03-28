@@ -25,6 +25,12 @@ git reset origin/dev --hard
 git pull
 ```
 
+如果是 Arch Linux 用户，也可以直接安装 AUR 上我打好的包（具体用法见包的链接）：
+
+- 稳定版：[pt-plugin-plus-bin](https://aur.archlinux.org/packages/pt-plugin-plus-bin)
+
+- 开发版：[pt-plugin-plus-git](https://aur.archlinux.org/packages/pt-plugin-plus-git)
+
 ### Windows
 
 新建一个cmd脚本，内容如下，然后将该脚本加入任务计划中即可。任务计划如何添加请参考：https://blog.csdn.net/qq_41587516/article/details/112446587
