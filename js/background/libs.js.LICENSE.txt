@@ -1,35 +1,28 @@
+/* Common package for dealing with hex/string/uint8 conversions (and sha1 hashing)
+*
+* @author   Jimmy Wärting <jimmy@warting.se> (https://jimmy.warting.se/opensource)
+* @license  MIT
+*/
+
 /*!
- * The buffer module from node.js, for the browser.
- *
- * @author   Feross Aboukhadijeh <http://feross.org>
- * @license  MIT
- */
 
-/*! blob-to-buffer. MIT License. Feross Aboukhadijeh <https://feross.org/opensource> */
+JSZip v3.10.1 - A JavaScript class for generating and reading zip files
+<http://stuartk.com/jszip>
 
-/*! http://mths.be/base64 v0.1.0 by @mathias | MIT license */
+(c) 2009-2016 Stuart Knightley <stuart [at] stuartk.com>
+Dual licenced under the MIT license or GPLv3. See https://raw.github.com/Stuk/jszip/main/LICENSE.markdown.
 
-/*! https://mths.be/he v1.2.0 by @mathias | MIT license */
+JSZip uses the library pako released under the MIT license :
+https://github.com/nodeca/pako/blob/main/LICENSE
+*/
 
-/*! https://mths.be/punycode v1.4.1 by @mathias */
-
-/*! ieee754. BSD-3-Clause License. Feross Aboukhadijeh <https://feross.org/opensource> */
+/*! For license information please see index.js.LICENSE.txt */
 
 /*! magnet-uri. MIT License. WebTorrent LLC <https://webtorrent.io/opensource> */
 
 /*! parse-torrent. MIT License. WebTorrent LLC <https://webtorrent.io/opensource> */
 
-/*! safe-buffer. MIT License. Feross Aboukhadijeh <https://feross.org/opensource> */
-
-/*! simple-concat. MIT License. Feross Aboukhadijeh <https://feross.org/opensource> */
-
-/**
-* @license nested-property https://github.com/cosmosio/nested-property
-*
-* The MIT License (MIT)
-*
-* Copyright (c) 2014-2020 Olivier Scherrer <pode.fr@gmail.com>
-*/
+/*! queue-microtask. MIT License. Feross Aboukhadijeh <https://feross.org/opensource> */
 
 /** @preserve
 	 * Counter block mode compatible with  Dr Brian Gladman fileenc.c
