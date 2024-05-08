@@ -1,1 +1,1280 @@
-!function(t,e){e.TNodeCommon=class{constructor(){this.siteContentMenus={},this.clientContentMenus=[],this.defaultPath=PTService.getSiteDefaultPath(),this.downloadClientType=PTService.downloadClientType,this.defaultClientOptions=PTService.getClientOptions(),this.currentURL=location.href}t(t,e){return PTService.i18n.t(t,e)}initFreeSpaceButton(){this.defaultPath&&PTService.call(PTService.action.getFreeSpace,{path:this.defaultPath,clientId:PTService.site.defaultClientId}).then((t=>{console.log("命令执行完成",t),t&&t.arguments&&PTService.addButton({title:this.t("buttons.freeSpaceTip",{path:this.defaultPath,interpolation:{escapeValue:!1}}),icon:"filter_drama",label:PTService.filters.formatSize(t.arguments["size-bytes"])})})).catch((()=>{}))}initDetailButtons(){this.addSendTorrentToDefaultClientButton(),this.addSendTorrentToClientButton(),this.addCopyTextToClipboardButton(),this.initFreeSpaceButton(),this.initCollectionButton(),this.initSayThanksButton(),document.domain.match("keepfrds.com")&&t(".pt-plugin-body").css("z-index","39")}initListButtons(t=!1){this.defaultClientOptions&&PTService.addButton({title:this.t("buttons.downloadAllTip",{name:this.defaultClientOptions.name}),icon:"get_app",label:this.t("buttons.downloadAll"),click:(e,i)=>{!t||PTService.site.passkey?this.startDownloadURLs(e,i):i("请先设置站点密钥（Passkey）。")}}),PTService.addButton({title:this.t("buttons.downloadAllToTip"),icon:"save_alt",type:PTService.buttonType.popup,label:this.t("buttons.downloadAllTo"),click:(e,i,o)=>{!t||PTService.site.passkey?this.showAllContentMenus(o.originalEvent,e,i):i(this.t("needPasskey"))},onDrop:(t,e,i,o)=>{console.log(t);let n=this.getDroperURL(t.url);console.log(n),this.showContentMenusForUrl({url:n,title:t.title,link:t.url},e.originalEvent,i,o)}}),PTService.addButton({title:this.t("buttons.copyAllToClipboardTip"),icon:"file_copy",label:this.t("buttons.copyAllToClipboard"),click:(e,i)=>{if(t&&!PTService.site.passkey)return void i(this.t("needPasskey"));let o=this.getDownloadURLs();o.length&&"string"!=typeof o?PTService.call(PTService.action.copyTextToClipboard,o.join("\n")).then((t=>{console.log("命令执行完成",t),e()})).catch((()=>{i()})):i(o)},onDrop:(e,i,o,n)=>{if(t&&!PTService.site.passkey)return void n(this.t("needPasskey"));let l=this.getDroperURL(e.url);l&&PTService.call(PTService.action.copyTextToClipboard,l).then((t=>{console.log("命令执行完成",t),o()})).catch((()=>{n()}))}}),this.checkPermissions(["downloads"]).then((()=>{this.addSaveAllTorrentFilesButton(t)})).catch((()=>{PTService.addButton({title:this.t("buttons.needAuthorizationTip"),icon:"verified_user",key:"requestPermissions",label:this.t("buttons.needAuthorization"),click:(t,e)=>{PTService.call(PTService.action.openOptions,"set-permissions"),t()}})}))}addSaveAllTorrentFilesButton(t){PTService.addButton({title:this.t("buttons.saveAllTorrentTip"),icon:"save",label:this.t("buttons.saveAllTorrent"),click:(e,i)=>{if(t&&!PTService.site.passkey)return void i(this.t("needPasskey"));let o=this.getDownloadURLs();if(!o.length||"string"==typeof o)return void i(o);let n=[];o.forEach((t=>{n.push({url:t,method:PTService.site.downloadMethod})})),console.log(n),PTService.call(PTService.action.addBrowserDownloads,n).then((t=>{console.log("命令执行完成",t),e()})).catch((t=>{console.log(t),i(t)}))}})}checkPermissions(t){return PTService.call(PTService.action.checkPermissions,t)}sendTorrentToDefaultClient(t,e=!0){return new Promise(((i,o)=>{"string"==typeof t&&(t={url:t,title:""});let n=PTService.pathHandler.getSavePath(this.defaultPath,PTService.site);if(!1===n)return void o(this.t("userCanceled"));let l=null;e&&(l=PTService.showNotice({type:"info",timeout:2,indeterminate:!0,msg:this.t("sendingTorrent")})),PTService.call(PTService.action.sendTorrentToDefaultClient,{url:t.url,title:t.title,savePath:n,autoStart:this.defaultClientOptions.autoStart,tagIMDb:this.defaultClientOptions.tagIMDb,link:t.link,imdbId:t.imdbId}).then((t=>{console.log("命令执行完成",t),e&&PTService.showNotice(t),i(t)})).catch((t=>{o(t)})).finally((()=>{this.hideNotice(l)}))}))}hideNotice(t){t&&(t.id&&t.close?t.close():t.hide&&t.hide())}sendTorrentToClient(t,e=!0){return new Promise(((i,o)=>{if("string"==typeof t&&(t={url:t,title:""}),!t.clientId)return void o(this.t("invalidDownloadServer"));if(t.savePath=PTService.pathHandler.getSavePath(t.savePath,PTService.site),!1===t.savePath)return void o(this.t("userCanceled"));let n=null;e&&(n=PTService.showNotice({type:"info",timeout:2,indeterminate:!0,msg:this.t("sendingTorrent")})),PTService.call(PTService.action.sendTorrentToClient,t).then((t=>{console.log("命令执行完成",t),e&&PTService.showNotice(t),i(t)})).catch((t=>{o(t)})).finally((()=>{this.hideNotice(n)}))}))}downloadFromDroper(t,e){if("string"==typeof t&&(t={url:t,title:"",link:t}),t.url=this.getDroperURL(t.url),!t.url)return PTService.showNotice({msg:this.t("invalidURL")}),void e();this.sendTorrentToDefaultClient(t).then((t=>{e(t)})).catch((t=>{e(t)}))}isNexusPHP(){return"NexusPHP"==PTService.site.schema}getDroperURL(t){let e=PTService.site.url;return"/"!=e.substr(-1)&&(e+="/"),t&&"//"===t.substr(0,2)?t=`${location.protocol}${t}`:t&&"http"!==t.substr(0,4)&&("/"==t.substr(0,1)&&(t=t.substr(1)),t=`${e}${t}`),t}call(t,e){return new Promise(((i,o)=>{t===PTService.action.downloadFromDroper&&this.downloadFromDroper(e,(()=>{i()}))}))}addSendTorrentToClientButton(){PTService.addButton({title:this.t("buttons.downloadToTip"),icon:"save_alt",type:PTService.buttonType.popup,label:this.t("buttons.downloadTo"),click:(t,e,i)=>{if(!this.getDownloadURL)return void e(this.t("getDownloadURLisUndefined"));let o=this.getDownloadURL();if(!o)return void e(this.t("getDownloadURLFailed"));let n="";n=this.getTitle?this.getTitle():document.title,this.showContentMenusForUrl({url:o,title:n,link:this.currentURL,imdbId:this.getIMDbId?this.getIMDbId():null},i.originalEvent,t,e)}})}addSendTorrentToDefaultClientButton(){this.defaultClientOptions&&PTService.addButton({title:this.t("buttons.downloadToDefaultTip",{name:this.defaultClientOptions.name})+(this.defaultPath?"\n"+this.defaultPath:""),icon:"get_app",label:this.t("buttons.downloadToDefault"),click:(t,e)=>{if(!this.getDownloadURL)return void e(this.t("getDownloadURLisUndefined"));let i=this.getDownloadURL();if(!i)return void e(this.t("getDownloadURLFailed"));let o="";o=this.getTitle?this.getTitle():document.title,this.sendTorrentToDefaultClient({url:i,title:o,link:this.currentURL,imdbId:this.getIMDbId?this.getIMDbId():null}).then((()=>{t()})).catch((t=>{e(t)}))}})}addCopyTextToClipboardButton(){PTService.addButton({title:this.t("buttons.copyToClipboardTip"),icon:"file_copy",label:this.t("buttons.copyToClipboard"),click:(t,e)=>{if(!this.getDownloadURL)return void e(this.t("getDownloadURLisUndefined"));console.log(PTService.site,this.defaultPath);let i=this.getDownloadURL();i?PTService.call(PTService.action.copyTextToClipboard,i).then((e=>{console.log("命令执行完成",e),t()})).catch((t=>{e(t)})):e(this.t("getDownloadURLFailed"))}})}initCollectionButton(){PTService.call(PTService.action.getTorrentCollention,location.href).then((t=>{this.addRemoveCollectionButton(t)})).catch((()=>{this.addToCollectionButton()}))}addToCollectionButton(){PTService.removeButton("removeFromCollection"),PTService.addButton({title:this.t("buttons.addToCollection"),icon:"favorite_border",label:this.t("buttons.addToCollection"),key:"addToCollection",click:(e,i)=>{let o="";o=this.getTitle?this.getTitle():PTService.getFieldValue("title"),o||(o=t("title:first").text());let n=PTService.getFieldValue("imdbId");if(!n){const e=t("a[href*='www.imdb.com/title/']:first");if(e.length>0){let t=e.attr("href").match(/(tt\d+)/);t&&t.length>=2&&(n=t[1])}}let l=PTService.getFieldValue("doubanId");if(!l){const e=t("a[href*='movie.douban.com/subject/']:first");if(e.length>0){let t=e.attr("href").match(/subject\/(\d+)/);t&&t.length>=2&&(l=t[1])}}const s={title:o,url:this.getDownloadURL(),link:location.href,host:location.host,size:PTService.getFieldValue("size"),subTitle:PTService.getFieldValue("subTitle"),movieInfo:{imdbId:n,doubanId:l}};PTService.call(PTService.action.addTorrentToCollection,s).then((t=>{e(),setTimeout((()=>{this.addRemoveCollectionButton(s)}),1e3)})).catch((()=>{i()}))}})}addRemoveCollectionButton(t){PTService.removeButton("addToCollection"),PTService.addButton({title:this.t("buttons.removeFromCollection"),icon:"favorite",label:this.t("buttons.removeFromCollection"),key:"removeFromCollection",click:(e,i)=>{PTService.call(PTService.action.deleteTorrentFromCollention,t).then((t=>{e(),setTimeout((()=>{this.addToCollectionButton()}),1e3)})).catch((()=>{i()}))}})}getContentMenusForUrl(t){let e=PTService.filters.parseURL(t);if(!e.host)return[];let i=[],o=[],n=PTService.getSiteFromHost(e.host);if(!n)return[];let l=n.host;if(this.siteContentMenus[l])return this.siteContentMenus[l];function s(t,e){t.forEach((t=>{i.push({client:e,path:t,host:l})}))}return PTService.options.clients.forEach((t=>{if(o.push({client:t,path:"",host:l}),t.paths){for(const e in t.paths){let i=t.paths[l];e===l&&s(i,t)}let e=t.paths[PTService.allSiteKey];e&&(i.length>0&&i.push({}),s(e,t))}})),i.length>0&&o.splice(0,0,{}),i=i.concat(o),this.siteContentMenus[l]=i,i}showContentMenusForUrl(e,i,o,n){let l=this.getContentMenusForUrl(e.url),s=[];l.forEach((t=>{t&&t.client&&t.client.name&&(!1!==t.client.enabled?t.client&&t.client.name?s.push({title:this.t("buttons.menuDownloadTo",{server:`${t.client.name} -> ${t.client.address}`})+(t.path?` -> ${PTService.pathHandler.replacePathKey(t.path,PTService.site)}`:""),fn:()=>{e.url&&this.sendTorrentToClient({clientId:t.client.id,url:e.url,title:e.title,savePath:t.path,autoStart:t.client.autoStart,tagIMDb:t.client.tagIMDb,link:e.link,imdbId:e.imdbId}).then((t=>{o()})).catch((t=>{n(t)}))}}):s.push({}):console.log(`skip disable client: ${t.client.name}`))})),console.log(l,s),basicContext.show(s,i),t(".basicContext").css({left:"-=20px",top:"+=10px"})}checkSize(t){if(!PTService.options.needConfirmWhenExceedSize)return!0;let e=this.getTotalSize(t),i=0;switch(PTService.options.exceedSizeUnit){case PTService.sizeUnit.MiB:i=1048576*PTService.options.exceedSize;break;case PTService.sizeUnit.GiB:i=1073741824*PTService.options.exceedSize;break;case"T":case PTService.sizeUnit.TiB:i=1099511627776*PTService.options.exceedSize}return!(e>=i)||PTService.filters.formatSize(e)}getTotalSize(e){let i=0;return t.each(e,((e,o)=>{i+=this.getSize(t(o).text())})),i}getSize(t){if("number"==typeof t)return t;let e=t.match(/^(\d*\.?\d+)(.*[^TGMK])?([TGMK](B|iB){0,1})$/i);if(e){let t=parseFloat(e[1]),i=e[3];switch(!0){case/Ti?B?/i.test(i):return t*Math.pow(2,40);case/Gi?B?/i.test(i):return t*Math.pow(2,30);case/Mi?B?/i.test(i):return t*Math.pow(2,20);case/Ki?B?/i.test(i):return t*Math.pow(2,10);default:return t}}return 0}confirmSize(t){let e=this.checkSize(t);if(!0!==e){let t=this.t("exceedSizeConfirm",{size:e,exceedSize:PTService.options.exceedSize,exceedSizeUnit:PTService.options.exceedSizeUnit});if(!confirm(t))return!1}return!0}startDownloadURLs(t,e,i){if(this.confirmWhenExceedSize&&!this.confirmWhenExceedSize())return void e(this.t("exceedSizeCanceled"));if(!this.getDownloadURLs)return void e(this.t("getDownloadURLsisUndefined"));let o=this.getDownloadURLs();o.length&&"string"!=typeof o?PTService.options.enableBackgroundDownload?this.downloadURLsInBackground(o,(e=>{t({msg:e})}),i):this.downloadURLs(o,o.length,(e=>{t({msg:e})}),i):e(o)}downloadURLsInBackground(t,e,i){const o=[],n=i?PTService.pathHandler.getSavePath(i.savePath||i.path,PTService.site):"";t.forEach((t=>{i?o.push({clientId:i.client.id,url:t,savePath:n,autoStart:i.client.autoStart,tagIMDb:i.client.tagIMDb}):o.push({url:t})})),PTService.call(PTService.action.sendTorrentsInBackground,o).then((t=>{e(t)})).catch((t=>{e(t)}))}downloadURLs(e,i,o,n){let l=i-e.length,s=e.shift();if(!s)return t(this.statusBar).remove(),this.statusBar=null,void o(this.t("downloadURLsFinished",{count:i}));this.showStatusMessage(this.t("downloadURLsTip",{text:s.replace(PTService.site.passkey,"***")+"("+(i-l)+"/"+i+")"}),0),n?this.sendTorrentToClient({clientId:n.client.id,url:s,title:"",savePath:n.path,autoStart:n.client.autoStart,tagIMDb:n.client.tagIMDb,imdbId:n.imdbId},!1).finally((()=>{PTService.options.batchDownloadInterval>0?setTimeout((()=>{this.downloadURLs(e,i,o,n)}),1e3*PTService.options.batchDownloadInterval):this.downloadURLs(e,i,o,n)})).catch((t=>{console.log(t)})):this.sendTorrentToDefaultClient(s,!1).then((t=>{this.downloadURLs(e,i,o)})).catch((t=>{this.downloadURLs(e,i,o)}))}showStatusMessage(t){this.statusBar?this.statusBar.find(".noticejs-content").html(t):this.statusBar=PTService.showNotice({text:t,type:"info",width:600,progressBar:!1})}clone(t){return JSON.parse(JSON.stringify(t))}showAllContentMenus(e,i,o){let n=[],l=[],s=this;function a(t){let e=s.t("buttons.menuDownloadTo",{server:`${t.client.name} -> ${t.client.address}`});t.path&&(e+=` -> ${PTService.pathHandler.replacePathKey(t.path,PTService.site)}`),l.push({title:e,fn:()=>{let e=PPF.clone(t);console.log(t);let n=PTService.pathHandler.getSavePath(e.path,PTService.site);!1!==n?(e.path=n,s.startDownloadURLs(i,o,e)):o(s.t("userCanceled"))}})}0==this.clientContentMenus.length?(PTService.options.clients.forEach((t=>{n.push({client:t,path:""})})),n.forEach((t=>{if(t&&t.client&&t.client.name)if(!1!==t.client.enabled)if(t.client&&t.client.name){if(a(t),t.client.paths){let e=t.client.paths[PTService.allSiteKey];e&&e.forEach((e=>{let i=this.clone(t);i.path=e,a(i)}))}}else l.push({});else console.log(`skip disable client: ${t.client.name}`)})),this.clientContentMenus=l):l=this.clientContentMenus,basicContext.show(l,e),t(".basicContext").css({left:"-=20px",top:"+=10px"})}getFullURL(t){return t?("//"===t.substr(0,2)?t=`${location.protocol}${t}`:"/"===t.substr(0,1)?t=`${location.origin}${t}`:"http"!==t.substr(0,4)&&(t=`${location.origin}/${t}`),t):""}initSayThanksButton(){let t=PTService.getFieldValue("sayThanksButton");console.log("sayThanksButton"),t&&t.length&&PTService.addButton({title:this.t("buttons.sayThanksTip"),icon:"thumb_up",label:this.t("buttons.sayThanks"),key:"sayThanks",click:(e,i)=>{t.click(),e(),setTimeout((()=>{PTService.removeButton("sayThanks")}),1e3)}})}}}(jQuery,window);
+(function($, window) {
+  class Common {
+    constructor() {
+      this.siteContentMenus = {};
+      this.clientContentMenus = [];
+      this.defaultPath = PTService.getSiteDefaultPath();
+      this.downloadClientType = PTService.downloadClientType;
+      this.defaultClientOptions = PTService.getClientOptions();
+      this.currentURL = location.href;
+    }
+
+    /**
+     * 获取指定key的当前语言内容
+     * @param {*} key
+     * @param {*} options
+     */
+    t(key, options) {
+      return PTService.i18n.t(key, options);
+    }
+
+    /**
+     * 初始化当前默认服务器可用空间
+     */
+    initFreeSpaceButton() {
+      if (!this.defaultPath) {
+        return;
+      }
+      PTService.call(PTService.action.getFreeSpace, {
+        path: this.defaultPath,
+        clientId: PTService.site.defaultClientId
+      })
+        .then(result => {
+          console.log("命令执行完成", result);
+          if (result && result.arguments) {
+            // console.log(PTService.filters.formatSize(result.arguments["size-bytes"]));
+
+            PTService.addButton({
+              title: this.t("buttons.freeSpaceTip", {
+                path: this.defaultPath,
+                interpolation: { escapeValue: false }
+              }), // "默认服务器剩余空间\n" + this.defaultPath,
+              icon: "filter_drama",
+              label: PTService.filters.formatSize(
+                result.arguments["size-bytes"]
+              )
+            });
+          }
+          // success();
+        })
+        .catch(() => {
+          // error()
+        });
+    }
+
+    /**
+     * 初始化种子详情页面按钮
+     */
+    initDetailButtons() {
+      // 添加下载按钮
+      this.addSendTorrentToDefaultClientButton();
+
+      // 添加下载到按钮
+      this.addSendTorrentToClientButton();
+
+      // 添加复制下载链接按钮
+      this.addCopyTextToClipboardButton();
+
+      // 初始化可用空间按钮
+      this.initFreeSpaceButton();
+
+      // 初始化收藏按钮
+      this.initCollectionButton();
+
+      // 初始化说谢谢按钮
+      this.initSayThanksButton();
+      if(document.domain.match("keepfrds.com")){$(".pt-plugin-body").css("z-index","39")}
+    }
+
+    /**
+     * 初始化种子列表页面按钮
+     */
+    initListButtons(checkPasskey = false) {
+      // 添加下载按钮
+      this.defaultClientOptions &&
+        PTService.addButton({
+          title: this.t("buttons.downloadAllTip", {
+            name: this.defaultClientOptions.name
+          }), //`将当前页面所有种子下载到[${this.defaultClientOptions.name}]`,
+          icon: "get_app",
+          label: this.t("buttons.downloadAll"), //"下载所有",
+          click: (success, error) => {
+            if (checkPasskey && !PTService.site.passkey) {
+              error("请先设置站点密钥（Passkey）。");
+              return;
+            }
+            this.startDownloadURLs(success, error);
+          }
+        });
+
+      // 添加下载到按钮
+      PTService.addButton({
+        title: this.t("buttons.downloadAllToTip"), //`将当前页面所有种子下载到指定服务器`,
+        icon: "save_alt",
+        type: PTService.buttonType.popup,
+        label: this.t("buttons.downloadAllTo"), //"下载到…",
+        /**
+         * 单击事件
+         * @param success 成功回调事件
+         * @param error 失败回调事件
+         * @param event 当前按钮事件
+         *
+         * 两个事件必需执行一个，可以传递一个参数
+         */
+        click: (success, error, event) => {
+          if (checkPasskey && !PTService.site.passkey) {
+            // "请先设置站点密钥（Passkey）。"
+            error(this.t("needPasskey"));
+            return;
+          }
+          this.showAllContentMenus(event.originalEvent, success, error);
+        },
+        onDrop: (data, event, success, error) => {
+          console.log(data);
+          let url = this.getDroperURL(data.url);
+          console.log(url);
+          this.showContentMenusForUrl(
+            {
+              url,
+              title: data.title,
+              link: data.url
+            },
+            event.originalEvent,
+            success,
+            error
+          );
+        }
+      });
+
+      // 复制下载链接
+      PTService.addButton({
+        title: this.t("buttons.copyAllToClipboardTip"), // "复制下载链接到剪切板",
+        icon: "file_copy",
+        label: this.t("buttons.copyAllToClipboard"), //"复制链接",
+        click: (success, error) => {
+          if (checkPasskey && !PTService.site.passkey) {
+            error(this.t("needPasskey"));
+            return;
+          }
+          let urls = this.getDownloadURLs();
+
+          if (!urls.length || typeof urls == "string") {
+            error(urls);
+            return;
+          }
+
+          PTService.call(PTService.action.copyTextToClipboard, urls.join("\n"))
+            .then(result => {
+              console.log("命令执行完成", result);
+              success();
+            })
+            .catch(() => {
+              error();
+            });
+        },
+        onDrop: (data, event, success, error) => {
+          if (checkPasskey && !PTService.site.passkey) {
+            error(this.t("needPasskey"));
+            return;
+          }
+          let url = this.getDroperURL(data.url);
+          url &&
+            PTService.call(PTService.action.copyTextToClipboard, url)
+              .then(result => {
+                console.log("命令执行完成", result);
+                success();
+              })
+              .catch(() => {
+                error();
+              });
+        }
+      });
+
+      // 检查是否有下载管理权限
+      this.checkPermissions(["downloads"])
+        .then(() => {
+          this.addSaveAllTorrentFilesButton(checkPasskey);
+        })
+        .catch(() => {
+          PTService.addButton({
+            title: this.t("buttons.needAuthorizationTip"), //"下载所有种子文件功能需要权限，点击前往授权",
+            icon: "verified_user",
+            key: "requestPermissions",
+            label: this.t("buttons.needAuthorization"), //"需要授权",
+            click: (success, error) => {
+              PTService.call(PTService.action.openOptions, "set-permissions");
+              success();
+            }
+          });
+        });
+    }
+
+    /**
+     * 添加下载所有种子文件按钮
+     * @param {*} checkPasskey
+     */
+    addSaveAllTorrentFilesButton(checkPasskey) {
+      // 批量下载当前页种子文件
+      PTService.addButton({
+        title: this.t("buttons.saveAllTorrentTip"), //"下载所有种子文件",
+        icon: "save",
+        label: this.t("buttons.saveAllTorrent"), //"所有种子",
+        click: (success, error) => {
+          if (checkPasskey && !PTService.site.passkey) {
+            error(this.t("needPasskey"));
+            return;
+          }
+          let urls = this.getDownloadURLs();
+
+          if (!urls.length || typeof urls == "string") {
+            error(urls);
+            return;
+          }
+
+          let downloads = [];
+          urls.forEach(url => {
+            downloads.push({
+              url,
+              method: PTService.site.downloadMethod
+            });
+          });
+
+          console.log(downloads);
+
+          PTService.call(PTService.action.addBrowserDownloads, downloads)
+            .then(result => {
+              console.log("命令执行完成", result);
+              success();
+            })
+            .catch(e => {
+              console.log(e);
+              error(e);
+            });
+        }
+      });
+    }
+
+    checkPermissions(permissions) {
+      return PTService.call(PTService.action.checkPermissions, permissions);
+    }
+
+    /**
+     * 发送种子到默认下载服务器
+     * @param {string} url
+     */
+    sendTorrentToDefaultClient(option, showNotice = true) {
+      return new Promise((resolve, reject) => {
+        if (typeof option === "string") {
+          option = {
+            url: option,
+            title: ""
+          };
+        }
+
+        let savePath = PTService.pathHandler.getSavePath(
+          this.defaultPath,
+          PTService.site
+        );
+
+        if (savePath === false) {
+          // "用户取消操作"
+          reject(this.t("userCanceled"));
+          return;
+        }
+
+        let notice = null;
+        if (showNotice) {
+          notice = PTService.showNotice({
+            type: "info",
+            timeout: 2,
+            indeterminate: true,
+            msg: this.t("sendingTorrent") //"正在发送下载链接到服务器，请稍候……"
+          });
+        }
+
+        PTService.call(PTService.action.sendTorrentToDefaultClient, {
+          url: option.url,
+          title: option.title,
+          savePath: savePath,
+          autoStart: this.defaultClientOptions.autoStart,
+          tagIMDb: this.defaultClientOptions.tagIMDb,
+          link: option.link,
+          imdbId: option.imdbId
+        })
+          .then(result => {
+            console.log("命令执行完成", result);
+            if (showNotice) {
+              PTService.showNotice(result);
+            }
+            resolve(result);
+          })
+          .catch(result => {
+            // PTService.showNotice({
+            //   msg: (result && result.msg) || result
+            // });
+            reject(result);
+          })
+          .finally(() => {
+            this.hideNotice(notice);
+          });
+      });
+    }
+
+    /**
+     * 隐藏指定的 notice
+     * @param notice
+     */
+    hideNotice(notice) {
+      if (!notice) return;
+      if (notice.id && notice.close) {
+        notice.close();
+      } else if (notice.hide) {
+        notice.hide();
+      }
+    }
+
+    /**
+     * 发送种子到指定下载服务器
+     * @param {string} url
+     */
+    sendTorrentToClient(options, showNotice = true) {
+      return new Promise((resolve, reject) => {
+        if (typeof options === "string") {
+          options = {
+            url: options,
+            title: ""
+          };
+        }
+
+        if (!options.clientId) {
+          // "无效的下载服务器"
+          reject(this.t("invalidDownloadServer"));
+          return;
+        }
+
+        options.savePath = PTService.pathHandler.getSavePath(
+          options.savePath,
+          PTService.site
+        );
+        if (options.savePath === false) {
+          // "用户取消操作"
+          reject(this.t("userCanceled"));
+          return;
+        }
+
+        let notice = null;
+        if (showNotice) {
+          notice = PTService.showNotice({
+            type: "info",
+            timeout: 2,
+            indeterminate: true,
+            msg: this.t("sendingTorrent") //"正在发送下载链接到服务器，请稍候……"
+          });
+        }
+
+        PTService.call(PTService.action.sendTorrentToClient, options)
+          .then(result => {
+            console.log("命令执行完成", result);
+            if (showNotice) {
+              PTService.showNotice(result);
+            }
+            resolve(result);
+          })
+          .catch(result => {
+            // PTService.showNotice({
+            //   msg: (result && result.msg) || result
+            // });
+            reject(result);
+          })
+          .finally(() => {
+            this.hideNotice(notice);
+          });
+      });
+    }
+
+    /**
+     * 下载拖放的种子
+     * @param {*} url
+     * @param {*} callback
+     */
+    downloadFromDroper(data, callback) {
+      if (typeof data === "string") {
+        data = {
+          url: data,
+          title: "",
+          link: data
+        };
+      }
+
+      data.url = this.getDroperURL(data.url);
+
+      if (!data.url) {
+        PTService.showNotice({
+          msg: this.t("invalidURL") //"无效的链接"
+        });
+        callback();
+        return;
+      }
+
+      this.sendTorrentToDefaultClient(data)
+        .then(result => {
+          callback(result);
+        })
+        .catch(result => {
+          callback(result);
+        });
+    }
+
+    isNexusPHP() {
+      return PTService.site.schema == "NexusPHP";
+    }
+
+    /**
+     * 获取有效的拖放地址
+     * @param {*} url
+     */
+    getDroperURL(url) {
+      let siteURL = PTService.site.url;
+      if (siteURL.substr(-1) != "/") {
+        siteURL += "/";
+      }
+
+      if (url && url.substr(0, 2) === "//") {
+        url = `${location.protocol}${url}`;
+      } else if (url && url.substr(0, 4) !== "http") {
+        if (url.substr(0, 1) == "/") {
+          url = url.substr(1);
+        }
+        url = `${siteURL}${url}`;
+      }
+
+      return url;
+    }
+
+    /**
+     * 执行指定的操作
+     * @param {*} action 需要执行的执令
+     * @param {*} data 附加数据
+     * @return Promise
+     */
+    call(action, data) {
+      return new Promise((resolve, reject) => {
+        switch (action) {
+          // 从当前的DOM中获取下载链接地址
+          case PTService.action.downloadFromDroper:
+            this.downloadFromDroper(data, () => {
+              resolve();
+            });
+            break;
+        }
+      });
+    }
+
+    /**
+     * 添加下载到指定下载服务器按钮
+     */
+    addSendTorrentToClientButton() {
+      // 添加下载按钮
+      PTService.addButton({
+        title: this.t("buttons.downloadToTip"), //`将当前种子下载到指定的服务器`,
+        icon: "save_alt",
+        type: PTService.buttonType.popup,
+        label: this.t("buttons.downloadTo"), //"下载到…",
+        /**
+         * 单击事件
+         * @param success 成功回调事件
+         * @param error 失败回调事件
+         * @param event 当前按钮事件
+         *
+         * 两个事件必需执行一个，可以传递一个参数
+         */
+        click: (success, error, event) => {
+          // getDownloadURL 方法有继承者提供
+          if (!this.getDownloadURL) {
+            // "getDownloadURL 方法未定义"
+            error(this.t("getDownloadURLisUndefined"));
+            return;
+          }
+
+          let url = this.getDownloadURL();
+
+          if (!url) {
+            // "获取下载链接失败"
+            error(this.t("getDownloadURLFailed"));
+            return;
+          }
+
+          let title = "";
+
+          if (this.getTitle) {
+            title = this.getTitle();
+          } else {
+            title = document.title;
+          }
+
+          this.showContentMenusForUrl(
+            {
+              url,
+              title,
+              link: this.currentURL,
+              imdbId: this.getIMDbId ? this.getIMDbId() : null
+            },
+            event.originalEvent,
+            success,
+            error
+          );
+        }
+      });
+    }
+
+    /**
+     * 添加一键下载按钮
+     */
+    addSendTorrentToDefaultClientButton() {
+      // 添加下载按钮
+      this.defaultClientOptions &&
+        PTService.addButton({
+          title:
+            this.t("buttons.downloadToDefaultTip", {
+              name: this.defaultClientOptions.name
+            }) + (this.defaultPath ? "\n" + this.defaultPath : ""), //`将当前种子下载到[${this.defaultClientOptions.name}]` +
+          icon: "get_app",
+          label: this.t("buttons.downloadToDefault"), //"一键下载",
+          /**
+           * 单击事件
+           * @param success 成功回调事件
+           * @param error 失败回调事件
+           *
+           * 两个事件必需执行一个，可以传递一个参数
+           */
+          click: (success, error) => {
+            // getDownloadURL 方法由继承者提供
+            if (!this.getDownloadURL) {
+              // "getDownloadURL 方法未定义"
+              error(this.t("getDownloadURLisUndefined"));
+              return;
+            }
+
+            let url = this.getDownloadURL();
+
+            if (!url) {
+              // "获取下载链接失败"
+              error(this.t("getDownloadURLFailed"));
+              return;
+            }
+
+            let title = "";
+
+            if (this.getTitle) {
+              title = this.getTitle();
+            } else {
+              title = document.title;
+            }
+
+            this.sendTorrentToDefaultClient({
+              url,
+              title,
+              link: this.currentURL,
+              imdbId: this.getIMDbId ? this.getIMDbId() : null
+            })
+              .then(() => {
+                success();
+              })
+              .catch(result => {
+                error(result);
+              });
+          }
+        });
+    }
+
+    /**
+     * 添加复制下载链接按钮
+     */
+    addCopyTextToClipboardButton() {
+      // 复制下载链接
+      PTService.addButton({
+        title: this.t("buttons.copyToClipboardTip"), //"复制下载链接到剪切板",
+        icon: "file_copy",
+        label: this.t("buttons.copyToClipboard"), //"复制链接",
+        click: (success, error) => {
+          // getDownloadURL 方法有继承者提供
+          if (!this.getDownloadURL) {
+            // "getDownloadURL 方法未定义"
+            error(this.t("getDownloadURLisUndefined"));
+            return;
+          }
+
+          console.log(PTService.site, this.defaultPath);
+          let url = this.getDownloadURL();
+
+          if (!url) {
+            // "获取下载链接失败"
+            error(this.t("getDownloadURLFailed"));
+            return;
+          }
+
+          PTService.call(PTService.action.copyTextToClipboard, url)
+            .then(result => {
+              console.log("命令执行完成", result);
+              success();
+            })
+            .catch(result => {
+              error(result);
+            });
+        }
+      });
+    }
+
+    /**
+     * 初始化收藏按钮
+     */
+    initCollectionButton() {
+      // 获取收藏情况
+      PTService.call(PTService.action.getTorrentCollention, location.href)
+        .then(result => {
+          this.addRemoveCollectionButton(result);
+        })
+        .catch(() => {
+          this.addToCollectionButton();
+        });
+    }
+
+    /**
+     * 添加收藏按钮
+     */
+    addToCollectionButton() {
+      PTService.removeButton("removeFromCollection");
+
+      PTService.addButton({
+        title: this.t("buttons.addToCollection"),
+        icon: "favorite_border",
+        label: this.t("buttons.addToCollection"),
+        key: "addToCollection",
+        click: (success, error) => {
+          let title = "";
+
+          if (this.getTitle) {
+            title = this.getTitle();
+          } else {
+            title = PTService.getFieldValue("title");
+          }
+
+          if (!title) {
+            title = $("title:first").text();
+          }
+
+          let imdbId = PTService.getFieldValue("imdbId");
+
+          if (!imdbId) {
+            const link = $("a[href*='www.imdb.com/title/']:first");
+            if (link.length > 0) {
+              let match = link.attr("href").match(/(tt\d+)/);
+
+              if (match && match.length >= 2) {
+                imdbId = match[1];
+              }
+            }
+          }
+
+          let doubanId = PTService.getFieldValue("doubanId");
+
+          if (!doubanId) {
+            const link = $("a[href*='movie.douban.com/subject/']:first");
+            if (link.length > 0) {
+              let match = link.attr("href").match(/subject\/(\d+)/);
+
+              if (match && match.length >= 2) {
+                doubanId = match[1];
+              }
+            }
+          }
+
+          const data = {
+            title: title,
+            url: this.getDownloadURL(),
+            link: location.href,
+            host: location.host,
+            size: PTService.getFieldValue("size"),
+            subTitle: PTService.getFieldValue("subTitle"),
+            movieInfo: {
+              imdbId: imdbId,
+              doubanId: doubanId
+            }
+          };
+
+          PTService.call(PTService.action.addTorrentToCollection, data)
+            .then(result => {
+              success();
+              setTimeout(() => {
+                this.addRemoveCollectionButton(data);
+              }, 1000);
+            })
+            .catch(() => {
+              error();
+            });
+        }
+      });
+    }
+
+    /**
+     * 添加移除收藏按钮
+     */
+    addRemoveCollectionButton(item) {
+      PTService.removeButton("addToCollection");
+
+      PTService.addButton({
+        title: this.t("buttons.removeFromCollection"),
+        icon: "favorite",
+        label: this.t("buttons.removeFromCollection"),
+        key: "removeFromCollection",
+        click: (success, error) => {
+          PTService.call(PTService.action.deleteTorrentFromCollention, item)
+            .then(result => {
+              success();
+              setTimeout(() => {
+                this.addToCollectionButton();
+              }, 1000);
+            })
+            .catch(() => {
+              error();
+            });
+        }
+      });
+    }
+
+    /**
+     * 根据指定的URL获取可用的下载目录及客户端信息
+     * @param url
+     */
+    getContentMenusForUrl(url) {
+      let urlParser = PTService.filters.parseURL(url);
+      if (!urlParser.host) {
+        return [];
+      }
+      let results = [];
+      let clients = [];
+      let site = PTService.getSiteFromHost(urlParser.host);
+      if (!site) {
+        return [];
+      }
+      let host = site.host;
+
+      if (this.siteContentMenus[host]) {
+        return this.siteContentMenus[host];
+      }
+
+      /**
+       * 增加下载目录
+       * @param paths
+       * @param client
+       */
+      function pushPath(paths, client) {
+        paths.forEach(path => {
+          results.push({
+            client: client,
+            path: path,
+            host: host
+          });
+        });
+      }
+
+      PTService.options.clients.forEach(client => {
+        clients.push({
+          client: client,
+          path: "",
+          host: host
+        });
+
+        if (client.paths) {
+          // 根据已定义的路径创建菜单
+          for (const _host in client.paths) {
+            let paths = client.paths[host];
+
+            if (_host !== host) {
+              continue;
+            }
+
+            pushPath(paths, client);
+          }
+
+          // 最后添加当前客户端适用于所有站点的目录
+          let publicPaths = client.paths[PTService.allSiteKey];
+          if (publicPaths) {
+            if (results.length > 0) {
+              results.push({});
+            }
+
+            pushPath(publicPaths, client);
+          }
+        }
+      });
+
+      if (results.length > 0) {
+        clients.splice(0, 0, {});
+      }
+
+      results = results.concat(clients);
+
+      this.siteContentMenus[host] = results;
+
+      return results;
+    }
+
+    /**
+     * 显示指定链接的下载服务器及目录菜单
+     * @param options
+     * @param event
+     */
+    showContentMenusForUrl(options, event, success, error) {
+      let items = this.getContentMenusForUrl(options.url);
+      let menus = [];
+
+      items.forEach(item => {
+        if (!item) return
+        if (!item.client) return
+        if (!item.client.name) return
+        if (item.client.enabled === false) {
+          console.log(`skip disable client: ${item.client.name}`)
+          return
+        }
+        if (item.client && item.client.name) {
+          menus.push({
+            title:
+              this.t("buttons.menuDownloadTo", {
+                server: `${item.client.name} -> ${item.client.address}`
+              }) + //`下载到：${item.client.name} -> ${item.client.address}` +
+              (item.path
+                ? ` -> ${PTService.pathHandler.replacePathKey(
+                    item.path,
+                    PTService.site
+                  )}`
+                : ""),
+            fn: () => {
+              if (options.url) {
+                // console.log(options, item);
+                this.sendTorrentToClient({
+                  clientId: item.client.id,
+                  url: options.url,
+                  title: options.title,
+                  savePath: item.path,
+                  autoStart: item.client.autoStart,
+                  tagIMDb: item.client.tagIMDb,
+                  link: options.link,
+                  imdbId: options.imdbId
+                })
+                  .then(result => {
+                    success();
+                  })
+                  .catch(result => {
+                    error(result);
+                  });
+              }
+            }
+          });
+        } else {
+          menus.push({});
+        }
+      });
+
+      console.log(items, menus);
+
+      basicContext.show(menus, event);
+      $(".basicContext").css({
+        left: "-=20px",
+        top: "+=10px"
+      });
+    }
+
+    /**
+     * 验证指定元素的大小信息
+     * @param {*} doms
+     */
+    checkSize(doms) {
+      if (!PTService.options.needConfirmWhenExceedSize) {
+        return true;
+      }
+      // 获取所有种子的大小信息
+      let size = this.getTotalSize(doms);
+
+      let exceedSize = 0;
+      switch (PTService.options.exceedSizeUnit) {
+        //
+        case PTService.sizeUnit.MiB:
+          exceedSize = PTService.options.exceedSize * 1048576;
+          break;
+
+        case PTService.sizeUnit.GiB:
+          exceedSize = PTService.options.exceedSize * 1073741824;
+          break;
+
+        case "T":
+        case PTService.sizeUnit.TiB:
+          exceedSize = PTService.options.exceedSize * 1099511627776;
+          break;
+      }
+
+      return size >= exceedSize ? PTService.filters.formatSize(size) : true;
+    }
+
+    /**
+     *
+     * @param {*} source
+     */
+    getTotalSize(source) {
+      let total = 0;
+
+      $.each(source, (index, item) => {
+        total += this.getSize($(item).text());
+      });
+
+      return total;
+    }
+
+    /**
+     * @return {number}
+     */
+    getSize(size) {
+      if (typeof size == "number") {
+        return size;
+      }
+      let _size_raw_match = size.match(
+        /^(\d*\.?\d+)(.*[^TGMK])?([TGMK](B|iB){0,1})$/i
+      );
+      if (_size_raw_match) {
+        let _size_num = parseFloat(_size_raw_match[1]);
+        let _size_type = _size_raw_match[3];
+        switch (true) {
+          case /Ti?B?/i.test(_size_type):
+            return _size_num * Math.pow(2, 40);
+          case /Gi?B?/i.test(_size_type):
+            return _size_num * Math.pow(2, 30);
+          case /Mi?B?/i.test(_size_type):
+            return _size_num * Math.pow(2, 20);
+          case /Ki?B?/i.test(_size_type):
+            return _size_num * Math.pow(2, 10);
+          default:
+            return _size_num;
+        }
+      }
+      return 0;
+    }
+
+    /**
+     * 种子大小超限时确认
+     */
+    confirmSize(doms) {
+      let size = this.checkSize(doms);
+
+      if (size !== true) {
+        let content = this.t("exceedSizeConfirm", {
+          size,
+          exceedSize: PTService.options.exceedSize,
+          exceedSizeUnit: PTService.options.exceedSizeUnit
+        });
+        if (!confirm(content)) {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    /**
+     * 准备开始批量下载
+     * @param {*} success
+     * @param {*} error
+     * @param {*} downloadOptions
+     */
+    startDownloadURLs(success, error, downloadOptions) {
+      if (this.confirmWhenExceedSize) {
+        if (!this.confirmWhenExceedSize()) {
+          // "容量超限，已取消"
+          error(this.t("exceedSizeCanceled"));
+          return;
+        }
+      }
+
+      if (!this.getDownloadURLs) {
+        // "getDownloadURLs 方法未定义"
+        error(this.t("getDownloadURLsisUndefined"));
+        return;
+      }
+
+      let urls = this.getDownloadURLs();
+      if (!urls.length || typeof urls == "string") {
+        error(urls);
+        return;
+      }
+
+      // 是否启用后台下载任务
+      if (PTService.options.enableBackgroundDownload) {
+        this.downloadURLsInBackground(
+          urls,
+          msg => {
+            success({
+              msg
+            });
+          },
+          downloadOptions
+        );
+      } else {
+        this.downloadURLs(
+          urls,
+          urls.length,
+          msg => {
+            success({
+              msg
+            });
+          },
+          downloadOptions
+        );
+      }
+    }
+
+    downloadURLsInBackground(urls, callback, downloadOptions) {
+      const items = [];
+
+      const savePath = downloadOptions
+        ? PTService.pathHandler.getSavePath(
+            downloadOptions.savePath || downloadOptions.path,
+            PTService.site
+          )
+        : "";
+
+      urls.forEach(url => {
+        if (downloadOptions) {
+          items.push({
+            clientId: downloadOptions.client.id,
+            url,
+            savePath,
+            autoStart: downloadOptions.client.autoStart,
+            tagIMDb: downloadOptions.client.tagIMDb
+          });
+        } else {
+          items.push({
+            url
+          });
+        }
+      });
+
+      PTService.call(PTService.action.sendTorrentsInBackground, items)
+        .then(result => {
+          callback(result);
+        })
+        .catch(result => {
+          callback(result);
+        });
+    }
+
+    /**
+     * 批量下载指定的URL
+     * @param {*} urls
+     * @param {*} count
+     * @param {*} callback
+     * @param {*} downloadOptions 下载选项，如不指定，则发送至默认下载服务器
+     */
+    downloadURLs(urls, count, callback, downloadOptions) {
+      let index = count - urls.length;
+      let url = urls.shift();
+      if (!url) {
+        $(this.statusBar).remove();
+        this.statusBar = null;
+        // count + "条链接已发送完成。"
+        callback(
+          this.t("downloadURLsFinished", {
+            count
+          })
+        );
+        return;
+      }
+
+      this.showStatusMessage(
+        this.t("downloadURLsTip", {
+          text:
+            url.replace(PTService.site.passkey, "***") +
+            "(" +
+            (count - index) +
+            "/" +
+            count +
+            ")"
+        }),
+        0
+      );
+
+      if (!downloadOptions) {
+        this.sendTorrentToDefaultClient(url, false)
+          .then(result => {
+            this.downloadURLs(urls, count, callback);
+          })
+          .catch(result => {
+            this.downloadURLs(urls, count, callback);
+          });
+      } else {
+        this.sendTorrentToClient(
+          {
+            clientId: downloadOptions.client.id,
+            url: url,
+            title: "",
+            savePath: downloadOptions.path,
+            autoStart: downloadOptions.client.autoStart,
+            tagIMDb: downloadOptions.client.tagIMDb,
+            imdbId: downloadOptions.imdbId
+          },
+          false
+        )
+          .finally(() => {
+            // 是否设置了时间间隔
+            if (PTService.options.batchDownloadInterval > 0) {
+              setTimeout(() => {
+                this.downloadURLs(urls, count, callback, downloadOptions);
+              }, PTService.options.batchDownloadInterval * 1000);
+            } else {
+              this.downloadURLs(urls, count, callback, downloadOptions);
+            }
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      }
+    }
+
+    showStatusMessage(msg) {
+      if (!this.statusBar) {
+        this.statusBar = PTService.showNotice({
+          text: msg,
+          type: "info",
+          width: 600,
+          progressBar: false
+        });
+      } else {
+        this.statusBar.find(".noticejs-content").html(msg);
+      }
+    }
+
+    /**
+     * 用JSON对象模拟对象克隆
+     * @param source
+     */
+    clone(source) {
+      return JSON.parse(JSON.stringify(source));
+    }
+
+    /**
+     * 显示批量下载时可用下载服务器菜单
+     * @param event
+     */
+    showAllContentMenus(event, success, error) {
+      let clients = [];
+      let menus = [];
+      let _this = this;
+
+      function addMenu(item) {
+        let title = _this.t("buttons.menuDownloadTo", {
+          server: `${item.client.name} -> ${item.client.address}`
+        }); //`下载到：${item.client.name} -> ${item.client.address}`;
+        if (item.path) {
+          title += ` -> ${PTService.pathHandler.replacePathKey(
+            item.path,
+            PTService.site
+          )}`;
+        }
+        menus.push({
+          title: title,
+          fn: () => {
+            // 克隆是为了多次选择时，不覆盖原来的值
+            let _item = PPF.clone(item);
+            console.log(item);
+            let savePath = PTService.pathHandler.getSavePath(
+              _item.path,
+              PTService.site
+            );
+            if (savePath === false) {
+              // "用户取消操作"
+              error(_this.t("userCanceled"));
+              return;
+            }
+            _item.path = savePath;
+            _this.startDownloadURLs(success, error, _item);
+          }
+        });
+      }
+
+      if (this.clientContentMenus.length == 0) {
+        PTService.options.clients.forEach(client => {
+          clients.push({
+            client: client,
+            path: ""
+          });
+        });
+        clients.forEach(item => {
+          if (!item) return
+          if (!item.client) return
+          if (!item.client.name) return
+          if (item.client.enabled === false) {
+            console.log(`skip disable client: ${item.client.name}`)
+            return
+          }
+          if (item.client && item.client.name) {
+            addMenu(item);
+
+            if (item.client.paths) {
+              // 添加适用于所有站点的目录
+              let publicPaths = item.client.paths[PTService.allSiteKey];
+              if (publicPaths) {
+                publicPaths.forEach(path => {
+                  let _item = this.clone(item);
+                  _item.path = path;
+                  addMenu(_item);
+                });
+              }
+            }
+          } else {
+            menus.push({});
+          }
+        });
+        this.clientContentMenus = menus;
+      } else {
+        menus = this.clientContentMenus;
+      }
+
+      basicContext.show(menus, event);
+      $(".basicContext").css({
+        left: "-=20px",
+        top: "+=10px"
+      });
+    }
+
+    /**
+     * 获取完整的URL地址
+     * @param {string} url
+     */
+    getFullURL(url) {
+      if (!url) {
+        return "";
+      }
+      if (url.substr(0, 2) === "//") {
+        url = `${location.protocol}${url}`;
+      } else if (url.substr(0, 1) === "/") {
+        url = `${location.origin}${url}`;
+      } else if (url.substr(0, 4) !== "http") {
+        url = `${location.origin}/${url}`;
+      }
+      return url;
+    }
+
+    /**
+     * 初始化说谢谢按钮
+     */
+    initSayThanksButton() {
+      let sayThanksButton = PTService.getFieldValue("sayThanksButton");
+      console.log("sayThanksButton");
+      if (sayThanksButton && sayThanksButton.length) {
+        // 说谢谢
+        PTService.addButton({
+          title: this.t("buttons.sayThanksTip"),
+          icon: "thumb_up",
+          label: this.t("buttons.sayThanks"),
+          key: "sayThanks",
+          click: (success, error) => {
+            sayThanksButton.click();
+            success();
+            setTimeout(() => {
+              PTService.removeButton("sayThanks");
+            }, 1000);
+          }
+        });
+      }
+    }
+  }
+
+  window.TNodeCommon = Common;
+})(jQuery, window);

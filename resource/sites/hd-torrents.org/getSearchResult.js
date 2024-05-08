@@ -1,1 +1,136 @@
-!function(t,e){let s=new class{constructor(){this.haveData=!1,/login\.php/.test(t.responseText)?t.status=ESearchResultParseStatus.needLogin:(t.isLogged=!0,/No torrents here/.test(t.responseText)?t.status=ESearchResultParseStatus.noTorrents:this.haveData=!0)}getResult(){if(!this.haveData)return[];let s=[],r=t.site,l=t.page.find(t.resultSelector);r.url.lastIndexOf("/")!=r.url.length-1&&(r.url+="/");for(let a=2;a<l.length;a+=2){const n=l.eq(a);let i=n.find(">td"),u=i.eq(2).find("a[href*='details.php']");if(0==u.length)continue;let o=u.attr("href");o&&"http"!==o.substr(0,4)&&(o=`${r.url}${o}`);let h=n.find("a[href*='download.php']").attr("href");h&&"http"!==h.substr(0,4)&&(h=`${r.url}${h}`);let g=i.eq(6).text().replace("  "," "),p=g.split(" ")[1].split("/"),f=g.split(" ")[0],c={title:u.text(),subTitle:"",link:o,url:h,size:i.eq(7).html()||0,time:`${p[2]}-${p[1]}-${p[0]} ${f}`,author:i.eq(8).text()||"",seeders:i.eq(9).text()||0,leechers:i.eq(10).text()||0,completed:i.eq(11).text()||0,comments:i.eq(3).text()||0,site:r,entryName:t.entry.name,category:this.getCategory(i.eq(0)),tags:e.getRowTags(r,n),progress:e.getFieldValue(r,n,"progress"),status:e.getFieldValue(r,n,"status")};s.push(c)}return 0==s.length&&(t.status=ESearchResultParseStatus.noTorrents),s}getCategory(e){let s={name:"",link:""},r=e.find("a:first"),l=r.find("img:first");return s.link=r.attr("href"),s.link&&"http"!==s.link.substr(0,4)&&(s.link=t.site.url+s.link),s.name=l.attr("alt"),s}}(t);t.results=s.getResult(),console.log(t.results)}(options,options.searcher);
+(function(options, Searcher) {
+  class Parser {
+    constructor() {
+      this.haveData = false;
+      if (/login\.php/.test(options.responseText)) {
+        options.status = ESearchResultParseStatus.needLogin; //`[${options.site.name}]需要登录后再搜索`;
+        return;
+      }
+
+      options.isLogged = true;
+
+      if (/No torrents here/.test(options.responseText)) {
+        options.status = ESearchResultParseStatus.noTorrents; //`[${options.site.name}]没有搜索到相关的种子`;
+        return;
+      }
+
+      this.haveData = true;
+    }
+
+    /**
+     * 获取搜索结果
+     */
+    getResult() {
+      if (!this.haveData) {
+        return [];
+      }
+
+      let results = [];
+      let site = options.site;
+      // 获取种子列表行
+      let rows = options.page.find(options.resultSelector);
+
+      // 用于定位每个字段所列的位置
+      let fieldIndex = {
+        title: 2,
+        // 时间
+        time: 6,
+        // 大小
+        size: 7,
+        // 上传人数
+        seeders: 9,
+        // 下载人数
+        leechers: 10,
+        // 完成人数
+        completed: 11,
+        // 评论人数
+        comments: 3,
+        // 发布人
+        author: 8,
+        category: 0
+      };
+
+      if (site.url.lastIndexOf("/") != site.url.length - 1) {
+        site.url += "/";
+      }
+
+      // 遍历数据行
+      for (let index = 2; index < rows.length; index += 2) {
+        const row = rows.eq(index);
+        let cells = row.find(">td");
+
+        let title = cells.eq(fieldIndex.title).find("a[href*='details.php']");
+        if (title.length == 0) {
+          continue;
+        }
+        let link = title.attr("href");
+        if (link && link.substr(0, 4) !== "http") {
+          link = `${site.url}${link}`;
+        }
+
+        let url = row.find("a[href*='download.php']").attr("href");
+        if (url && url.substr(0, 4) !== "http") {
+          url = `${site.url}${url}`;
+        }
+
+        let dateString = cells
+          .eq(fieldIndex.time)
+          .text()
+          .replace("  ", " ");
+        let dayStringArray = dateString.split(" ")[1].split("/");
+        let time = dateString.split(" ")[0];
+
+        let data = {
+          title: title.text(),
+          subTitle: "",
+          link,
+          url: url,
+          size: cells.eq(fieldIndex.size).html() || 0,
+          time: `${dayStringArray[2]}-${dayStringArray[1]}-${dayStringArray[0]} ${time}`,
+          author: cells.eq(fieldIndex.author).text() || "",
+          seeders: cells.eq(fieldIndex.seeders).text() || 0,
+          leechers: cells.eq(fieldIndex.leechers).text() || 0,
+          completed: cells.eq(fieldIndex.completed).text() || 0,
+          comments: cells.eq(fieldIndex.comments).text() || 0,
+          site: site,
+          entryName: options.entry.name,
+          category: this.getCategory(cells.eq(fieldIndex.category)),
+          tags: Searcher.getRowTags(site, row),
+          progress: Searcher.getFieldValue(site, row, "progress"),
+          status: Searcher.getFieldValue(site, row, "status")
+        };
+        results.push(data);
+      }
+
+      if (results.length == 0) {
+        options.status = ESearchResultParseStatus.noTorrents; //`[${options.site.name}]没有搜索到相关的种子`;
+      }
+
+      return results;
+    }
+
+    /**
+     * 获取分类
+     * @param {*} cell 当前列
+     */
+    getCategory(cell) {
+      let result = {
+        name: "",
+        link: ""
+      };
+      let link = cell.find("a:first");
+      let img = link.find("img:first");
+
+      result.link = link.attr("href");
+      if (result.link && result.link.substr(0, 4) !== "http") {
+        result.link = options.site.url + result.link;
+      }
+
+      result.name = img.attr("alt");
+      return result;
+    }
+  }
+  let parser = new Parser(options);
+  options.results = parser.getResult();
+  console.log(options.results);
+})(options, options.searcher);

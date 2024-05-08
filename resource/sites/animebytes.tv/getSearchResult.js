@@ -1,1 +1,108 @@
-"".getQueryString||(String.prototype.getQueryString=function(t,e){null==e&&(e="&");var r,s=new RegExp("(^|"+e+"|\\?)"+t+"=([^"+e+"]*)("+e+"|$)");return(r=this.match(s))?decodeURI(r[2]):null}),function(t){let e=new class{constructor(){this.haveData=!1,this.categories={},/loginform/.test(t.responseText)?t.status=ESearchResultParseStatus.needLogin:(t.isLogged=!0,/File slips through fingers/.test(t.responseText)?t.status=ESearchResultParseStatus.noTorrents:this.haveData=!0)}getResult(){let e=t.site,r=[],s=t.page.find(t.resultSelector);if(0==s.length)return t.status=ESearchResultParseStatus.torrentTableIsEmpty,r;try{for(let n=0;n<s.length;n++){let i=s.eq(n),o=i.find(".group_title").find("strong:first").text();if(0==o.length)continue;let l=i.find("span.cat:first").text(),a=i.find(".torrent_group:first").find("tr.torrent");for(let s=0;s<a.length;s++){let n=a.eq(s),i=n.find(".torrent_properties:first").find("a:last").text(),u=e.url+n.find(".download_link:first").find("a:first").attr("href"),f=e.url+n.find(".torrent_properties:first").find("a:last").attr("href"),c=n.find(".torrent_size:first").text(),g=n.find(".torrent_snatched:first").text(),h=n.find(".torrent_seeders:first").text(),d=n.find(".torrent_leechers:first").text();if(0==u.length){console.log('[%s] Invalid torrent link for "%s": %s',e.name,o,u);continue}let p={title:o,subTitle:i,link:f,url:u,size:c,time:"",author:"",seeders:h,leechers:d,completed:g,comments:"",site:e,entryName:t.entry.name,category:l};r.push(p)}}0==r.length&&(t.status=ESearchResultParseStatus.noTorrents)}catch(e){console.error(e),t.status=ESearchResultParseStatus.parseError,t.errorMsg=e.stack}return r}}(t);t.results=e.getResult(),console.log(t.results)}(options);
+if (!"".getQueryString) {
+  String.prototype.getQueryString = function (name, split) {
+    if (split == undefined) split = "&";
+    var reg = new RegExp(
+      "(^|" + split + "|\\?)" + name + "=([^" + split + "]*)(" + split + "|$)"
+    ),
+      r;
+    if ((r = this.match(reg))) return decodeURI(r[2]);
+    return null;
+  };
+}
+
+(function (options) {
+  class Parser {
+    constructor() {
+      this.haveData = false;
+      this.categories = {};
+      if (/loginform/.test(options.responseText)) {
+        options.status = ESearchResultParseStatus.needLogin; //`[${options.site.name}]需要登录后再搜索`;
+        return;
+      }
+      options.isLogged = true;
+
+      if (/File slips through fingers/.test(options.responseText)) {
+        options.status = ESearchResultParseStatus.noTorrents; //`[${options.site.name}]没有搜索到相关的种子`;
+        return;
+      }
+      this.haveData = true;
+    }
+
+    /**
+     * Get search results.
+     */
+    getResult() {
+      let site = options.site;
+      let results = [];
+
+      // Get groups. Each group has one title and several torrents.
+      let groups = options.page.find(options.resultSelector);
+      if (groups.length == 0) {
+        options.status = ESearchResultParseStatus.torrentTableIsEmpty; //`[${options.site.name}]没有定位到种子列表，或没有相关的种子`;
+        return results;
+      }
+
+      try {
+        for (let ig = 0; ig < groups.length; ig++) {
+          // Get group info.
+          let group = groups.eq(ig);
+          let groupTitle = group.find(".group_title").find("strong:first").text();
+          if (groupTitle.length == 0) {
+            continue;
+          }
+          let category = group.find("span.cat:first").text();
+
+          // Get torrent info.
+          let torrents = group.find(".torrent_group:first").find("tr.torrent");
+          for (let i = 0; i < torrents.length; i++) {
+            let t = torrents.eq(i);
+            let subTitle = t.find(".torrent_properties:first").find("a:last").text();
+            let dlLink = site.url + t.find(".download_link:first").find("a:first").attr("href");
+            let torrentURL = site.url + t.find(".torrent_properties:first").find("a:last").attr("href");
+            let size = t.find(".torrent_size:first").text();
+            let snatched = t.find(".torrent_snatched:first").text();
+            let seeders = t.find(".torrent_seeders:first").text();
+            let leechers = t.find(".torrent_leechers:first").text();
+
+            // Basic validations.
+            if (dlLink.length == 0) {
+              console.log("[%s] Invalid torrent link for \"%s\": %s", site.name, groupTitle, dlLink);
+              continue;
+            }
+
+            let data = {
+              title: groupTitle,
+              subTitle: subTitle,
+              link: torrentURL, // Note: link means the torrent page.
+              url: dlLink, // Note: url means the download link.
+              size: size,
+              time: "",
+              author: "",
+              seeders: seeders,
+              leechers: leechers,
+              completed: snatched,
+              comments: "",
+              site: site,
+              entryName: options.entry.name, // TODO: support specifying entry name.
+              category: category,
+            };
+            results.push(data);
+          }
+        }
+        if (results.length == 0) {
+          options.status = ESearchResultParseStatus.noTorrents; //`[${options.site.name}]没有搜索到相关的种子`;
+        }
+      } catch (error) {
+        console.error(error);
+        options.status = ESearchResultParseStatus.parseError;
+        options.errorMsg = error.stack; //`[${options.site.name}]获取种子信息出错: ${error.stack}`;
+      }
+      return results;
+    }
+
+  }
+
+  let parser = new Parser(options);
+  options.results = parser.getResult();
+  console.log(options.results);
+})(options);

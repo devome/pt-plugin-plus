@@ -1,1 +1,136 @@
-!function(t){console.log("this is best-movies.js");class e extends window.DoubanCommon{initButtons(){let e=t("table.list_movies");e.length>0&&e.each(((e,s)=>{let o=t(s),n=o.attr("id");n&&this.createButton(o.find("tr > td:eq(0)"),n)}))}createButton(e,s){if(!s)return;let o=t("<div style='padding: 5px;text-align:center;'/>").appendTo(e);const n="gsc-search-button gsc-search-button-v2",i="font-size: 12px;color: #fff;padding: 5px;margin-right: 5px;";t(`<button class='${n}' style='${i}'/>`).html("助手搜索").attr("title",`按当前默认方案直接搜索 ${s}`).on("click",(e=>{let o=t(e.target);this.search(s,o)})).appendTo(o),t(`<button class='${n}' style='${i}'/>`).html("按方案搜索").attr("title",`按指定方案搜索 ${s}`).on("click",(t=>{this.showPopupMenusForSolutions(t,s)})).appendTo(o),t(`<button class='${n}' style='${i}'/>`).html("按站点搜索").attr("title",`按指定站点搜索 ${s}`).on("click",(t=>{this.showPopupMenus(t,s)})).appendTo(o)}showPopupMenus(e,s){let o=[],n=this;const i=PTService.options;i.sites&&i.sites.length>0&&i.sites.forEach((t=>{var e;t.offline||(e={title:`在 ${t.name} - ${t.host} 中搜索`,key:`${s}/${t.host}`},o.push({title:e.title,fn:()=>{n.search(e.key)}}))})),o.length>0&&(basicContext.show(o,e),t(".basicContext").css({"font-size":"12px",left:"-=20px",top:"+=10px"}))}showPopupMenusForSolutions(e,s){let o=[],n=this;function i(t){o.push({title:t.title,fn:()=>{n.search(t.key)}})}const l=PTService.options.searchSolutions;l&&l.length>0&&l.forEach((t=>{i({title:`使用 ${t.name} 搜索`,key:`${s}/${t.id}`})})),o.length>0&&(o.push({}),i({title:"在 <所有站点> 中搜索",key:`${s}/all`}),basicContext.show(o,e),t(".basicContext").css({"font-size":"12px",left:"-=20px",top:"+=10px"}))}}(new e).init()}(jQuery);
+(function($) {
+  console.log("this is best-movies.js");
+  class App extends window.DoubanCommon {
+    /**
+     * 初始化按钮列表
+     */
+    initButtons() {
+      let items = $("table.list_movies");
+      if (items.length > 0) {
+        items.each((index, item) => {
+          let $item = $(item);
+          let imdbId = $item.attr("id");
+          if (imdbId) {
+            this.createButton($item.find("tr > td:eq(0)"), imdbId);
+          }
+        });
+      }
+    }
+
+    createButton(parent, key) {
+      if (!key) {
+        return;
+      }
+      let div = $("<div style='padding: 5px;text-align:center;'/>").appendTo(
+        parent
+      );
+      const className = "gsc-search-button gsc-search-button-v2";
+      const styles =
+        "font-size: 12px;color: #fff;padding: 5px;margin-right: 5px;";
+      $(`<button class='${className}' style='${styles}'/>`)
+        .html("助手搜索")
+        .attr("title", `按当前默认方案直接搜索 ${key}`)
+        .on("click", event => {
+          let button = $(event.target);
+          this.search(key, button);
+        })
+        .appendTo(div);
+
+      $(`<button class='${className}' style='${styles}'/>`)
+        .html("按方案搜索")
+        .attr("title", `按指定方案搜索 ${key}`)
+        .on("click", event => {
+          this.showPopupMenusForSolutions(event, key);
+        })
+        .appendTo(div);
+
+      $(`<button class='${className}' style='${styles}'/>`)
+        .html("按站点搜索")
+        .attr("title", `按指定站点搜索 ${key}`)
+        .on("click", event => {
+          this.showPopupMenus(event, key);
+        })
+        .appendTo(div);
+    }
+
+    showPopupMenus(event, key) {
+      let menus = [];
+      let _this = this;
+
+      function addMenu(item) {
+        menus.push({
+          title: item.title,
+          fn: () => {
+            _this.search(item.key);
+          }
+        });
+      }
+
+      const options = PTService.options;
+
+      if (options.sites && options.sites.length > 0) {
+        // 添加站点
+        options.sites.forEach(site => {
+          if (site.offline) {
+            return;
+          }
+          addMenu({
+            title: `在 ${site.name} - ${site.host} 中搜索`,
+            key: `${key}/${site.host}`
+          });
+        });
+      }
+
+      if (menus.length > 0) {
+        basicContext.show(menus, event);
+        $(".basicContext").css({
+          "font-size": "12px",
+          left: "-=20px",
+          top: "+=10px"
+        });
+      }
+    }
+
+    showPopupMenusForSolutions(event, key) {
+      let menus = [];
+      let _this = this;
+
+      function addMenu(item) {
+        menus.push({
+          title: item.title,
+          fn: () => {
+            _this.search(item.key);
+          }
+        });
+      }
+
+      const solutions = PTService.options.searchSolutions;
+
+      if (solutions && solutions.length > 0) {
+        // 添加站点
+        solutions.forEach(item => {
+          addMenu({
+            title: `使用 ${item.name} 搜索`,
+            key: `${key}/${item.id}`
+          });
+        });
+      }
+
+      if (menus.length > 0) {
+        menus.push({});
+        addMenu({
+          title: `在 <所有站点> 中搜索`,
+          key: `${key}/all`
+        });
+
+        basicContext.show(menus, event);
+        $(".basicContext").css({
+          "font-size": "12px",
+          left: "-=20px",
+          top: "+=10px"
+        });
+      }
+    }
+  }
+  new App().init();
+})(jQuery);

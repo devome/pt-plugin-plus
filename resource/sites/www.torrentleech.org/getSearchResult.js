@@ -1,1 +1,81 @@
-!function(e,t){let s=new class{constructor(){this.haveData=!1,this.categories={},/login-form/.test(e.responseText)?e.status=ESearchResultParseStatus.needLogin:(e.isLogged=!0,this.haveData=!0)}getResult(){if(!this.haveData)return[];let t=e.site;if(!e.page.numFound)return e.status=ESearchResultParseStatus.noTorrents,[];let s=e.page.torrentList,r=[];try{s.forEach((s=>{if(s.hasOwnProperty("fid")){let a={title:s.name,link:`${t.url}torrent/${s.fid}`,url:`${t.url}download/${s.fid}/${s.filename}`,size:parseFloat(s.size),time:s.addedTimestamp,author:"",seeders:s.seeders,leechers:s.leechers,completed:s.completed,comments:s.numComments,site:t,tags:this.getTags(s),entryName:e.entry.name,category:e.searcher.getCategoryById(t,e.url,s.categoryID),imdbId:s.imdbID};r.push(a)}})),console.log("results.length",r.length),0==r.length&&(e.status=ESearchResultParseStatus.noTorrents)}catch(t){console.log(t),e.status=ESearchResultParseStatus.parseError,e.errorMsg=t.stack}return r}getTags(e){if(e.tags.indexOf("FREELEECH")>-1)return[{name:"Free",color:"blue"}]}}(e);e.results=s.getResult(),console.log(e.results)}(options,Searcher);
+(function(options, Searcher) {
+  class Parser {
+    constructor() {
+      this.haveData = false;
+      this.categories = {};
+      if (/login-form/.test(options.responseText)) {
+        options.status = ESearchResultParseStatus.needLogin;
+        return;
+      }
+      options.isLogged = true;
+      this.haveData = true;
+    }
+
+    /**
+     * 获取搜索结果
+     */
+
+    getResult() {
+      if (!this.haveData) {
+        return [];
+      }
+      let site = options.site;
+      if (!options.page.numFound) {
+        options.status = ESearchResultParseStatus.noTorrents;
+        return [];
+      }
+      let torrentList = options.page.torrentList;
+      let results = [];
+
+      try {
+        torrentList.forEach(item => {
+          if (item.hasOwnProperty("fid")) {
+            let data = {
+              title: item.name,
+              link: `${site.url}torrent/${item.fid}`,
+              url: `${site.url}download/${item.fid}/${item.filename}`,
+              size: parseFloat(item.size),
+              time: item.addedTimestamp,
+              author: "",
+              seeders: item.seeders,
+              leechers: item.leechers,
+              completed: item.completed,
+              comments: item.numComments,
+              site: site,
+              tags: this.getTags(item),
+              entryName: options.entry.name,
+              category: options.searcher.getCategoryById(
+                site,
+                options.url,
+                item.categoryID
+              ),
+              imdbId: item.imdbID
+            };
+            results.push(data);
+          }
+        });
+        console.log("results.length", results.length);
+        if (results.length == 0) {
+          options.status = ESearchResultParseStatus.noTorrents;
+        }
+      } catch (error) {
+        console.log(error);
+        options.status = ESearchResultParseStatus.parseError;
+        options.errorMsg = error.stack;
+      }
+      return results;
+    }
+    getTags(item) {
+      var tag = [{
+        name: "Free",
+        color: "blue"
+      }]
+      if(item.tags.indexOf("FREELEECH")>-1)return tag;
+    }
+  }
+
+
+  let parser = new Parser(options);
+  options.results = parser.getResult();
+  console.log(options.results);
+})(options, Searcher);

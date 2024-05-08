@@ -1,1 +1,506 @@
-!function(t,e){let r=new class{constructor(){this.haveData=!1,/takelogin\.php|<form action="\?returnto=/.test(t.responseText)?t.status=ESearchResultParseStatus.needLogin:(t.isLogged=!0,/没有种子|No [Tt]orrents?|Your search did not match anything|用准确的关键字重试/.test(t.responseText)?t.status=ESearchResultParseStatus.noTorrents:(this.haveData=!0,this.site=t.site))}getResult(){if(!this.haveData)return[];let r=t.site,s=PTServiceFilters.parseURL(r.url),i=t.resultSelector||"table.torrents:last";i=i.replace("> tbody > tr","");let a=t.page.find(i),l=a.find("> tbody > tr");if(0==l.length)return t.status=ESearchResultParseStatus.torrentTableIsEmpty,[];let n=[],h=a.find("> thead > tr > th"),o=0;0==h.length&&(o=1,h=l.eq(0).find("th,td"));let d={time:-1,size:-1,seeders:-1,leechers:-1,completed:-1,comments:-1,author:h.length-1,category:-1};r.url.lastIndexOf("/")!=r.url.length-1&&(r.url+="/");for(let t=0;t<h.length;t++){let e=h.eq(t),r=e.text();e.find(".comments").length?(d.comments=t,d.author=t==d.author?-1:d.author):e.find("img.time,div.date,div.icons.time").length?(d.time=t,d.author=t==d.author?-1:d.author):e.find("img.size,div[alt='size'],div.icons.size").length?(d.size=t,d.author=t==d.author?-1:d.author):e.find("img.seeders,div[alt='seeders'],div.icons.seeders").length?(d.seeders=t,d.author=t==d.author?-1:d.author):e.find("img.leechers,div[alt='leechers'],div.icons.leechers").length?(d.leechers=t,d.author=t==d.author?-1:d.author):e.find("img.snatched,div[alt='snatched'],div.icons.snatched").length?(d.completed=t,d.author=t==d.author?-1:d.author):/(cat|类型|類型|分类|分類|Тип)/gi.test(r)&&(d.category=t,d.author=t==d.author?-1:d.author)}t.entry.fieldIndex&&(d=Object.assign(d,t.entry.fieldIndex));try{for(let i=o;i<l.length;i++){const a=l.eq(i);"zhiding"===a.attr("id")&&a.removeAttr("id");let h=a.find(">td"),o=this.getTitle(a,h,d);if(0==o.length)continue;let u=o.attr("href");u&&"//"===u.substr(0,2)?u=`${s.protocol}://${u}`:u&&"http"!==u.substr(0,4)&&(u=`${r.url}${u}`);let c=this.getDownloadLink(a,u);if(c&&"//"===c.substr(0,2)?c=`${s.protocol}://${c}`:c&&"http"!==c.substr(0,4)&&(c=`${r.url}${c}`),!c)continue;c+=r&&r.passkey?"&passkey="+r.passkey:"";let g={title:o.attr("title")||o.text(),subTitle:this.getSubTitle(o,a),link:u,url:c,size:this.getFieldValue(a,h,d,"size")||0,time:-1==d.time?"":this.getTime(h.eq(d.time)),author:this.getFieldValue(a,h,d,"author")||"",seeders:this.getFieldValue(a,h,d,"seeders")||0,leechers:this.getFieldValue(a,h,d,"leechers")||0,completed:this.getFieldValue(a,h,d,"completed")||0,comments:this.getFieldValue(a,h,d,"comments")||0,site:r,tags:e.getRowTags(this.site,a),entryName:t.entry.name,category:-1==d.category?null:this.getFieldValue(a,h,d,"category")||this.getCategory(h.eq(d.category)),progress:e.getFieldValue(r,a,"progress"),status:e.getFieldValue(r,a,"status"),imdbId:this.getIMDbId(a)};n.push(g)}}catch(e){t.status=ESearchResultParseStatus.parseError,t.errorMsg=e.stack}return n}getFieldValue(t,r,s,i,a){let l=t,n=null;r&&s&&void 0!==s[i]&&-1!==s[i]&&(n=r.eq(s[i]),l=n||t);let h=e.getFieldValue(this.site,l,i);if(!h&&n){if(a)return n;h=n.text()}return h}getTime(e){let r=e.find("span[title],time[title]").attr("title");return r||(r=$("<span>").html(e.html().replace("<br>"," ")).text()),["pt.sjtu.edu.cn","piggo.me"].some((e=>e===t.site.host))&&r.match(/\d+[分时天月年]/g)&&(r=Date.now()-this._parseTime(r),r=new Date(r).toLocaleString("zh-CN",{hour12:!1}).replace(/\//g,"-")),r||""}_parseTime(t){const e=t.match(/\d+[分时天月年]/g);let r=0;return e.forEach((t=>{const e=t.match(/(\d+)([分时天月年])/),s=parseInt(e[1]),i=e[2];switch(!0){case"分"===i:r+=s;break;case"时"===i:r+=60*s;break;case"天"===i:r+=60*s*24;break;case"月"===i:r+=60*s*24*30;break;case"年"===i:r+=60*s*24*365}})),60*r*1e3}getTitle(r,s,i){let a=this.getFieldValue(r,s,i,"title",!0)||r.find("a[href*='hit'][title]:not(a[href*='comment'])").first();if("string"==typeof a)return a;0==a.length&&(a=r.find("a[href*='hit']:has(b)").first()),0==a.length&&"u2.dmhy.org"===t.site.host&&(a=r.find("a.tooltip[href*='hit']").first());let l=a.find("span.__cf_email__");return l.length>0&&l.each(((t,r)=>{$(r).replaceWith(e.cfDecodeEmail($(r).data("cfemail")))})),a}getIMDbId(t){let r=e.getFieldValue(this.site,t,"imdbId");if(r)return r;try{let e=t.find("a[href*='imdb.com/title/tt']").first().attr("href");if(e&&(r=e.match(/(tt\d+)/),r))return r[0]}catch(t){return console.log(t),null}return null}getSubTitle(r,s){let i=e.getFieldValue(this.site,s,"subTitle");if(i)return i;try{if(i=r.parent().html().split("<br>"),i&&i.length>1)i=$("<span>").html(i[i.length-1]).text();else switch(t.site.host){case"hdchina.org":r.parent().next().is("h4")&&(i=r.parent().next().text());break;case"kp.m-team.cc":case"xp.m-team.cc":case"ap.m-team.cc":i=(r=s.find("a[href*='hit'][title]").last()).parent().html().split("<br>"),i=$("<span>").html(i[i.length-1]).text();break;case"u2.dmhy.org":i=$(".torrentname > tbody > tr:eq(1)",s).find(".tooltip").text();break;case"whu.pt":case"hudbt.hust.edu.cn":i=$("h3",s).text();break;default:i=""}return i||""}catch(t){return""}}getDownloadLink(e,r){let s;switch(t.site.host){case"hdsky.me":{let t=e.find('form[action*="download.php"]:eq(0)');if(t.length>0){s=t.attr("action");break}}default:{let t=e.find("img.download").parent();s=t.length?"A"!==t.get(0).tagName?`download.php?id=${r.getQueryString("id")}`:t.attr("href"):`download.php?id=${r.getQueryString("id")}`,s+="&https=1"}}return s}getCategory(e){let r={name:"",link:""},s=e.find("a:first"),i=s.find("img:first");return s.length&&(r.link=s.attr("href"),"http"!==r.link.substr(0,4)&&(r.link=t.site.url+r.link)),i.length?r.name=i.attr("title")||i.attr("alt"):r.name=s.text(),r}}(t);t.results=r.getResult(),console.log(t.results)}(options,options.searcher);
+/**
+ * NexusPHP 默认搜索结果解析类
+ */
+(function (options, Searcher) {
+  class Parser {
+    constructor() {
+      this.haveData = false;
+      if (/takelogin\.php|<form action="\?returnto=/.test(options.responseText)) {
+        options.status = ESearchResultParseStatus.needLogin; //`[${options.site.name}]需要登录后再搜索`;
+        return;
+      }
+
+      options.isLogged = true;
+
+      if (
+        /没有种子|No [Tt]orrents?|Your search did not match anything|用准确的关键字重试/.test(
+          options.responseText
+        )
+      ) {
+        options.status = ESearchResultParseStatus.noTorrents; // `[${options.site.name}]没有搜索到相关的种子`;
+        return;
+      }
+
+      this.haveData = true;
+      this.site = options.site;
+    }
+
+    /**
+     * 获取搜索结果
+     */
+    getResult() {
+      if (!this.haveData) {
+        return [];
+      }
+      let site = options.site;
+      let site_url_help = PTServiceFilters.parseURL(site.url);
+      let selector = options.resultSelector || "table.torrents:last";
+      selector = selector.replace("> tbody > tr", "");
+      let table = options.page.find(selector);
+      // 获取种子列表行
+      let rows = table.find("> tbody > tr");
+      if (rows.length == 0) {
+        options.status = ESearchResultParseStatus.torrentTableIsEmpty; //`[${options.site.name}]没有定位到种子列表，或没有相关的种子`;
+        return [];
+      }
+      let results = [];
+      // 获取表头
+      let header = table.find("> thead > tr > th");
+      let beginRowIndex = 0;
+      if (header.length == 0) {
+        beginRowIndex = 1;
+        header = rows.eq(0).find("th,td");
+      }
+
+      // 用于定位每个字段所列的位置
+      let fieldIndex = {
+        // 发布时间
+        time: -1,
+        // 大小
+        size: -1,
+        // 上传数量
+        seeders: -1,
+        // 下载数量
+        leechers: -1,
+        // 完成数量
+        completed: -1,
+        // 评论数量
+        comments: -1,
+        // 发布人
+        author: header.length - 1,
+        // 分类
+        category: -1
+      };
+
+      if (site.url.lastIndexOf("/") != site.url.length - 1) {
+        site.url += "/";
+      }
+      //2023.5.10 fix byr.pt 不显示数据，下列div.icons.*是为了单独适配
+      // 获取字段所在的列
+      for (let index = 0; index < header.length; index++) {
+        let cell = header.eq(index);
+        let text = cell.text();
+
+        // 评论数
+        if (cell.find(".comments").length) {
+          fieldIndex.comments = index;
+          fieldIndex.author =
+            index == fieldIndex.author ? -1 : fieldIndex.author;
+          continue;
+        }
+
+        // 发布时间
+        if (cell.find("img.time,div.date,div.icons.time").length) {
+          fieldIndex.time = index;
+          fieldIndex.author =
+            index == fieldIndex.author ? -1 : fieldIndex.author;
+          continue;
+        }
+
+        // 大小
+        if (cell.find("img.size,div[alt='size'],div.icons.size").length) {
+          fieldIndex.size = index;
+          fieldIndex.author =
+            index == fieldIndex.author ? -1 : fieldIndex.author;
+          continue;
+        }
+
+        // 种子数
+        if (cell.find("img.seeders,div[alt='seeders'],div.icons.seeders").length) {
+          fieldIndex.seeders = index;
+          fieldIndex.author =
+            index == fieldIndex.author ? -1 : fieldIndex.author;
+          continue;
+        }
+
+        // 下载数
+        if (cell.find("img.leechers,div[alt='leechers'],div.icons.leechers").length) {
+          fieldIndex.leechers = index;
+          fieldIndex.author =
+            index == fieldIndex.author ? -1 : fieldIndex.author;
+          continue;
+        }
+
+        // 完成数
+        if (cell.find("img.snatched,div[alt='snatched'],div.icons.snatched").length) {
+          fieldIndex.completed = index;
+          fieldIndex.author =
+            index == fieldIndex.author ? -1 : fieldIndex.author;
+          continue;
+        }
+
+        // 分类
+        if (/(cat|类型|類型|分类|分類|Тип)/gi.test(text)) {
+          fieldIndex.category = index;
+          fieldIndex.author =
+            index == fieldIndex.author ? -1 : fieldIndex.author;
+          continue;
+        }
+      }
+
+      if (options.entry.fieldIndex) {
+        fieldIndex = Object.assign(fieldIndex, options.entry.fieldIndex);
+      }
+
+      try {
+        // 遍历数据行
+        for (let index = beginRowIndex; index < rows.length; index++) {
+          const row = rows.eq(index);
+
+          // FIX https://github.com/pt-plugins/PT-Plugin-Plus/issues/347
+          row.attr('id') === 'zhiding' && row.removeAttr('id');
+
+          let cells = row.find(">td");
+
+          let title = this.getTitle(row, cells, fieldIndex);
+
+          // 没有获取标题时，继续下一个
+          if (title.length == 0) {
+            continue;
+          }
+          let link = title.attr("href");
+          if (link && link.substr(0, 2) === "//") {
+            // 适配HUDBT、WHU这样以相对链接开头
+            link = `${site_url_help.protocol}://${link}`;
+          } else if (link && link.substr(0, 4) !== "http") {
+            link = `${site.url}${link}`;
+          }
+
+          // 获取下载链接
+          let url = this.getDownloadLink(row, link);
+          if (url && url.substr(0, 2) === "//") {
+            // 适配HUDBT、WHU这样以相对链接开头
+            url = `${site_url_help.protocol}://${url}`;
+          } else if (url && url.substr(0, 4) !== "http") {
+            url = `${site.url}${url}`;
+          }
+
+          if (!url) {
+            continue;
+          }
+
+          url = url + (site && site.passkey ? "&passkey=" + site.passkey : "");
+
+          let data = {
+            title: title.attr("title") || title.text(),
+            subTitle: this.getSubTitle(title, row),
+            link,
+            url,
+            size: this.getFieldValue(row, cells, fieldIndex, "size") || 0,
+            time: fieldIndex.time == -1 ? "" : this.getTime(cells.eq(fieldIndex.time)),
+            author: this.getFieldValue(row, cells, fieldIndex, "author") || "",
+            seeders: this.getFieldValue(row, cells, fieldIndex, "seeders") || 0,
+            leechers:
+              this.getFieldValue(row, cells, fieldIndex, "leechers") || 0,
+            completed:
+              this.getFieldValue(row, cells, fieldIndex, "completed") || 0,
+            comments:
+              this.getFieldValue(row, cells, fieldIndex, "comments") || 0,
+            site: site,
+            tags: Searcher.getRowTags(this.site, row),
+            entryName: options.entry.name,
+            category:
+              fieldIndex.category == -1
+                ? null
+                : this.getFieldValue(row, cells, fieldIndex, "category") ||
+                this.getCategory(cells.eq(fieldIndex.category)),
+            progress: Searcher.getFieldValue(site, row, "progress"),
+            status: Searcher.getFieldValue(site, row, "status"),
+            imdbId: this.getIMDbId(row)
+          };
+
+          results.push(data);
+        }
+      } catch (error) {
+        options.status = ESearchResultParseStatus.parseError;
+        options.errorMsg = error.stack;
+        //`[${options.site.name}]获取种子信息出错: ${error.stack}`;
+      }
+
+      return results;
+    }
+
+    /**
+     * 获取指定字段内容
+     * @param {*} row
+     * @param {*} cells
+     * @param {*} fieldIndex
+     * @param {*} fieldName
+     */
+    getFieldValue(row, cells, fieldIndex, fieldName, returnCell) {
+      let parent = row;
+      let cell = null;
+      if (
+        cells &&
+        fieldIndex &&
+        fieldIndex[fieldName] !== undefined &&
+        fieldIndex[fieldName] !== -1
+      ) {
+        cell = cells.eq(fieldIndex[fieldName]);
+        parent = cell || row;
+      }
+
+      let result = Searcher.getFieldValue(this.site, parent, fieldName);
+
+      if (!result && cell) {
+        if (returnCell) {
+          return cell;
+        }
+        result = cell.text();
+      }
+
+      return result;
+    }
+
+    /**
+     * 获取时间
+     * @param {*} cell
+     */
+    getTime(cell) {
+      let time = cell.find("span[title],time[title]").attr("title");
+      if (!time) {
+        time = $("<span>")
+          .html(cell.html().replace("<br>", " "))
+          .text();
+      }
+      // 存活时间样例：1年 5月，5月 3天，3天 14时，2时 1分，10分
+      const numUnitFormatSite = ['pt.sjtu.edu.cn', 'piggo.me']
+      if (numUnitFormatSite.some(s => s === options.site.host)) {
+        if (time.match(/\d+[分时天月年]/g)) {
+          time = Date.now() - this._parseTime(time)
+          time = new Date(time).toLocaleString("zh-CN", { hour12: false }).replace(/\//g, '-')
+        }
+      }
+      return time || "";
+    }
+
+    _parseTime(timeString) {
+      const timeMatch = timeString.match(/\d+[分时天月年]/g)
+      let length = 0
+      timeMatch.forEach(time => {
+        const timeMatch = time.match(/(\d+)([分时天月年])/)
+        const number = parseInt(timeMatch[1])
+        const unit = timeMatch[2]
+        switch (true) {
+          case unit === '分':
+            length += number
+            break
+          case unit === '时':
+            length += number * 60
+            break
+          case unit === '天':
+            length += number * 60 * 24
+            break
+          case unit === '月':
+            length += number * 60 * 24 * 30
+            break
+          case unit === '年':
+            length += number * 60 * 24 * 365
+            break
+          default:
+        }
+      })
+      return length * 60 * 1000
+    }
+
+    /**
+     * 获取标题
+     */
+    getTitle(row, cells, fieldIndex) {
+      let title =
+        this.getFieldValue(row, cells, fieldIndex, "title", true) ||
+        row.find("a[href*='hit'][title]:not(a[href*='comment'])").first();
+
+      if (typeof title === "string") {
+        return title;
+      }
+
+      if (title.length == 0) {
+        title = row.find("a[href*='hit']:has(b)").first();
+      }
+
+      if (title.length == 0) {
+        // 特殊情况处理
+        switch (options.site.host) {
+          case "u2.dmhy.org":
+            title = row.find("a.tooltip[href*='hit']").first();
+            break;
+        }
+      }
+
+      // 对title进行处理，防止出现cf的email protect
+      let cfemail = title.find("span.__cf_email__");
+      if (cfemail.length > 0) {
+        cfemail.each((index, el) => {
+          $(el).replaceWith(Searcher.cfDecodeEmail($(el).data("cfemail")));
+        });
+      }
+
+      return title;
+    }
+
+    /**
+     * 获取IMDbId
+     * @param {*} row
+     */
+    getIMDbId(row)
+    {
+      let imdbId = Searcher.getFieldValue(this.site, row, "imdbId");
+      if (imdbId) {
+        return imdbId;
+      }
+
+      try {
+        let link = row.find("a[href*='imdb.com/title/tt']").first().attr("href");
+        if (link)
+        {
+          imdbId = link.match(/(tt\d+)/);
+          if (imdbId)
+            return imdbId[0];
+        }
+      } catch (error){
+        console.log(error)
+        return null;
+      }
+      return null;
+    }
+
+    /**
+     * 获取副标题
+     * @param {*} title
+     * @param {*} row
+     */
+    getSubTitle(title, row) {
+      let subTitle = Searcher.getFieldValue(this.site, row, "subTitle");
+      if (subTitle) {
+        return subTitle;
+      }
+
+      try {
+        subTitle = title
+          .parent()
+          .html()
+          .split("<br>");
+        if (subTitle && subTitle.length > 1) {
+          subTitle = $("<span>")
+            .html(subTitle[subTitle.length - 1])
+            .text();
+        } else {
+          // 特殊情况处理
+          switch (options.site.host) {
+            case "hdchina.org":
+              if (
+                title
+                  .parent()
+                  .next()
+                  .is("h4")
+              ) {
+                subTitle = title
+                  .parent()
+                  .next()
+                  .text();
+              }
+              break;
+
+            case "kp.m-team.cc":
+            case "xp.m-team.cc":
+            case "ap.m-team.cc":
+              title = row.find("a[href*='hit'][title]").last();
+              subTitle = title
+                .parent()
+                .html()
+                .split("<br>");
+              subTitle = $("<span>")
+                .html(subTitle[subTitle.length - 1])
+                .text();
+              break;
+
+            case "u2.dmhy.org":
+              subTitle = $(".torrentname > tbody > tr:eq(1)", row)
+                .find(".tooltip")
+                .text();
+              break;
+
+            case "whu.pt":
+            case "hudbt.hust.edu.cn":
+              subTitle = $("h3", row).text();
+              break;
+
+            default:
+              subTitle = "";
+              break;
+          }
+        }
+
+        return subTitle || "";
+      } catch (error) {
+        return "";
+      }
+    }
+
+    // 很
+    getDownloadLink(row, link) {
+      let url;
+      switch (options.site.host) {
+        case 'hdsky.me': {
+          let url_another = row.find('form[action*="download.php"]:eq(0)')
+          if (url_another.length > 0) {
+            url = url_another.attr('action')
+            break;
+          }
+
+        }
+
+        default: {
+          let url_another = row.find("img.download").parent();
+
+          if (url_another.length) {
+            if (url_another.get(0).tagName !== "A") {
+              let id = link.getQueryString("id");
+              url = `download.php?id=${id}`;
+            } else {
+              url = url_another.attr("href");
+            }
+          } else {
+            let id = link.getQueryString("id");
+            url = `download.php?id=${id}`;
+          }
+          url = url + "&https=1"
+        }
+      }
+
+      return url;
+    }
+
+    /**
+     * 获取分类
+     * @param {*} cell 当前列
+     */
+    getCategory(cell) {
+      let result = {
+        name: "",
+        link: ""
+      };
+      let link = cell.find("a:first");
+      let img = link.find("img:first");
+
+      if (link.length) {
+        result.link = link.attr("href");
+        if (result.link.substr(0, 4) !== "http") {
+          result.link = options.site.url + result.link;
+        }
+      }
+
+      if (img.length) {
+        result.name = img.attr("title") || img.attr("alt");
+      } else {
+        result.name = link.text();
+      }
+      return result;
+    }
+  }
+
+  let parser = new Parser(options);
+  options.results = parser.getResult();
+  console.log(options.results);
+})(options, options.searcher);

@@ -1,1 +1,159 @@
-!function(t,e){function s(t,e){const s=new URL(e,new URL(t,"resolve://"));if("resolve:"===s.protocol){const{pathname:t,search:e,hash:a}=s;return t+e+a}return s.toString()}let a=t.site.activeURL;console.log("[mt] getUserSeedingTorrents",t,e);let n=s(a,t.rule.page);new class{constructor(t,e){this.options=t,this.dataURL=e,this.body=null,this.rawData="",this.pageInfo={count:0,current:0},this.result={seeding:0,seedingSize:0},this.load()}done(){this.result.messageCount=this.getUnReadMessageCount(),console.log("[mt] getUserSeedingTorrents done",this.result),this.options.resolve(this.result)}parse(){this.getPageInfo();let t=this.rawData.data.data,e={seeding:0,seedingSize:0};t&&t.forEach((t=>{e.seeding++,e.seedingSize+=Number(t.torrent.size)})),this.result.seeding+=e.seeding,this.result.seedingSize+=e.seedingSize,this.pageInfo.current++,this.pageInfo.current<this.pageInfo.count?this.load():this.done()}getPageInfo(){this.pageInfo.count>0||(this.pageInfo.count=Number(this.rawData.data.totalPages))}load(){let t=this.dataURL,e=this.options.rule.requestData;e.pageNumber=this.pageInfo.current+1,$.ajax({url:t,method:"POST",dataType:"JSON",data:JSON.stringify(e),contentType:"application/json",headers:this.options.rule.headers}).done((t=>{this.rawData=t,this.rawData.data.data.length>0?this.parse():this.done()})).fail((()=>{this.done()}))}getUnReadMessageCount(){return this.getMailBoxCnt()+this.getSystemNoticeCnt()}getMailBoxCnt(){return this.getNotifyCnt(s(a,"/api/msg/statistic"))}getSystemNoticeCnt(){return this.getNotifyCnt(s(a,"/api/msg/notify/statistic"))}getNotifyCnt(t){const e=$.ajax(t,{method:"POST",data:{},headers:this.options.rule.headers,async:!1});return parseInt(e.responseJSON.data.unMake)||0}}(t,n)}(_options,_self);
+(function(options, User) {
+  class Parser {
+    constructor(options, dataURL) {
+      this.options = options;
+      this.dataURL = dataURL;
+      this.body = null;
+      this.rawData = "";
+      this.pageInfo = {
+        count: 0,
+        current: 0
+      };
+      this.result = {
+        seeding: 0,
+        seedingSize: 0
+      };
+      this.load();
+    }
+
+    /**
+     * 完成
+     */
+    done() {
+      this.result.messageCount = this.getUnReadMessageCount()
+      console.log(`[mt] getUserSeedingTorrents done`, this.result)
+      this.options.resolve(this.result);
+    }
+
+    /**
+     * 解析内容
+     */
+    parse() {
+      this.getPageInfo();
+
+      let datas = this.rawData.data.data;
+      let results = {
+        seeding: 0,
+        seedingSize: 0
+      };
+      if (datas) {
+        datas.forEach(item => {
+          results.seeding++;
+          results.seedingSize += Number(item.torrent.size);
+        });
+      }
+
+      this.result.seeding += results.seeding;
+      this.result.seedingSize += results.seedingSize;
+
+      this.pageInfo.current++;
+      // 是否已到最后一页
+      if (this.pageInfo.current < this.pageInfo.count) {
+        this.load();
+      } else {
+        this.done();
+      }
+    }
+
+    /**
+     * 获取页面相关内容
+     */
+    getPageInfo() {
+      if (this.pageInfo.count > 0) {
+        return;
+      }
+
+      this.pageInfo.count = Number(this.rawData.data.totalPages);
+    }
+
+    /**
+     * 加载当前页内容
+     */
+    load() {
+      let url = this.dataURL;
+      let postData = this.options.rule.requestData;
+      postData.pageNumber = this.pageInfo.current + 1;
+
+      $.ajax({
+        url,
+        method: "POST",
+        dataType: "JSON",
+        data: JSON.stringify(postData),
+        contentType: "application/json",
+        headers: this.options.rule.headers
+      })
+        .done(result => {
+          this.rawData = result;
+          if (this.rawData.data.data.length > 0) {
+            this.parse();
+          } else {
+            this.done();
+          }
+        })
+        .fail(() => {
+          this.done();
+        });
+    }
+
+    /**
+     * 获取未读消息数量, 包括站内信和系统通知
+     * 这是两个接口, 直接写 config.json 是无法实现的. 在这里加点魔法
+     */
+    getUnReadMessageCount() {
+      return this.getMailBoxCnt() + this.getSystemNoticeCnt()
+    }
+
+    /**
+     * 获取站内信未读数量
+     */
+    getMailBoxCnt() {
+      return this.getNotifyCnt(resolveURL(activeURL, '/api/msg/statistic'))
+    }
+
+    /**
+     * 获取系统通知未读数量
+     */
+    getSystemNoticeCnt() {
+      return this.getNotifyCnt(resolveURL(activeURL, '/api/msg/notify/statistic'))
+    }
+
+    getNotifyCnt(url) {
+      const res = $.ajax(url, {
+        method: "POST",
+        data: {},
+        headers: this.options.rule.headers,
+        async: false
+      })
+      return parseInt(res.responseJSON.data.unMake) || 0
+    }
+  }
+
+  function resolveURL(from, to) {
+    const resolvedUrl = new URL(to, new URL(from, 'resolve://'));
+    if (resolvedUrl.protocol === 'resolve:') {
+      // `from` is a relative URL.
+      const { pathname, search, hash } = resolvedUrl;
+      return pathname + search + hash;
+    }
+    return resolvedUrl.toString();
+  }
+
+  let activeURL = options.site.activeURL
+  console.log(`[mt] getUserSeedingTorrents`, options, User);
+
+  let dataURL = resolveURL(activeURL, options.rule.page);
+
+  new Parser(options, dataURL);
+})(_options, _self);
+/**
+ *
+  _options 表示当前参数
+  {
+    site,
+    rule,
+    userInfo,
+    resolve,
+    reject
+  }
+  _self 表示 User(/src/background/user.ts) 类实例
+ */

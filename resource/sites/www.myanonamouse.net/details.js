@@ -1,1 +1,55 @@
-!function(t,e){console.log("this is details.js");class i extends e.NexusPHPCommon{init(){this.initButtons(),PTService.pageApp=this}initButtons(){this.showTorrentSize(),this.initDetailButtons()}getDownloadURL(){let t=PTService.getFieldValue("downloadURL");return this.getFullURL(t)}showTorrentSize(){let e=t("div#size > div:eq(1) > span");e=e.text().match(/([\d.]+[  ]?[ZEPTGMK]?i?B)/),e=e&&e.length>1?e[1]:0,e&&PTService.addButton({title:"当前种子大小",icon:"attachment",label:e})}getTitle(){return t(".TorrentTitle").text()}}(new i).init()}(jQuery,window);
+(function ($, window) {
+  console.log("this is details.js");
+
+  class App extends window.NexusPHPCommon {
+    init() {
+      this.initButtons();
+      // 设置当前页面
+      PTService.pageApp = this;
+    }
+
+    /**
+     * 初始化按钮列表
+     */
+    initButtons() {
+      this.showTorrentSize();
+      this.initDetailButtons();
+    }
+
+    /**
+     * 获取下载链接
+     */
+    getDownloadURL() {
+      let url = PTService.getFieldValue("downloadURL");
+
+      return this.getFullURL(url);
+    }
+
+    /**
+     * 获取种子大小
+     */
+    showTorrentSize() {
+      let size = $("div#size > div:eq(1) > span");
+      // eslint-disable-next-line no-irregular-whitespace
+      size = size.text().match(/([\d.]+[  ]?[ZEPTGMK]?i?B)/);
+      size = (size && size.length > 1) ? size[1] : 0;
+
+      if (size) {
+        PTService.addButton({
+          title: "当前种子大小",
+          icon: "attachment",
+          label: size
+        });
+      }
+    }
+
+    /**
+     * 获取当前种子标题
+     */
+    getTitle() {
+      return $(".TorrentTitle").text();
+    }
+  }
+
+  new App().init();
+})(jQuery, window);

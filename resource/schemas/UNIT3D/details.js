@@ -1,1 +1,61 @@
-!function(t,e){console.log("this is details.js");class i extends e.NexusPHPCommon{init(){this.initButtons(),PTService.pageApp=this}initButtons(){this.initDetailButtons()}getDownloadURL(){let e=PTService.getFieldValue("downloadURL");if(!e){let i=t("a[href*='/download/']:first");0==i.length?(i=t("a[href*='/download_check/']"),i.length>0&&(e=i.attr("href").replace("/download_check/","/download/"))):e=i.attr("href")}return this.getFullURL(e)}getIMDbId(){let i=e.location.href,l=null;try{if(l=PTService.getFieldValue("imdbId"),!l){const e=t("a[href*='www.imdb.com/title/']:first");if(e.length>0){let t=e.attr("href").match(/(tt\d+)/);t&&t.length>=2&&(l=t[1])}}}catch(t){console.log(`${i} 获取IMDb Id 失败`,t)}return console.log(l),l}}(new i).init()}(jQuery,window);
+(function($, window) {
+  console.log("this is details.js");
+  class App extends window.NexusPHPCommon {
+    init() {
+      this.initButtons();
+      // 设置当前页面
+      PTService.pageApp = this;
+    }
+    /**
+     * 初始化按钮列表
+     */
+    initButtons() {
+      this.initDetailButtons();
+    }
+
+    /**
+     * 获取下载链接
+     */
+    getDownloadURL() {
+      let url = PTService.getFieldValue("downloadURL");
+      if (!url) {
+        let query = $("a[href*='/download/']:first");
+        if (query.length == 0) {
+          query = $("a[href*='/download_check/']");
+          if (query.length > 0) {
+            url = query.attr("href").replace("/download_check/", "/download/");
+          }
+        } else {
+          url = query.attr("href");
+        }
+      }
+
+      return this.getFullURL(url);
+    }
+
+    /**
+     * 获取当前种子IMDb Id
+     */
+    getIMDbId() {
+      let url = window.location.href
+      let imdbId = null
+      try {
+        imdbId = PTService.getFieldValue('imdbId')
+        if (!imdbId) {
+          const link = $('a[href*=\'www.imdb.com/title/\']:first');
+          if (link.length > 0) {
+            let match = link.attr('href').match(/(tt\d+)/)
+            if (match && match.length >= 2) {
+              imdbId = match[1];
+            }
+          }
+        }
+      } catch (e) {
+        console.log(`${url} 获取IMDb Id 失败`, e)
+      }
+      console.log(imdbId)
+      return imdbId
+    }
+  }
+  new App().init();
+})(jQuery, window);

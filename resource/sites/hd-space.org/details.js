@@ -1,1 +1,108 @@
-!function(t,e){if(console.log("this is details.js"),/\?page\=torrent-details/.test(e.location.search)){console.log("torrent-details");class i extends e.NexusPHPCommon{init(){this.initButtons(),PTService.pageApp=this}initButtons(){this.showTorrentSize(),this.initDetailButtons()}getDownloadURL(){let e=t("a[href*='download.php']:first"),i="";return e.length>0&&(i=e.attr("href"),"http"!=i.substr(0,4)&&(i=PTService.site.url+i)),i}showTorrentSize(){let t=PTService.filters.formatSize(PTService.getFieldValue("size"));PTService.addButton({title:"当前种子大小",icon:"attachment",label:t})}getTitle(){return t("a[href*='download.php']:first").text().trim()}}(new i).init()}else if(/\?page\=torrents|seedwanted/.test(e.location.search)){class i extends e.NexusPHPCommon{init(){this.initButtons(),this.initFreeSpaceButton(),PTService.pageApp=this}initButtons(){this.initListButtons()}getDownloadURLs(){let e=t("#bodyarea > table > tbody > tr > td:nth-child(2) > table > tbody > tr:nth-child(3) > td > table, #mcol > table > tbody > tr:nth-child(2) > td > table").find("a[href*='download.php']").toArray(),i=PTService.site.url;return"/"!=i.substr(-1)&&(i+="/"),0==e.length?this.t("getDownloadURLsFailed"):t.map(e,(e=>{let n=t(e).attr("href");return n&&"http"!=n.substr(0,4)&&(n=i+n),n}))}confirmWhenExceedSize(){return this.confirmSize(t("table.mainblockcontenttt:first").find("td:contains('MiB'),td:contains('GiB'),td:contains('TiB')"))}}(new i).init()}}(jQuery,window);
+(function ($, window) {
+  console.log("this is details.js");
+   if(/\?page\=torrent-details/.test(window.location.search)){
+    console.log("torrent-details");
+    class App extends window.NexusPHPCommon {
+      init() {
+        this.initButtons();
+        // 设置当前页面
+        PTService.pageApp = this;
+      }
+      /**
+       * 初始化按钮列表
+       */
+      initButtons() {
+        this.showTorrentSize();
+        this.initDetailButtons();
+      }
+
+      /**
+       * 获取下载链接
+       */
+      getDownloadURL() {
+        let query = $("a[href*='download.php']:first");
+        let url = "";
+        if (query.length > 0) {
+          url = query.attr("href");
+          if (url.substr(0, 4) != "http") {
+            url = PTService.site.url + url;
+          }
+        }
+
+        return url;
+      }
+
+      showTorrentSize() {
+        let size = PTService.filters.formatSize(PTService.getFieldValue("size"));
+        PTService.addButton({
+         title: "当前种子大小",
+          icon: "attachment",
+          label: size
+        });
+      }
+      /**
+       * 获取当前种子标题
+       */
+      getTitle() {
+        return $("a[href*='download.php']:first").text().trim();
+      }
+    };
+    (new App()).init();
+  }else if(/\?page\=torrents|seedwanted/.test(window.location.search)){
+    class App extends window.NexusPHPCommon {
+      init() {
+        // super();
+        this.initButtons();
+        this.initFreeSpaceButton();
+        // 设置当前页面
+        PTService.pageApp = this;
+      }
+
+      /**
+       * 初始化按钮列表
+       */
+      initButtons() {
+        this.initListButtons();
+      }
+
+      /**
+       * 获取下载链接
+       */
+      getDownloadURLs() {
+        let links = $("#bodyarea > table > tbody > tr > td:nth-child(2) > table > tbody > tr:nth-child(3) > td > table, #mcol > table > tbody > tr:nth-child(2) > td > table")
+          .find("a[href*='download.php']")
+          .toArray();
+        let siteURL = PTService.site.url;
+        if (siteURL.substr(-1) != "/") {
+          siteURL += "/";
+        }
+
+        if (links.length == 0) {
+          return this.t("getDownloadURLsFailed"); //"获取下载链接失败，未能正确定位到链接";
+        }
+
+        let urls = $.map(links, item => {
+          let link = $(item).attr("href");
+          if (link && link.substr(0, 4) != "http") {
+            link = siteURL + link;
+          }
+          return link;
+        });
+
+        return urls;
+      }
+
+      /**
+       * 确认大小是否超限
+       */
+      confirmWhenExceedSize() {
+        return this.confirmSize(
+          $("table.mainblockcontenttt:first").find(
+            "td:contains('MiB'),td:contains('GiB'),td:contains('TiB')"
+          )
+        );
+      }
+    }
+    new App().init();
+  }
+})(jQuery, window);

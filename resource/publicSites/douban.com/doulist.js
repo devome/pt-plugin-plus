@@ -1,1 +1,57 @@
-!function(t,e){class n extends e.DoubanCommon{initButtons(){let e=t(".doulist-subject");console.log(e.length),e.length>0&&e.each(((e,n)=>{let i=t(n),a=i.find(".title a"),o=a.attr("href"),s=o.match(/subject\/(\d+)/);if(s&&s.length>=2){let t=a.text().trim(),e="";e=1==o.indexOf("movie.douban.com")>0?`douban${s[1]}`:t,this.createButton(i.find(".post"),e,t)}}))}createButton(e,n,i){if(!n)return;e.css({"max-height":"unset"});let a=t("<div style='padding: 5px;'/>").attr("title",`搜索 ${i}`).appendTo(e);t("<a href='javascript:void(0);' class='lnk-sharing'/>").html("PT 助手搜索").on("click",(e=>{let i=t(e.target);this.search(n,i)})).appendTo(a)}}(new n).init()}(jQuery,window);
+(function ($, window) {
+  class App extends window.DoubanCommon {
+    /**
+     * 初始化按钮列表
+     */
+    initButtons() {
+      let items = $(".doulist-subject");
+      console.log(items.length);
+      if (items.length > 0) {
+        items.each((index, item) => {
+          let $item = $(item);
+          let $title = $item.find(".title a");
+          let link = $title.attr("href");
+          let match = link.match(/subject\/(\d+)/);
+          if (match && match.length >= 2) {
+            let title = $title.text().trim();
+            let key = "";
+
+            switch (true) {
+              // 电影
+              case link.indexOf("movie.douban.com") > 0:
+                key = `douban${match[1]}`;
+                break;
+
+              // 其他
+              default:
+                key = title;
+                break;
+            }
+            this.createButton($item.find(".post"), key, title);
+          }
+        });
+      }
+    }
+
+    createButton(parent, key, title) {
+      if (!key) {
+        return;
+      }
+      let label = "PT 助手搜索";
+      parent.css({
+        "max-height": "unset"
+      });
+      let div = $("<div style='padding: 5px;'/>")
+        .attr("title", `搜索 ${title}`)
+        .appendTo(parent);
+      $("<a href='javascript:void(0);' class='lnk-sharing'/>")
+        .html(label)
+        .on("click", event => {
+          let button = $(event.target);
+          this.search(key, button);
+        })
+        .appendTo(div);
+    }
+  }
+  new App().init();
+})(jQuery, window);
