@@ -14449,10 +14449,12 @@
       if (!this.options.allowDropToSend)
         return;
       document.addEventListener("dragstart", (e2) => {
+        var _a;
         if (e2.target.tagName == "A") {
           let data2 = {
             url: e2.target.getAttribute("href"),
-            title: e2.target.getAttribute("title")
+            // fix: 修复 mt 拖放时无法获取到title的问题
+            title: e2.target.getAttribute("title") || ((_a = e2.target.querySelector(".ant-tooltip-open")) == null ? void 0 : _a.innerText) || e2.target.innerText
           };
           e2.dataTransfer.setData("text/plain", JSON.stringify(data2));
         }
