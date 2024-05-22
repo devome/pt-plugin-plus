@@ -1,5 +1,5 @@
-import { E as Extension, V as Vue, a as EAction, n as normalizeComponent, t as ETorrentStatus, P as PPF, B as BASE_COLORS, u as EResourceOrderMode, v as EPaginationKey, g as EViewKey, w as eventBus, b as EModule, x as dayjs, y as EDataResultType, f as filters, D as Downloader, z as ERequestMethod, C as FileDownloader, h as ECommonKey, G as basicContext_minExports } from "./index-DeSL2t4p.js";
-import { D as DownloadTo, P as PathHandler } from "./DownloadTo-DrDdufCK.js";
+import { E as Extension, V as Vue, a as EAction, n as normalizeComponent, t as ETorrentStatus, P as PPF, B as BASE_COLORS, u as EResourceOrderMode, v as EPaginationKey, g as EViewKey, w as eventBus, b as EModule, x as dayjs, y as EDataResultType, f as filters, D as Downloader, z as ERequestMethod, C as FileDownloader, h as ECommonKey, G as basicContext_minExports } from "./index-B3uaJg3z.js";
+import { D as DownloadTo, P as PathHandler } from "./DownloadTo-CxFhAV_a.js";
 const extension$3 = new Extension();
 const _sfc_main$5 = Vue.extend({
   props: {
@@ -535,7 +535,7 @@ const _sfc_main$1 = Vue.extend({
             verified: false,
             status: this.$t("keepUploadTask.status.downloading").toString()
           });
-          this.getTorrent(item.url, index).then((result) => {
+          this.getTorrent(item, index).then((result) => {
             this.verification(result, index);
           }).catch(() => {
             this.verification(null, index);
@@ -546,7 +546,7 @@ const _sfc_main$1 = Vue.extend({
     reDownload(index) {
       this.verifiedItems[index].loading = true;
       this.verifiedItems[index].status = this.$t("keepUploadTask.status.downloading").toString();
-      this.getTorrent(this.verifiedItems[index].data.url, index).then((result) => {
+      this.getTorrent(this.verifiedItems[index].data, index).then((result) => {
         this.verification(result, index);
       }).catch(() => {
         this.verification(null, index);
@@ -629,10 +629,29 @@ const _sfc_main$1 = Vue.extend({
     /**
      * 获取种子文件内容
      */
-    getTorrent(url, index) {
+    getTorrent(item, index) {
+      if (item.url) {
+        switch (item.site.name) {
+          case "M-Team":
+            let id = item.url.replace(/^\D+/g, "");
+            console.log(`getTorrentDataFromURL.M-Team ${item.url} -> ${id}`);
+            if (id) {
+              if (parseInt(id)) {
+                let torrentURL = PPF.resolveMTDownloadURL(id, item.site);
+                console.log(`getTorrentDataFromURL.M-Team1 ${item.url} -> ${torrentURL}`);
+                item.url = torrentURL;
+              } else {
+                console.log(`getTorrentDataFromURL.M-Team2 ${item.url}, id 链接可能已是直链, 不进行转换...`);
+              }
+            }
+            break;
+          default:
+            break;
+        }
+      }
       return new Promise((resolve, reject) => {
         extension$1.sendRequest(EAction.getTorrentDataFromURL, null, {
-          url,
+          url: item.url,
           parseTorrent: true
         }).then((result) => {
           console.log(result);
@@ -695,7 +714,7 @@ var __component__$1 = /* @__PURE__ */ normalizeComponent(
   _sfc_staticRenderFns$1,
   false,
   null,
-  "c87c2d5c",
+  "d0e50cd0",
   null,
   null
 );

@@ -1,10 +1,11 @@
-import { E as Extension, V as Vue, a as EAction, n as normalizeComponent } from "./index-DeSL2t4p.js";
+import { E as Extension, V as Vue, a as EAction, n as normalizeComponent } from "./index-B3uaJg3z.js";
 const extension = new Extension();
 const _sfc_main$3 = Vue.extend({
   data() {
     return {
       showPassword: false,
       categoryText: "",
+      customTagText: "",
       rules: {
         require: [(v) => !!v || "!"],
         url: (v) => {
@@ -43,10 +44,15 @@ const _sfc_main$3 = Vue.extend({
     option() {
       console.log(`watch option`, this.option);
       let qbCategories = this.option.qbCategories || [];
+      let customTags = this.option.customTags || [];
       this.categoryText = qbCategories.map((c) => `${c.name},${c.path}`).join("\n");
+      this.customTagText = customTags.join(",");
     },
     categoryText() {
       this.option.qbCategories = this.categoryText.split(/\n/).filter((_) => !!_).map((_) => _.split(/\s*[,，]\s*/)).filter(([name, path]) => !!name && !!path).map(([name, path]) => ({ name, path }));
+    },
+    customTagText() {
+      this.option.customTags = this.customTagText.split(/\s*[,，]\s*/).filter((_) => !!_);
     },
     successMsg() {
       this.haveSuccess = this.successMsg != "";
@@ -149,7 +155,9 @@ var _sfc_render$3 = function render() {
     _vm.$set(_vm.option, "enableCategory", $$v);
   }, expression: "option.enableCategory" } }), _vm.option.enableCategory ? _c("v-textarea", { attrs: { "label": _vm.$t("settings.downloadClients.editor.enableCategoryText"), "hint": _vm.$t("settings.downloadClients.editor.enableCategoryTextTip") }, model: { value: _vm.categoryText, callback: function($$v) {
     _vm.categoryText = $$v;
-  }, expression: "categoryText" } }) : _vm._e(), _c("v-text-field", { attrs: { "value": _vm.option.type, "label": _vm.$t("settings.downloadClients.editor.type"), "disabled": "" } }), _c("v-text-field", { attrs: { "label": _vm.$t("settings.downloadClients.editor.id"), "disabled": "", "value": _vm.option.id, "placeholder": _vm.$t("settings.downloadClients.editor.autoCreate") } })], 1), _c("v-btn", { attrs: { "flat": "", "block": "", "color": _vm.testButtonColor, "loading": _vm.testing, "disabled": _vm.testing || !_vm.option.valid }, on: { "click": _vm.testClientConnectivity } }, [_c("v-icon", { staticClass: "mr-2" }, [_vm._v(_vm._s(_vm.testButtonIcon))]), _vm._v(" " + _vm._s(_vm.successMsg || _vm.errorMsg || _vm.$t("settings.downloadClients.editor.test")) + " ")], 1), _vm.option.description ? _c("v-alert", { attrs: { "value": true, "color": "info" } }, [_vm._v(_vm._s(_vm.option.description))]) : _vm._e(), _vm.option.warning ? _c("v-alert", { attrs: { "value": true, "color": "warning" } }, [_vm._v(_vm._s(_vm.option.warning))]) : _vm._e()], 1)], 1), _c("v-snackbar", { attrs: { "absolute": "", "top": "", "timeout": 3e3, "color": "error" }, model: { value: _vm.haveError, callback: function($$v) {
+  }, expression: "categoryText" } }) : _vm._e(), _c("v-text-field", { attrs: { "label": _vm.$t("settings.downloadClients.editor.customTagText"), "hint": _vm.$t("settings.downloadClients.editor.customTagTextTip") }, model: { value: _vm.customTagText, callback: function($$v) {
+    _vm.customTagText = $$v;
+  }, expression: "customTagText" } }), _c("v-text-field", { attrs: { "value": _vm.option.type, "label": _vm.$t("settings.downloadClients.editor.type"), "disabled": "" } }), _c("v-text-field", { attrs: { "label": _vm.$t("settings.downloadClients.editor.id"), "disabled": "", "value": _vm.option.id, "placeholder": _vm.$t("settings.downloadClients.editor.autoCreate") } })], 1), _c("v-btn", { attrs: { "flat": "", "block": "", "color": _vm.testButtonColor, "loading": _vm.testing, "disabled": _vm.testing || !_vm.option.valid }, on: { "click": _vm.testClientConnectivity } }, [_c("v-icon", { staticClass: "mr-2" }, [_vm._v(_vm._s(_vm.testButtonIcon))]), _vm._v(" " + _vm._s(_vm.successMsg || _vm.errorMsg || _vm.$t("settings.downloadClients.editor.test")) + " ")], 1), _vm.option.description ? _c("v-alert", { attrs: { "value": true, "color": "info" } }, [_vm._v(_vm._s(_vm.option.description))]) : _vm._e(), _vm.option.warning ? _c("v-alert", { attrs: { "value": true, "color": "warning" } }, [_vm._v(_vm._s(_vm.option.warning))]) : _vm._e()], 1)], 1), _c("v-snackbar", { attrs: { "absolute": "", "top": "", "timeout": 3e3, "color": "error" }, model: { value: _vm.haveError, callback: function($$v) {
     _vm.haveError = $$v;
   }, expression: "haveError" } }, [_vm._v(_vm._s(_vm.errorMsg))]), _c("v-snackbar", { attrs: { "absolute": "", "bottom": "", "timeout": 3e3, "color": "success" }, model: { value: _vm.haveSuccess, callback: function($$v) {
     _vm.haveSuccess = $$v;
