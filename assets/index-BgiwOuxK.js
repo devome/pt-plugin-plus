@@ -1,4 +1,4 @@
-const __vite__fileDeps=["assets/Index-Ba_QIPQT.js","assets/Index-BEuPPN6k.css","assets/SupportSchema-D8StQ7oh.js","assets/SupportSchema-BvqZQJrG.css","assets/Index-MfJnKl-J.js","assets/Index-Vq83NoNm.css","assets/Index-ClkygPeD.js","assets/Index-Bh0Arh92.css","assets/Index-DDMPrSiH.js","assets/Index-zt_nQyKt.css","assets/Index-bTt2AGxy.js","assets/Index-D15lVdF7.css","assets/Index-DNKXpRCn.js","assets/Index-B4ra-pBE.css","assets/SearchTorrent-DC7x-71H.js","assets/DownloadTo-CxFhAV_a.js","assets/SearchTorrent-BQzflRra.css","assets/History-DnavAi6L.js","assets/History-DBBQckhe.css","assets/SystemLogs-06zE36nL.js","assets/SystemLogs-DZO5-4jl.css","assets/Index-B-xYJSG-.js","assets/Index-CAOoZwoa.css","assets/UserDataTimeline-Zw2_XFsW.js","assets/dom-to-image-CeECsSOH.js","assets/UserDataTimeline-2nK2yT6_.css","assets/SiteBase-DJxSu87I.js","assets/SiteBase-CDPU0ITk.css","assets/Index-BW0dzEqT.js","assets/Index-BJCuj4hq.css","assets/KeepUploadTasks-D1e5EMWi.js","assets/KeepUploadTasks-C_8T016q.css"],__vite__mapDeps=i=>i.map(i=>__vite__fileDeps[i]);
+const __vite__fileDeps=["assets/Index-BU5aoBNs.js","assets/Index-BEuPPN6k.css","assets/SupportSchema-CyShLAe_.js","assets/SupportSchema-BvqZQJrG.css","assets/Index-BBQev22E.js","assets/Index-Vq83NoNm.css","assets/Index-DMv8spJL.js","assets/Index-Bh0Arh92.css","assets/Index-DuRsy7KB.js","assets/Index-zt_nQyKt.css","assets/Index-D1I38QUT.js","assets/Index-D15lVdF7.css","assets/Index-CemBhy6g.js","assets/Index-B4ra-pBE.css","assets/SearchTorrent-N_KCf5W1.js","assets/DownloadTo-rtLwMrcK.js","assets/SearchTorrent-BQzflRra.css","assets/History-nZpd04Gr.js","assets/History-DBBQckhe.css","assets/SystemLogs-DP5G2THK.js","assets/SystemLogs-DZO5-4jl.css","assets/Index-BO8dNuX6.js","assets/Index-CAOoZwoa.css","assets/UserDataTimeline-0ZRfBUZ-.js","assets/dom-to-image-BHWDSN5z.js","assets/UserDataTimeline-2nK2yT6_.css","assets/SiteBase-z_IoAnWn.js","assets/SiteBase-CDPU0ITk.css","assets/Index-H42e7uCG.js","assets/Index-BJCuj4hq.css","assets/KeepUploadTasks-DWqtxS30.js","assets/KeepUploadTasks-C_8T016q.css"],__vite__mapDeps=i=>i.map(i=>__vite__fileDeps[i]);
 (function polyfill() {
   const relList = document.createElement("link").relList;
   if (relList && relList.supports && relList.supports("modulepreload")) {
@@ -43918,7 +43918,7 @@ class HelpFunctions {
    */
   checkPermissions(permissions) {
     return new Promise((resolve2, reject) => {
-      if (chrome && chrome.permissions) {
+      if (chrome == null ? void 0 : chrome.permissions) {
         chrome.permissions.contains(
           {
             permissions
@@ -43946,7 +43946,7 @@ class HelpFunctions {
    */
   requestPermissions(permissions) {
     return new Promise((resolve2, reject) => {
-      if (chrome && chrome.permissions) {
+      if (chrome == null ? void 0 : chrome.permissions) {
         chrome.permissions.request(
           {
             permissions
@@ -44001,16 +44001,17 @@ class HelpFunctions {
    * @param host
    */
   getSiteFromHost(host, options) {
+    var _a;
     let sites = [];
     if (options.sites) {
       sites.push(...options.sites);
     }
-    if (options.system && options.system.publicSites) {
+    if ((_a = options.system) == null ? void 0 : _a.publicSites) {
       sites.push(...options.system.publicSites);
     }
     let site = sites.find((item) => {
-      var _a;
-      let cdn = [item.url].concat(item.cdn, (_a = item.formerHosts) == null ? void 0 : _a.map((x) => `//${x}`));
+      var _a2;
+      let cdn = [item.url].concat(item.cdn, (_a2 = item.formerHosts) == null ? void 0 : _a2.map((x) => `//${x}`));
       return item.host == host || cdn.join("").indexOf(`//${host}`) > -1;
     });
     if (site) {
@@ -45196,14 +45197,13 @@ const APP = {
   },
   /**
    * 显示系统提示信息
-   * @param options
    */
   showNotifications(options, timeout = 3e3) {
     PPF.showNotifications(options, timeout);
   },
   getInstallType() {
     return new Promise((resolve2, reject) => {
-      if (chrome && chrome.management) {
+      if (chrome == null ? void 0 : chrome.management) {
         chrome.management.getSelf((result) => {
           if (result.updateUrl && result.updateUrl.indexOf("pt-plugins/PT-Plugin-Plus") > 0) {
             resolve2(EInstallType.crx);
@@ -49466,7 +49466,7 @@ const router = new VueRouter({
     {
       path: "/set-sites",
       name: "set-sites",
-      component: () => __vitePreload(() => import("./Index-Ba_QIPQT.js"), true ? __vite__mapDeps([0,1]) : void 0),
+      component: () => __vitePreload(() => import("./Index-BU5aoBNs.js"), true ? __vite__mapDeps([0,1]) : void 0),
       meta: {
         // 需要被缓存
         keepAlive: true
@@ -49475,58 +49475,58 @@ const router = new VueRouter({
     {
       path: "/set-support-schema",
       name: "set-support-schema",
-      component: () => __vitePreload(() => import("./SupportSchema-D8StQ7oh.js"), true ? __vite__mapDeps([2,3]) : void 0)
+      component: () => __vitePreload(() => import("./SupportSchema-CyShLAe_.js"), true ? __vite__mapDeps([2,3]) : void 0)
     },
     {
       path: "/set-download-clients",
       name: "set-download-clients",
-      component: () => __vitePreload(() => import("./Index-MfJnKl-J.js"), true ? __vite__mapDeps([4,5]) : void 0)
+      component: () => __vitePreload(() => import("./Index-BBQev22E.js"), true ? __vite__mapDeps([4,5]) : void 0)
     },
     {
       path: "/set-base",
       name: "set-base",
-      component: () => __vitePreload(() => import("./Index-ClkygPeD.js"), true ? __vite__mapDeps([6,7]) : void 0)
+      component: () => __vitePreload(() => import("./Index-DMv8spJL.js"), true ? __vite__mapDeps([6,7]) : void 0)
     },
     {
       path: "/set-download-paths",
       name: "set-download-paths",
-      component: () => __vitePreload(() => import("./Index-DDMPrSiH.js"), true ? __vite__mapDeps([8,9]) : void 0)
+      component: () => __vitePreload(() => import("./Index-DuRsy7KB.js"), true ? __vite__mapDeps([8,9]) : void 0)
     },
     {
       path: "/set-backup",
       name: "set-backup",
-      component: () => __vitePreload(() => import("./Index-D-tcGvmk.js"), true ? [] : void 0)
+      component: () => __vitePreload(() => import("./Index-BII3zBqw.js"), true ? [] : void 0)
     },
     {
       path: "/technology-stack",
       name: "technology-stack",
-      component: () => __vitePreload(() => import("./TechnologyStack-DjN0DMj1.js"), true ? [] : void 0)
+      component: () => __vitePreload(() => import("./TechnologyStack-n8obWwiM.js"), true ? [] : void 0)
     },
     {
       path: "/set-language",
       name: "set-language",
-      component: () => __vitePreload(() => import("./Index-D6CSIf9b.js"), true ? [] : void 0)
+      component: () => __vitePreload(() => import("./Index-UqUyhDFK.js"), true ? [] : void 0)
     },
     {
       path: "/set-search-solution",
       name: "set-search-solution",
-      component: () => __vitePreload(() => import("./Index-bTt2AGxy.js"), true ? __vite__mapDeps([10,11]) : void 0)
+      component: () => __vitePreload(() => import("./Index-D1I38QUT.js"), true ? __vite__mapDeps([10,11]) : void 0)
     },
     {
       path: "/donate",
       name: "donate",
-      component: () => __vitePreload(() => import("./Donate-BEm3WX8L.js"), true ? [] : void 0)
+      component: () => __vitePreload(() => import("./Donate-CpWM6FxS.js"), true ? [] : void 0)
     },
     {
       path: "/set-site-plugins/:host",
       name: "set-site-plugins",
-      component: () => __vitePreload(() => import("./Index-DNKXpRCn.js"), true ? __vite__mapDeps([12,13]) : void 0),
+      component: () => __vitePreload(() => import("./Index-CemBhy6g.js"), true ? __vite__mapDeps([12,13]) : void 0),
       props: true
     },
     {
       path: "/search-torrent/:key?/:host?",
       name: "search-torrent",
-      component: () => __vitePreload(() => import("./SearchTorrent-DC7x-71H.js"), true ? __vite__mapDeps([14,15,16]) : void 0),
+      component: () => __vitePreload(() => import("./SearchTorrent-N_KCf5W1.js"), true ? __vite__mapDeps([14,15,16]) : void 0),
       props: true,
       meta: {
         // 需要被缓存
@@ -49536,33 +49536,33 @@ const router = new VueRouter({
     {
       path: "/history",
       name: "history",
-      component: () => __vitePreload(() => import("./History-DnavAi6L.js"), true ? __vite__mapDeps([17,15,18]) : void 0)
+      component: () => __vitePreload(() => import("./History-nZpd04Gr.js"), true ? __vite__mapDeps([17,15,18]) : void 0)
     },
     {
       path: "/system-logs",
       name: "system-logs",
-      component: () => __vitePreload(() => import("./SystemLogs-06zE36nL.js"), true ? __vite__mapDeps([19,20]) : void 0)
+      component: () => __vitePreload(() => import("./SystemLogs-DP5G2THK.js"), true ? __vite__mapDeps([19,20]) : void 0)
     },
     {
       path: "/set-site-search-entry/:host",
       name: "set-site-search-entry",
-      component: () => __vitePreload(() => import("./Index-B-xYJSG-.js"), true ? __vite__mapDeps([21,22]) : void 0),
+      component: () => __vitePreload(() => import("./Index-BO8dNuX6.js"), true ? __vite__mapDeps([21,22]) : void 0),
       props: true
     },
     {
       path: "/dev-team",
       name: "dev-team",
-      component: () => __vitePreload(() => import("./Teams-BnbRGvM0.js"), true ? [] : void 0)
+      component: () => __vitePreload(() => import("./Teams-C8xvgpu9.js"), true ? [] : void 0)
     },
     {
       path: "/user-data-timeline",
       name: "user-data-timeline",
-      component: () => __vitePreload(() => import("./UserDataTimeline-Zw2_XFsW.js"), true ? __vite__mapDeps([23,24,25]) : void 0)
+      component: () => __vitePreload(() => import("./UserDataTimeline-0ZRfBUZ-.js"), true ? __vite__mapDeps([23,24,25]) : void 0)
     },
     {
       path: "/statistic/:host?",
       name: "statistic",
-      component: () => __vitePreload(() => import("./SiteBase-DJxSu87I.js"), true ? __vite__mapDeps([26,24,27]) : void 0)
+      component: () => __vitePreload(() => import("./SiteBase-z_IoAnWn.js"), true ? __vite__mapDeps([26,24,27]) : void 0)
     },
     {
       path: "/set-permissions",
@@ -49572,7 +49572,7 @@ const router = new VueRouter({
     {
       path: "/collection",
       name: "collection",
-      component: () => __vitePreload(() => import("./Index-BW0dzEqT.js"), true ? __vite__mapDeps([28,15,29]) : void 0),
+      component: () => __vitePreload(() => import("./Index-H42e7uCG.js"), true ? __vite__mapDeps([28,15,29]) : void 0),
       meta: {
         // 需要被缓存
         keepAlive: true
@@ -49581,12 +49581,12 @@ const router = new VueRouter({
     {
       path: "/search-result-snapshot",
       name: "search-result-snapshot",
-      component: () => __vitePreload(() => import("./SearchResultSnapshot-DtbmPRv1.js"), true ? [] : void 0)
+      component: () => __vitePreload(() => import("./SearchResultSnapshot-C_XkyBlF.js"), true ? [] : void 0)
     },
     {
       path: "/keep-upload-task",
       name: "keep-upload-task",
-      component: () => __vitePreload(() => import("./KeepUploadTasks-D1e5EMWi.js"), true ? __vite__mapDeps([30,15,31]) : void 0)
+      component: () => __vitePreload(() => import("./KeepUploadTasks-DWqtxS30.js"), true ? __vite__mapDeps([30,15,31]) : void 0)
     }
   ]
 });
@@ -50715,6 +50715,7 @@ const store = new index.Store({
      * @param options
      */
     updatePathsOfClient(state, options) {
+      var _a;
       let client = state.options.clients.find((data) => {
         return options.clientId === data.id;
       });
@@ -50722,7 +50723,7 @@ const store = new index.Store({
         if (!client.paths) {
           client.paths = {};
         }
-        if (options.site && options.site.host) {
+        if ((_a = options.site) == null ? void 0 : _a.host) {
           client.paths[options.site.host] = options.paths;
         } else {
           client.paths[ECommonKey.allSite] = options.paths;
@@ -51148,7 +51149,7 @@ const store = new index.Store({
         return item.id === clientId;
       });
       let path = "";
-      if (client && client.paths) {
+      if (client == null ? void 0 : client.paths) {
         for (const host in client.paths) {
           if (site.host === host) {
             path = client.paths[host][0];
@@ -51173,7 +51174,7 @@ const store = new index.Store({
   }
 });
 window.chrome = window.chrome || {};
-if (chrome && chrome.tabs) {
+if (chrome == null ? void 0 : chrome.tabs) {
   chrome.tabs.getCurrent((tab) => {
     extension.sendRequest(EAction.updateOptionsTabId, null, tab.id);
   });

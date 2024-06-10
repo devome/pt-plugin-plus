@@ -1,4 +1,4 @@
-import { P as PPF, E as Extension, V as Vue, c as EBeforeSearchingItemSearchMode, d as EEncryptMode, A as APP, a as EAction, e as ESizeUnit, n as normalizeComponent } from "./index-B3uaJg3z.js";
+import { P as PPF, E as Extension, V as Vue, c as EBeforeSearchingItemSearchMode, d as EEncryptMode, A as APP, a as EAction, e as ESizeUnit, n as normalizeComponent } from "./index-BgiwOuxK.js";
 class MovieInfoService {
   constructor() {
     this.doubanApiURL = "https://api.douban.com/v2";
@@ -15,7 +15,7 @@ class MovieInfoService {
         methods: {
           movie: {
             search: `${this.doubanFrodoApi}/search?q=$key$&count=$count$&apiKey=$apikey$`,
-            /* 
+            /*
               数据示例
               request: https://movie.douban.com/j/subject_suggest?q=tt0120762
               response:
@@ -427,7 +427,7 @@ class MovieInfoService {
         url: `${this.omitApiURL}/movie/top/${count}?apikey=${this.omitApiKeys[0]}`,
         timeout: this.timeout
       }).then((result) => {
-        if (result && result.data) {
+        if (result == null ? void 0 : result.data) {
           resolve(result.data);
         } else {
           reject();

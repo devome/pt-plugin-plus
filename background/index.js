@@ -8957,7 +8957,7 @@
      */
     checkPermissions(permissions) {
       return new Promise((resolve2, reject2) => {
-        if (chrome && chrome.permissions) {
+        if (chrome == null ? void 0 : chrome.permissions) {
           chrome.permissions.contains(
             {
               permissions
@@ -8985,7 +8985,7 @@
      */
     requestPermissions(permissions) {
       return new Promise((resolve2, reject2) => {
-        if (chrome && chrome.permissions) {
+        if (chrome == null ? void 0 : chrome.permissions) {
           chrome.permissions.request(
             {
               permissions
@@ -9040,16 +9040,17 @@
      * @param host
      */
     getSiteFromHost(host2, options2) {
+      var _a;
       let sites = [];
       if (options2.sites) {
         sites.push(...options2.sites);
       }
-      if (options2.system && options2.system.publicSites) {
+      if ((_a = options2.system) == null ? void 0 : _a.publicSites) {
         sites.push(...options2.system.publicSites);
       }
       let site2 = sites.find((item) => {
-        var _a;
-        let cdn = [item.url].concat(item.cdn, (_a = item.formerHosts) == null ? void 0 : _a.map((x) => `//${x}`));
+        var _a2;
+        let cdn = [item.url].concat(item.cdn, (_a2 = item.formerHosts) == null ? void 0 : _a2.map((x) => `//${x}`));
         return item.host == host2 || cdn.join("").indexOf(`//${host2}`) > -1;
       });
       if (site2) {
@@ -10235,14 +10236,13 @@
     },
     /**
      * 显示系统提示信息
-     * @param options
      */
     showNotifications(options2, timeout = 3e3) {
       PPF.showNotifications(options2, timeout);
     },
     getInstallType() {
       return new Promise((resolve2, reject2) => {
-        if (chrome && chrome.management) {
+        if (chrome == null ? void 0 : chrome.management) {
           chrome.management.getSelf((result2) => {
             if (result2.updateUrl && result2.updateUrl.indexOf("pt-plugins/PT-Plugin-Plus") > 0) {
               resolve2(EInstallType.crx);
@@ -10493,7 +10493,7 @@
     create() {
       return new Promise((resolve2, reject2) => {
         this.request("create").then((result2) => {
-          if (result2 && result2.data) {
+          if (result2 == null ? void 0 : result2.data) {
             resolve2(result2.data);
           } else {
             reject2();
@@ -10514,7 +10514,7 @@
           ERequestMethod.POST,
           formData
         ).then((result2) => {
-          if (result2 && result2.data === true) {
+          if ((result2 == null ? void 0 : result2.data) === true) {
             resolve2(true);
           } else {
             reject2(false);
@@ -10556,7 +10556,7 @@
           `${this.options.authCode}/delete/${path2}`,
           ERequestMethod.POST
         ).then((result2) => {
-          if (result2 && result2.data) {
+          if (result2 == null ? void 0 : result2.data) {
             resolve2(result2.data);
           } else {
             reject2(false);
@@ -10573,7 +10573,7 @@
     list(options2 = {}) {
       return new Promise((resolve2, reject2) => {
         this.request(`${this.options.authCode}/list`, ERequestMethod.GET, options2).then((result2) => {
-          if (result2 && result2.data) {
+          if (result2 == null ? void 0 : result2.data) {
             resolve2(result2.data);
           } else {
             reject2(false);
@@ -20874,7 +20874,7 @@
           {
             torrentTagSelectors: []
           },
-          schema && schema.searchEntryConfig ? schema.searchEntryConfig : {},
+          (schema == null ? void 0 : schema.searchEntryConfig) ?? {},
           siteService.options.searchEntryConfig
         );
         let searchEntryConfigQueryString = "";
@@ -22186,9 +22186,10 @@
           return;
         }
         this.getInfos(host2, url2, rule2, site2).then((result2) => {
+          var _a;
           console.log("userBaseInfo", host2, result2);
           userInfo2 = Object.assign({}, result2);
-          if (rule2 && rule2.fields && rule2.fields.isLogged) {
+          if ((_a = rule2 == null ? void 0 : rule2.fields) == null ? void 0 : _a.isLogged) {
             if (userInfo2.isLogged && (userInfo2.name || userInfo2.id)) {
               userInfo2.isLogged = true;
             } else {
@@ -22524,7 +22525,7 @@
           methods: {
             movie: {
               search: `${this.doubanFrodoApi}/search?q=$key$&count=$count$&apiKey=$apikey$`,
-              /* 
+              /*
                 数据示例
                 request: https://movie.douban.com/j/subject_suggest?q=tt0120762
                 response:
@@ -22936,7 +22937,7 @@
           url: `${this.omitApiURL}/movie/top/${count}?apikey=${this.omitApiKeys[0]}`,
           timeout: this.timeout
         }).then((result2) => {
-          if (result2 && result2.data) {
+          if (result2 == null ? void 0 : result2.data) {
             resolve2(result2.data);
           } else {
             reject2();
@@ -26484,11 +26485,11 @@
      * @param data 用户数据
      */
     update(site2, data2) {
-      let host2 = site2.host;
+      const host2 = site2.host;
       if (!host2) {
         return;
       }
-      let saveData = Object.assign({}, data2);
+      const saveData = Object.assign({}, data2);
       if (this.items == null) {
         this.load().then(() => {
           this.update(site2, data2);
@@ -26524,22 +26525,23 @@
      */
     upgrade() {
       return new Promise((resolve2, reject2) => {
-        if (this.service.options && this.service.options.system && this.service.options.system.sites) {
-          let sites = this.service.options.system.sites;
+        var _a, _b;
+        if ((_b = (_a = this.service.options) == null ? void 0 : _a.system) == null ? void 0 : _b.sites) {
+          const sites = this.service.options.system.sites;
           this.load().then((datas) => {
             if (datas) {
               sites.forEach((systemSite) => {
                 if (!systemSite.host) {
                   return;
                 }
-                let formerHosts = systemSite.formerHosts;
-                let newHost = systemSite.host;
+                const formerHosts = systemSite.formerHosts;
+                const newHost = systemSite.host;
                 if (formerHosts && formerHosts.length > 0) {
                   formerHosts.forEach((host2) => {
                     for (const key2 in datas) {
                       if (key2 == host2 && datas.hasOwnProperty(key2)) {
                         const element = datas[key2];
-                        datas[newHost] = Object.assign({}, element);
+                        datas[newHost] = Object.assign({}, element, datas[newHost] ?? {});
                         delete datas[key2];
                       }
                     }
@@ -30719,7 +30721,7 @@
     resetTimer(isInit = false) {
       clearInterval(this.autoRefreshUserDataTimer);
       let self2 = this;
-      if (typeof chrome === "object" && chrome.alarms) {
+      if (chrome == null ? void 0 : chrome.alarms) {
         chrome.alarms.clear(EAlarm.refreshJob, function(wasCleared) {
           if (wasCleared) {
             console.log(`Alarm ${EAlarm.refreshJob} was successfully cleared.`);

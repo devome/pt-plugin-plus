@@ -1,5 +1,5 @@
-import { E as Extension, V as Vue, a as EAction, n as normalizeComponent, t as ETorrentStatus, P as PPF, B as BASE_COLORS, u as EResourceOrderMode, v as EPaginationKey, g as EViewKey, w as eventBus, b as EModule, x as dayjs, y as EDataResultType, f as filters, D as Downloader, z as ERequestMethod, C as FileDownloader, h as ECommonKey, G as basicContext_minExports } from "./index-B3uaJg3z.js";
-import { D as DownloadTo, P as PathHandler } from "./DownloadTo-CxFhAV_a.js";
+import { E as Extension, V as Vue, a as EAction, n as normalizeComponent, t as ETorrentStatus, P as PPF, B as BASE_COLORS, u as EResourceOrderMode, v as EPaginationKey, g as EViewKey, w as eventBus, b as EModule, x as dayjs, y as EDataResultType, f as filters, D as Downloader, z as ERequestMethod, C as FileDownloader, h as ECommonKey, G as basicContext_minExports } from "./index-BgiwOuxK.js";
+import { D as DownloadTo, P as PathHandler } from "./DownloadTo-rtLwMrcK.js";
 const extension$3 = new Extension();
 const _sfc_main$5 = Vue.extend({
   props: {
@@ -975,16 +975,6 @@ const _sfc_main = Vue.extend({
       if (this.loading || !this.key)
         return;
       this.reset();
-      if (window.location.protocol === "http:") {
-        $.getJSON(
-          `http://${window.location.hostname}:8001/test/searchData.json`
-        ).done((result) => {
-          if (result) {
-            this.addSearchResult(result);
-          }
-        });
-        return;
-      }
       if (!this.options.system) {
         if (this.reloadCount >= 10) {
           this.errorMsg = this.$t(
@@ -1007,7 +997,7 @@ const _sfc_main = Vue.extend({
         return;
       }
       if (/(show-snapshot)-([a-z0-9]{32})/.test(this.key)) {
-        let match = this.key.match(/(show-snapshot)-([a-z0-9]{32})/);
+        const match = this.key.match(/(show-snapshot)-([a-z0-9]{32})/);
         if (match) {
           this.loadSearchResultSnapshot(match[2]);
           return;
