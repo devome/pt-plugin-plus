@@ -1,4 +1,4 @@
-import { k as commonjsGlobal, m as getDefaultExportFromCjs } from "./index-BgiwOuxK.js";
+import { k as commonjsGlobal, m as getDefaultExportFromCjs } from "./index-DFEae0o8.js";
 var domToImage$1 = { exports: {} };
 var domToImage = domToImage$1.exports;
 (function(module) {

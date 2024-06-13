@@ -1,5 +1,5 @@
-import { E as Extension, V as Vue, a as EAction, n as normalizeComponent, t as ETorrentStatus, P as PPF, B as BASE_COLORS, u as EResourceOrderMode, v as EPaginationKey, g as EViewKey, w as eventBus, b as EModule, x as dayjs, y as EDataResultType, f as filters, D as Downloader, z as ERequestMethod, C as FileDownloader, h as ECommonKey, G as basicContext_minExports } from "./index-BgiwOuxK.js";
-import { D as DownloadTo, P as PathHandler } from "./DownloadTo-rtLwMrcK.js";
+import { E as Extension, V as Vue, a as EAction, n as normalizeComponent, t as ETorrentStatus, P as PPF, B as BASE_COLORS, u as EResourceOrderMode, v as EPaginationKey, g as EViewKey, w as eventBus, b as EModule, x as dayjs, y as EDataResultType, f as filters, D as Downloader, z as ERequestMethod, C as FileDownloader, h as ECommonKey, G as basicContext_minExports } from "./index-DFEae0o8.js";
+import { D as DownloadTo, P as PathHandler } from "./DownloadTo-BF-H_bUs.js";
 const extension$3 = new Extension();
 const _sfc_main$5 = Vue.extend({
   props: {
@@ -387,10 +387,10 @@ const _sfc_main$2 = Vue.extend({
 });
 var _sfc_render$2 = function render4() {
   var _vm = this, _c = _vm._self._c, _setup = _vm._self._setupProxy;
-  return _c("div", { staticClass: "torrent-actions" }, [_c("DownloadTo", { staticClass: "mx-0", attrs: { "downloadOptions": _vm.item, "flat": "", "icon": "", "small": "", "mini": _vm.$vuetify.breakpoint.smAndDown, "color": "grey darken-1" }, on: { "error": _vm.downloadError, "success": _vm.downloadSuccess } }), _c("v-btn", { class: _vm.$vuetify.breakpoint.mdAndUp ? "mx-0" : "mx-0 btn-mini", attrs: { "flat": "", "icon": "", "small": "", "color": "grey darken-1" } }, [_c("v-icon", { attrs: { "small": "", "title": _vm.$t("searchTorrent.copyToClipboardTip") }, on: { "click": _vm.copyLinkToClipboard } }, [_vm._v("file_copy")])], 1), _vm.downloadMethod == "POST" ? _c("v-btn", { class: _vm.$vuetify.breakpoint.mdAndUp ? "mx-0" : "mx-0 btn-mini", attrs: { "flat": "", "icon": "", "small": "", "color": "grey darken-1" } }, [_c("v-icon", { attrs: { "small": "", "title": _vm.$t("searchTorrent.saveTip") }, on: { "click": function($event) {
+  return _c("div", { staticClass: "torrent-actions" }, [_c("DownloadTo", { staticClass: "mx-0", attrs: { "downloadOptions": _vm.item, "flat": "", "icon": "", "small": "", "mini": _vm.$vuetify.breakpoint.smAndDown, "color": "grey darken-1" }, on: { "error": _vm.downloadError, "success": _vm.downloadSuccess } }), _c("v-btn", { class: _vm.$vuetify.breakpoint.mdAndUp ? "mx-0" : "mx-0 btn-mini", attrs: { "flat": "", "icon": "", "small": "", "color": "grey darken-1" } }, [_c("v-icon", { attrs: { "small": "", "title": _vm.$t("searchTorrent.copyToClipboardTip") }, on: { "click": _vm.copyLinkToClipboard } }, [_vm._v("file_copy")])], 1), _c("v-btn", { class: _vm.$vuetify.breakpoint.mdAndUp ? "mx-0" : "mx-0 btn-mini", attrs: { "flat": "", "icon": "", "small": "", "color": "grey darken-1" } }, [_c("v-icon", { attrs: { "small": "", "title": _vm.$t("searchTorrent.saveTip") }, on: { "click": function($event) {
     $event.stopPropagation();
     return _vm.saveTorrentFile.apply(null, arguments);
-  } } }, [_vm._v("save")])], 1) : _c("v-btn", { class: _vm.$vuetify.breakpoint.mdAndUp ? "mx-0" : "mx-0 btn-mini", attrs: { "flat": "", "icon": "", "small": "", "href": _vm.url, "target": "_blank", "rel": "noopener noreferrer nofollow", "title": _vm.$t("searchTorrent.saveTip"), "color": "grey darken-1" } }, [_c("v-icon", { attrs: { "small": "" } }, [_vm._v("save")])], 1), !_vm.isCollectioned ? _c("v-btn", { class: _vm.$vuetify.breakpoint.mdAndUp ? "mx-0" : "mx-0 btn-mini", attrs: { "flat": "", "icon": "", "small": "", "color": "grey darken-1", "title": _vm.$t("collection.add") }, on: { "click": _vm.addToCollection } }, [_c("v-icon", { attrs: { "small": "" } }, [_vm._v("favorite_border")])], 1) : _c("v-btn", { class: _vm.$vuetify.breakpoint.mdAndUp ? "mx-0" : "mx-0 btn-mini", attrs: { "flat": "", "icon": "", "small": "", "color": "pink", "title": _vm.$t("collection.remove") }, on: { "click": _vm.deleteCollection } }, [_c("v-icon", { attrs: { "small": "" } }, [_vm._v("favorite")])], 1)], 1);
+  } } }, [_vm._v("save")])], 1), !_vm.isCollectioned ? _c("v-btn", { class: _vm.$vuetify.breakpoint.mdAndUp ? "mx-0" : "mx-0 btn-mini", attrs: { "flat": "", "icon": "", "small": "", "color": "grey darken-1", "title": _vm.$t("collection.add") }, on: { "click": _vm.addToCollection } }, [_c("v-icon", { attrs: { "small": "" } }, [_vm._v("favorite_border")])], 1) : _c("v-btn", { class: _vm.$vuetify.breakpoint.mdAndUp ? "mx-0" : "mx-0 btn-mini", attrs: { "flat": "", "icon": "", "small": "", "color": "pink", "title": _vm.$t("collection.remove") }, on: { "click": _vm.deleteCollection } }, [_c("v-icon", { attrs: { "small": "" } }, [_vm._v("favorite")])], 1)], 1);
 };
 var _sfc_staticRenderFns$2 = [];
 var __component__$2 = /* @__PURE__ */ normalizeComponent(
@@ -1750,16 +1750,19 @@ const _sfc_main = Vue.extend({
     /**
      * 下载已选中的种子文件
      */
-    downloadSelected() {
+    async downloadSelected() {
       let files = [];
-      this.selected.forEach((item) => {
-        item.url && files.push({
-          url: item.url,
+      for (let i = 0; i < this.selected.length; i++) {
+        const item = this.selected[i];
+        console.log(`[${i}]解析 ${item.title} 的 url: ${item.url}`);
+        const url = this.processURLWithPrefix("m-teamdetail", item.site, item.url);
+        url && files.push({
+          url,
           fileName: `[${item.site.name}][${item.title}].torrent`,
           method: item.site.downloadMethod,
           timeout: this.options.connectClientTimeout
         });
-      });
+      }
       console.log(files);
       if (files.length) {
         if (files.length > 1) {
