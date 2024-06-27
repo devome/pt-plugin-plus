@@ -1,4 +1,4 @@
-import { V as Vue, n as normalizeComponent, E as Extension, f as filters, a as EAction, b as EModule, F as FileSaver, P as PPF } from "./index-DFEae0o8.js";
+import { V as Vue, n as normalizeComponent, E as Extension, f as filters, a as EAction, b as EModule, F as FileSaver, P as PPF } from "./index-Bt-TwjR4.js";
 const _sfc_main$4 = Vue.extend({
   data() {
     return {
@@ -12,6 +12,7 @@ const _sfc_main$4 = Vue.extend({
         }
       },
       cdn: "",
+      apiCdn: "",
       quickLinkText: "",
       valid: false,
       site: {},
@@ -156,6 +157,11 @@ const _sfc_main$4 = Vue.extend({
         } else {
           this.cdn = "";
         }
+        if (this.site.apiCdn) {
+          this.apiCdn = this.site.apiCdn.join("\n");
+        } else {
+          this.apiCdn = "";
+        }
         if (this.site.userQuickLinks) {
           this.quickLinkText = this.site.userQuickLinks.map((u) => `${u.desc},${u.href},${u.color ? u.color : ""}`).join("\n");
         } else {
@@ -184,6 +190,18 @@ const _sfc_main$4 = Vue.extend({
         this.site.activeURL = this.site.url;
       }
       this.site.cdn = result;
+    },
+    apiCdn() {
+      let items = this.apiCdn.split("\n");
+      let result = [];
+      items.forEach((apiCdn) => {
+        if (/(https?):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/.test(
+          apiCdn
+        )) {
+          result.push(apiCdn);
+        }
+      });
+      this.site.apiCdn = result;
     },
     quickLinkText() {
       this.site.userQuickLinks = this.quickLinkText.split(/\n/).filter((_) => !!_).map((_) => _.split(/\s*[,，]\s*/)).filter(([desc, href, color]) => {
@@ -246,7 +264,9 @@ var _sfc_render$4 = function render() {
     _vm.$set(_vm.site, "priority", $$v);
   }, expression: "site.priority" } }), _c("v-textarea", { attrs: { "label": _vm.$t("settings.sites.editor.cdn"), "value": "", "hint": _vm.$t("settings.sites.editor.cdnTip") }, model: { value: _vm.cdn, callback: function($$v) {
     _vm.cdn = $$v;
-  }, expression: "cdn" } }), _c("v-autocomplete", { attrs: { "items": _vm.timezone, "label": _vm.$t("settings.sites.editor.timezone"), "persistent-hint": "", "item-text": "text", "item-value": "value" }, model: { value: _vm.site.timezoneOffset, callback: function($$v) {
+  }, expression: "cdn" } }), _c("v-textarea", { attrs: { "label": _vm.$t("settings.sites.editor.apiCdn"), "value": "", "hint": _vm.$t("settings.sites.editor.cdnTip") }, model: { value: _vm.apiCdn, callback: function($$v) {
+    _vm.apiCdn = $$v;
+  }, expression: "apiCdn" } }), _c("v-autocomplete", { attrs: { "items": _vm.timezone, "label": _vm.$t("settings.sites.editor.timezone"), "persistent-hint": "", "item-text": "text", "item-value": "value" }, model: { value: _vm.site.timezoneOffset, callback: function($$v) {
     _vm.$set(_vm.site, "timezoneOffset", $$v);
   }, expression: "site.timezoneOffset" } }), _c("v-text-field", { attrs: { "label": _vm.$t("settings.sites.editor.description") }, model: { value: _vm.site.description, callback: function($$v) {
     _vm.$set(_vm.site, "description", $$v);

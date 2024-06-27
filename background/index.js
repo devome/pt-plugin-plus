@@ -9050,7 +9050,7 @@
       }
       let site2 = sites.find((item) => {
         var _a2;
-        let cdn = [item.url].concat(item.cdn, (_a2 = item.formerHosts) == null ? void 0 : _a2.map((x) => `//${x}`));
+        let cdn = [item.url].concat(item.cdn, item.apiCdn, (_a2 = item.formerHosts) == null ? void 0 : _a2.map((x) => `//${x}`));
         return item.host == host2 || cdn.join("").indexOf(`//${host2}`) > -1;
       });
       if (site2) {
@@ -9141,6 +9141,8 @@
      * 比如右键种子发送到 PTPP, 按正常逻辑筛选一遍
      */
     getSiteActiveUrl(site2) {
+      if (site2.apiCdn && site2.apiCdn.length > 0)
+        return site2.apiCdn[0];
       if (site2.activeURL)
         return site2.activeURL;
       if (site2.cdn && site2.cdn.length > 0)
@@ -21099,7 +21101,15 @@
             if ((searchPage + "").substr(0, 1) == "/") {
               searchPage = (searchPage + "").substr(1);
             }
-            let url2 = site.url + searchPage;
+            let url2 = "";
+            if (site.apiCdn && site.apiCdn.length > 0) {
+              if (!site.apiCdn[0].endsWith("/")) {
+                site.apiCdn[0] += "/";
+              }
+              url2 = site.apiCdn[0] + searchPage;
+            } else {
+              url2 = site.url + searchPage;
+            }
             if (queryString) {
               if (searchPage.indexOf("?") !== -1) {
                 url2 += "&" + queryString;
@@ -22146,6 +22156,9 @@
       this.service.userData.update(site2, userInfo2);
     }
     getSiteURL(site2) {
+      if (site2.apiCdn && site2.apiCdn.length > 0) {
+        return site2.apiCdn[0];
+      }
       if (site2.cdn && site2.cdn.length > 0) {
         return site2.cdn[0];
       }
@@ -24727,7 +24740,7 @@
      */
     getSiteFromHost(host2) {
       return this.options.sites.find((item) => {
-        let cdn = [item.url].concat(item.cdn);
+        let cdn = [item.url].concat(item.cdn, item.apiCdn);
         return item.host == host2 || cdn.join("").indexOf(host2) > -1;
       });
     }

@@ -1,4 +1,4 @@
-const __vite__fileDeps=["assets/Index-BINMobra.js","assets/Index-BEuPPN6k.css","assets/SupportSchema-y8xfS11c.js","assets/SupportSchema-BvqZQJrG.css","assets/Index-DxMmv91J.js","assets/Index-Vq83NoNm.css","assets/Index-CnYDA0ts.js","assets/Index-Bh0Arh92.css","assets/Index-Cyro7X9W.js","assets/Index-zt_nQyKt.css","assets/Index-CejkMbof.js","assets/Index-D15lVdF7.css","assets/Index-DU3IDKrU.js","assets/Index-B4ra-pBE.css","assets/SearchTorrent-DGLl0fat.js","assets/DownloadTo-BF-H_bUs.js","assets/SearchTorrent-BQzflRra.css","assets/History-C8X9BUQ_.js","assets/History-DBBQckhe.css","assets/SystemLogs-BCDmIFNU.js","assets/SystemLogs-DZO5-4jl.css","assets/Index-D-J-bEbY.js","assets/Index-CAOoZwoa.css","assets/UserDataTimeline-gG30nGRD.js","assets/dom-to-image-D6VQCR04.js","assets/UserDataTimeline-2nK2yT6_.css","assets/SiteBase-DBNd41Uz.js","assets/SiteBase-CDPU0ITk.css","assets/Index-CkkhobVr.js","assets/Index-BJCuj4hq.css","assets/KeepUploadTasks-BlgT9SYm.js","assets/KeepUploadTasks-C_8T016q.css"],__vite__mapDeps=i=>i.map(i=>__vite__fileDeps[i]);
+const __vite__fileDeps=["assets/Index-Bmi22DQD.js","assets/Index-BEuPPN6k.css","assets/SupportSchema-CaEajP2a.js","assets/SupportSchema-BvqZQJrG.css","assets/Index-BFnHLptZ.js","assets/Index-Vq83NoNm.css","assets/Index-C7vQst3C.js","assets/Index-Bh0Arh92.css","assets/Index-BOqj235g.js","assets/Index-zt_nQyKt.css","assets/Index-BC1w4N0R.js","assets/Index-D15lVdF7.css","assets/Index-yeXbmeVv.js","assets/Index-B4ra-pBE.css","assets/SearchTorrent-B_vN__gh.js","assets/DownloadTo-C0GBaI_c.js","assets/SearchTorrent-BQzflRra.css","assets/History-DFT2J02i.js","assets/History-DBBQckhe.css","assets/SystemLogs-LpB_3ccR.js","assets/SystemLogs-DZO5-4jl.css","assets/Index-duUgdTSI.js","assets/Index-CAOoZwoa.css","assets/UserDataTimeline-BtkXn2oW.js","assets/dom-to-image-DjoElE0A.js","assets/UserDataTimeline-2nK2yT6_.css","assets/SiteBase-C3Uj1NvU.js","assets/SiteBase-CDPU0ITk.css","assets/Index-C5XWJvbG.js","assets/Index-BJCuj4hq.css","assets/KeepUploadTasks-CpZB8xMi.js","assets/KeepUploadTasks-C_8T016q.css"],__vite__mapDeps=i=>i.map(i=>__vite__fileDeps[i]);
 (function polyfill() {
   const relList = document.createElement("link").relList;
   if (relList && relList.supports && relList.supports("modulepreload")) {
@@ -44011,7 +44011,7 @@ class HelpFunctions {
     }
     let site = sites.find((item) => {
       var _a2;
-      let cdn = [item.url].concat(item.cdn, (_a2 = item.formerHosts) == null ? void 0 : _a2.map((x) => `//${x}`));
+      let cdn = [item.url].concat(item.cdn, item.apiCdn, (_a2 = item.formerHosts) == null ? void 0 : _a2.map((x) => `//${x}`));
       return item.host == host || cdn.join("").indexOf(`//${host}`) > -1;
     });
     if (site) {
@@ -44102,6 +44102,8 @@ class HelpFunctions {
    * 比如右键种子发送到 PTPP, 按正常逻辑筛选一遍
    */
   getSiteActiveUrl(site) {
+    if (site.apiCdn && site.apiCdn.length > 0)
+      return site.apiCdn[0];
     if (site.activeURL)
       return site.activeURL;
     if (site.cdn && site.cdn.length > 0)
@@ -49466,7 +49468,7 @@ const router = new VueRouter({
     {
       path: "/set-sites",
       name: "set-sites",
-      component: () => __vitePreload(() => import("./Index-BINMobra.js"), true ? __vite__mapDeps([0,1]) : void 0),
+      component: () => __vitePreload(() => import("./Index-Bmi22DQD.js"), true ? __vite__mapDeps([0,1]) : void 0),
       meta: {
         // 需要被缓存
         keepAlive: true
@@ -49475,58 +49477,58 @@ const router = new VueRouter({
     {
       path: "/set-support-schema",
       name: "set-support-schema",
-      component: () => __vitePreload(() => import("./SupportSchema-y8xfS11c.js"), true ? __vite__mapDeps([2,3]) : void 0)
+      component: () => __vitePreload(() => import("./SupportSchema-CaEajP2a.js"), true ? __vite__mapDeps([2,3]) : void 0)
     },
     {
       path: "/set-download-clients",
       name: "set-download-clients",
-      component: () => __vitePreload(() => import("./Index-DxMmv91J.js"), true ? __vite__mapDeps([4,5]) : void 0)
+      component: () => __vitePreload(() => import("./Index-BFnHLptZ.js"), true ? __vite__mapDeps([4,5]) : void 0)
     },
     {
       path: "/set-base",
       name: "set-base",
-      component: () => __vitePreload(() => import("./Index-CnYDA0ts.js"), true ? __vite__mapDeps([6,7]) : void 0)
+      component: () => __vitePreload(() => import("./Index-C7vQst3C.js"), true ? __vite__mapDeps([6,7]) : void 0)
     },
     {
       path: "/set-download-paths",
       name: "set-download-paths",
-      component: () => __vitePreload(() => import("./Index-Cyro7X9W.js"), true ? __vite__mapDeps([8,9]) : void 0)
+      component: () => __vitePreload(() => import("./Index-BOqj235g.js"), true ? __vite__mapDeps([8,9]) : void 0)
     },
     {
       path: "/set-backup",
       name: "set-backup",
-      component: () => __vitePreload(() => import("./Index-NtAvpkD2.js"), true ? [] : void 0)
+      component: () => __vitePreload(() => import("./Index-DCNkNOpF.js"), true ? [] : void 0)
     },
     {
       path: "/technology-stack",
       name: "technology-stack",
-      component: () => __vitePreload(() => import("./TechnologyStack-CI7VSCLD.js"), true ? [] : void 0)
+      component: () => __vitePreload(() => import("./TechnologyStack-B5zt7eYT.js"), true ? [] : void 0)
     },
     {
       path: "/set-language",
       name: "set-language",
-      component: () => __vitePreload(() => import("./Index-C61qiTbo.js"), true ? [] : void 0)
+      component: () => __vitePreload(() => import("./Index-DJwaEv-z.js"), true ? [] : void 0)
     },
     {
       path: "/set-search-solution",
       name: "set-search-solution",
-      component: () => __vitePreload(() => import("./Index-CejkMbof.js"), true ? __vite__mapDeps([10,11]) : void 0)
+      component: () => __vitePreload(() => import("./Index-BC1w4N0R.js"), true ? __vite__mapDeps([10,11]) : void 0)
     },
     {
       path: "/donate",
       name: "donate",
-      component: () => __vitePreload(() => import("./Donate-Bz0o2ypt.js"), true ? [] : void 0)
+      component: () => __vitePreload(() => import("./Donate-De7oVJFX.js"), true ? [] : void 0)
     },
     {
       path: "/set-site-plugins/:host",
       name: "set-site-plugins",
-      component: () => __vitePreload(() => import("./Index-DU3IDKrU.js"), true ? __vite__mapDeps([12,13]) : void 0),
+      component: () => __vitePreload(() => import("./Index-yeXbmeVv.js"), true ? __vite__mapDeps([12,13]) : void 0),
       props: true
     },
     {
       path: "/search-torrent/:key?/:host?",
       name: "search-torrent",
-      component: () => __vitePreload(() => import("./SearchTorrent-DGLl0fat.js"), true ? __vite__mapDeps([14,15,16]) : void 0),
+      component: () => __vitePreload(() => import("./SearchTorrent-B_vN__gh.js"), true ? __vite__mapDeps([14,15,16]) : void 0),
       props: true,
       meta: {
         // 需要被缓存
@@ -49536,33 +49538,33 @@ const router = new VueRouter({
     {
       path: "/history",
       name: "history",
-      component: () => __vitePreload(() => import("./History-C8X9BUQ_.js"), true ? __vite__mapDeps([17,15,18]) : void 0)
+      component: () => __vitePreload(() => import("./History-DFT2J02i.js"), true ? __vite__mapDeps([17,15,18]) : void 0)
     },
     {
       path: "/system-logs",
       name: "system-logs",
-      component: () => __vitePreload(() => import("./SystemLogs-BCDmIFNU.js"), true ? __vite__mapDeps([19,20]) : void 0)
+      component: () => __vitePreload(() => import("./SystemLogs-LpB_3ccR.js"), true ? __vite__mapDeps([19,20]) : void 0)
     },
     {
       path: "/set-site-search-entry/:host",
       name: "set-site-search-entry",
-      component: () => __vitePreload(() => import("./Index-D-J-bEbY.js"), true ? __vite__mapDeps([21,22]) : void 0),
+      component: () => __vitePreload(() => import("./Index-duUgdTSI.js"), true ? __vite__mapDeps([21,22]) : void 0),
       props: true
     },
     {
       path: "/dev-team",
       name: "dev-team",
-      component: () => __vitePreload(() => import("./Teams-fosrHBba.js"), true ? [] : void 0)
+      component: () => __vitePreload(() => import("./Teams-BEMNR_By.js"), true ? [] : void 0)
     },
     {
       path: "/user-data-timeline",
       name: "user-data-timeline",
-      component: () => __vitePreload(() => import("./UserDataTimeline-gG30nGRD.js"), true ? __vite__mapDeps([23,24,25]) : void 0)
+      component: () => __vitePreload(() => import("./UserDataTimeline-BtkXn2oW.js"), true ? __vite__mapDeps([23,24,25]) : void 0)
     },
     {
       path: "/statistic/:host?",
       name: "statistic",
-      component: () => __vitePreload(() => import("./SiteBase-DBNd41Uz.js"), true ? __vite__mapDeps([26,24,27]) : void 0)
+      component: () => __vitePreload(() => import("./SiteBase-C3Uj1NvU.js"), true ? __vite__mapDeps([26,24,27]) : void 0)
     },
     {
       path: "/set-permissions",
@@ -49572,7 +49574,7 @@ const router = new VueRouter({
     {
       path: "/collection",
       name: "collection",
-      component: () => __vitePreload(() => import("./Index-CkkhobVr.js"), true ? __vite__mapDeps([28,15,29]) : void 0),
+      component: () => __vitePreload(() => import("./Index-C5XWJvbG.js"), true ? __vite__mapDeps([28,15,29]) : void 0),
       meta: {
         // 需要被缓存
         keepAlive: true
@@ -49581,12 +49583,12 @@ const router = new VueRouter({
     {
       path: "/search-result-snapshot",
       name: "search-result-snapshot",
-      component: () => __vitePreload(() => import("./SearchResultSnapshot-DBWDotgp.js"), true ? [] : void 0)
+      component: () => __vitePreload(() => import("./SearchResultSnapshot-BMTz2s65.js"), true ? [] : void 0)
     },
     {
       path: "/keep-upload-task",
       name: "keep-upload-task",
-      component: () => __vitePreload(() => import("./KeepUploadTasks-BlgT9SYm.js"), true ? __vite__mapDeps([30,15,31]) : void 0)
+      component: () => __vitePreload(() => import("./KeepUploadTasks-CpZB8xMi.js"), true ? __vite__mapDeps([30,15,31]) : void 0)
     }
   ]
 });

@@ -1,5 +1,5 @@
-import { E as Extension, V as Vue, g as EViewKey, I as ETagType, J as EUserDataRequestStatus, a as EAction, P as PPF, x as dayjs, F as FileSaver, n as normalizeComponent } from "./index-DFEae0o8.js";
-import { d as domtoimage } from "./dom-to-image-D6VQCR04.js";
+import { E as Extension, V as Vue, g as EViewKey, I as ETagType, J as EUserDataRequestStatus, a as EAction, P as PPF, x as dayjs, F as FileSaver, n as normalizeComponent } from "./index-Bt-TwjR4.js";
+import { d as domtoimage } from "./dom-to-image-DjoElE0A.js";
 const extension = new Extension();
 const _sfc_main = Vue.extend({
   data() {
