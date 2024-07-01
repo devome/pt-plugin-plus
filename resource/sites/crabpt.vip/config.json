@@ -1,0 +1,257 @@
+{
+  "name": "蟹黄堡",
+  "timezoneOffset": "+0800",
+  "description": "综合性网站，有分享率要求",
+  "url": "https://crabpt.vip/",
+  "icon": "https://crabpt.vip/favicon.ico",
+  "schema": "NexusPHP",
+  "host": "crabpt.vip",
+  "cdn": [
+    "https://crabpt.vip/"
+  ],
+  "tags": [
+    "影视",
+    "综合"
+  ],
+  "levelRequirements": [
+    {
+      "level": "1",
+      "name": "Power User",
+      "interval": "4",
+      "downloaded": "50GB",
+      "ratio": "1.05",
+      "seedingPoints": "40000",
+      "privilege": "得到一个邀请名额；可以直接发布种子；可以查看NFO文档；可以查看用户列表；可以请求续种； 可以发送邀请； 可以查看排行榜；可以查看其它用户的种子历史(如果用户隐私等级未设置为\"强\")； 可以删除自己上传的字幕。"
+    },
+    {
+      "level": "2",
+      "name": "Elite User",
+      "interval": "8",
+      "downloaded": "120GB",
+      "ratio": "1.55",
+      "seedingPoints": "80000",
+      "privilege": "Elite User及以上用户封存账号后不会被删除。"
+    },
+    {
+      "level": "3",
+      "name": "Crazy User",
+      "interval": "15",
+      "downloaded": "300GB",
+      "ratio": "2.05",
+      "seedingPoints": "150000",
+      "privilege": "得到两个邀请名额; 可以在做种/下载/发布的时候选择匿名模式。"
+    },
+    {
+      "level": "4",
+      "name": "Insane User",
+      "interval": "25",
+      "downloaded": "500GB",
+      "ratio": "2.55",
+      "seedingPoints": "250000",
+      "privilege": "可以查看普通日志。"
+    },
+    {
+      "level": "5",
+      "name": "Veteran User",
+      "interval": "40",
+      "downloaded": "750GB",
+      "ratio": "3.05",
+      "seedingPoints": "400000",
+      "privilege": "得到三个邀请名额；可以查看其它用户的评论、帖子历史；Veteran User及以上用户会永远保留账号。"
+    },
+    {
+      "level": "6",
+      "name": "Extreme User",
+      "interval": "60",
+      "downloaded": "1TB",
+      "ratio": "3.55",
+      "seedingPoints": "600000",
+      "privilege": "可以更新过期的外部信息；可以查看Extreme User论坛。"
+    },
+    {
+      "level": "7",
+      "name": "Ultimate User",
+      "interval": "80",
+      "downloaded": "1.5TB",
+      "ratio": "4.05",
+      "seedingPoints": "800000",
+      "privilege": "得到五个邀请名额。"
+    },
+    {
+      "level": "8",
+      "name": "Nexus Master",
+      "interval": "100",
+      "downloaded": "3TB",
+      "ratio": "4.55",
+      "seedingPoints": "1000000",
+      "privilege": "得到十个邀请名额。"
+    }
+  ],
+  "collaborator": "trim21",
+  "searchEntry": [
+    {
+      "name": "全站",
+      "enabled": true
+    },
+    {
+      "queryString": "cat=401",
+      "name": "电影 / Movies",
+      "enabled": false
+    },
+    {
+      "queryString": "cat=402",
+      "name": "电视剧 / TVSeries",
+      "enabled": false
+    },
+    {
+      "queryString": "cat=413",
+      "name": "短剧 / Playlet",
+      "enabled": false
+    },
+    {
+      "queryString": "cat=408",
+      "name": "音乐 / Music",
+      "enabled": false
+    },
+    {
+      "queryString": "cat=405",
+      "name": "动漫 / Anime",
+      "enabled": false
+    },
+    {
+      "queryString": "cat=406",
+      "name": "MV",
+      "enabled": false
+    },
+    {
+      "queryString": "cat=403",
+      "name": "综艺 / TV-Shows",
+      "enabled": false
+    },
+    {
+      "queryString": "cat=407",
+      "name": "竞技体育 / Sports",
+      "enabled": false
+    },
+    {
+      "queryString": "cat=409",
+      "name": "其他 / Others",
+      "enabled": false
+    },
+    {
+      "queryString": "cat=404",
+      "name": "纪录片 / Documentary",
+      "enabled": false
+    }
+  ],
+  "categories": [],
+  "searchEntryConfig": {
+    "fieldSelector": {
+      "progress": {
+        "selector": [
+          "div.progressBar > div"
+        ],
+        "filters": [
+          "query.attr('style')||''",
+          "query.match(/width:.?(\\d.+)%/)",
+          "(query && query.length>=2)?query[1]:null"
+        ]
+      },
+      "status": {
+        "selector": [
+          "div.progressBar.doing > div",
+          "div.progressBar > div"
+        ],
+        "switchFilters": [
+          [
+            "query.attr('style')||''",
+            "query.match(/width:.?(\\d.+)%/)",
+            "(query && query.length>=2)?query[1]:0",
+            "parseInt(query)==100?2:1"
+          ],
+          [
+            "255"
+          ]
+        ]
+      }
+    }
+  },
+  "plugins": [
+    {
+      "name": "保种列表",
+      "pages": [
+        "/rescue.php"
+      ],
+      "scripts": [
+        "/schemas/NexusPHP/common.js",
+        "/schemas/NexusPHP/torrents.js"
+      ]
+    }
+  ],
+  "mergeSchemaTagSelectors": true,
+  "torrentTagSelectors": [
+    {
+      "name": "⛔️",
+      "selector": "div.tag-jz"
+    }
+  ],
+  "selectors": {
+    "userExtendInfo": {
+      "merge": true,
+      "fields": {
+        "bonus": {
+          "selector": [
+            "td.rowhead:contains('蟹币值') + td",
+            "td.rowhead:contains('做种积分') + td"
+          ],
+          "filters": [
+            "query.text().replace(/,/g,'')",
+            "parseFloat(query)"
+          ]
+        }
+      }
+    },
+    "userSeedingTorrents": {
+      "prerequisites": "!user.seeding",
+      "page": "/getusertorrentlistajax.php?userid=$user.id$&type=seeding",
+      "headers": {
+        "Overwrite-Referer": "https://audiences.me/userdetails.php?id=$user.id$"
+      },
+      "fields": {
+        "seeding": {
+          "selector": [
+            "tr:not(:eq(0))"
+          ],
+          "filters": [
+            "let l={}; query.each(function() { l[jQuery(this).find('td.rowfollow:eq(1) a').attr('href')] = jQuery(this).find('td.rowfollow:eq(2)').text(); }); Object.keys(l).length;"
+          ]
+        },
+        "seedingSize": {
+          "selector": "",
+          "filters": [
+            "query.text().match(/总大小：(.*?)上一页/g)",
+            "(query && query.length>0) ? query[0].replace('总大小：', '').replace('<< 上一页', '').trim() : 0",
+            "(query != 0) ? query.sizeToNumber() : 0"
+          ]
+        }
+      }
+    },
+    "userUploadedTorrents": {
+      "prerequisites": "!user.uploads",
+      "page": "/getusertorrentlistajax.php?userid=$user.id$&type=uploaded",
+      "headers": {
+        "Overwrite-Referer": "https://audiences.me/userdetails.php?id=$user.id$"
+      },
+      "fields": {
+        "uploads": {
+          "selector": [
+            "b:first"
+          ],
+          "filters": [
+            "query ? parseInt(query.text().trim().replace(/,/g,'')) : 0"
+          ]
+        }
+      }
+    }
+  }
+}
