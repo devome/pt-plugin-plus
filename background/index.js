@@ -9299,29 +9299,32 @@
       let format2 = "###,###,###,###.000 ";
       if (bytes < 1e3 * Math.pow(2, 10)) {
         r2 = bytes / Math.pow(2, 10);
+        r2 = Math.round(r2 * 100) / 100;
         u2 = "KiB";
       } else if (bytes < 1e3 * Math.pow(2, 20)) {
         r2 = bytes / Math.pow(2, 20);
+        r2 = Math.round(r2 * 100) / 100;
         u2 = "MiB";
       } else if (bytes < 1e3 * Math.pow(2, 30)) {
         r2 = bytes / Math.pow(2, 30);
+        r2 = Math.round(r2 * 100) / 100;
         u2 = "GiB";
       } else if (bytes < 1e3 * Math.pow(2, 40)) {
         r2 = bytes / Math.pow(2, 40);
+        r2 = Math.round(r2 * 100) / 100;
         u2 = "TiB";
-        format = format2;
       } else if (bytes < 1e3 * Math.pow(2, 50)) {
         r2 = bytes / Math.pow(2, 50);
+        r2 = Math.round(r2 * 100) / 100;
         u2 = "PiB";
-        format = format2;
       } else if (bytes < 1e3 * Math.pow(2, 60)) {
         r2 = bytes / Math.pow(2, 60);
+        r2 = Math.round(r2 * 100) / 100;
         u2 = "EiB";
-        format = format2;
       } else {
         r2 = bytes / Math.pow(2, 70);
+        r2 = Math.round(r2 * 100) / 100;
         u2 = "ZiB";
-        format = format2;
       }
       if (type === "speed") {
         u2 += "/s";
