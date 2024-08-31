@@ -76,6 +76,34 @@
     });
     return length;
   };
+  String.prototype.parseTime = function() {
+    const timeMatch = this.match(/\d+[分时天月年]/g);
+    let length = 0;
+    timeMatch.forEach((time) => {
+      const timeMatch2 = time.match(/(\d+)([分时天月年])/);
+      const number = parseInt(timeMatch2[1]);
+      const unit = timeMatch2[2];
+      switch (true) {
+        case unit === "分":
+          length += number;
+          break;
+        case unit === "时":
+          length += number * 60;
+          break;
+        case unit === "天":
+          length += number * 60 * 24;
+          break;
+        case unit === "月":
+          length += number * 60 * 24 * 30;
+          break;
+        case unit === "年":
+          length += number * 60 * 24 * 365;
+          break;
+        default:
+      }
+    });
+    return new Date(Date.now() - length * 60 * 1e3).toLocaleString("zh-CN", { hour12: false }).replace(/\//g, "-");
+  };
   var ESizeUnit = /* @__PURE__ */ ((ESizeUnit2) => {
     ESizeUnit2["ZiB"] = "ZiB";
     ESizeUnit2["EiB"] = "EiB";
@@ -22372,7 +22400,7 @@
           contentType: rule2.requestContentType == "application/json" ? "application/json" : "application/x-www-form-urlencoded",
           headers: rule2.headers,
           timeout: this.service.options.connectClientTimeout || 3e4,
-          cache: rule2.dataType && rule2.dataType !== ERequestResultType.JSON ? false : true
+          cache: rule2.dataType && rule2.dataType == ERequestResultType.JSON ? true : false
         }).done((result2) => {
           this.removeQueue(host2, url2);
           PPF.updateBadge(--this.requestQueueCount);
