@@ -1,4 +1,4 @@
-import { V as Vue, n as normalizeComponent, E as Extension, f as filters, a as EAction, b as EModule, F as FileSaver, P as PPF } from "./index-CkDrmPxA.js";
+import { V as Vue, n as normalizeComponent, E as Extension, f as filters, a as EAction, b as EModule, F as FileSaver, P as PPF } from "./index-_BpZx2GH.js";
 const _sfc_main$4 = Vue.extend({
   data() {
     return {
@@ -278,7 +278,7 @@ var _sfc_render$4 = function render() {
     _vm.$set(_vm.site, "defaultClientId", $$v);
   }, expression: "site.defaultClientId" } }), _c("v-text-field", { attrs: { "type": "number", "label": _vm.$t("settings.sites.editor.upLoadLimit"), "placeholder": _vm.$t("settings.sites.editor.upLoadLimitTip") }, model: { value: _vm.site.upLoadLimit, callback: function($$v) {
     _vm.$set(_vm.site, "upLoadLimit", $$v);
-  }, expression: "site.upLoadLimit" } }), _c("v-text-field", { attrs: { "disabled": !_vm.site.tokenRequired, "rules": _vm.site.tokenRequired ? _vm.rules.require : [], "label": _vm.$t("settings.sites.editor.authToken"), "placeholder": _vm.$t("settings.sites.editor.authTokenTip") }, model: { value: _vm.site.authToken, callback: function($$v) {
+  }, expression: "site.upLoadLimit" } }), _c("v-text-field", { attrs: { "disabled": !_vm.site.tokenRequired, "rules": _vm.site.tokenRequired ? _vm.rules.require : [], "label": _vm.$t("settings.sites.editor.authToken"), "placeholder": _vm.site.tokenTip ? _vm.site.tokenTip : _vm.$t("settings.sites.editor.authTokenTip") }, model: { value: _vm.site.authToken, callback: function($$v) {
     _vm.$set(_vm.site, "authToken", $$v);
   }, expression: "site.authToken" } }), _c("v-switch", { attrs: { "label": _vm.$t("settings.sites.editor.offline") }, model: { value: _vm.site.offline, callback: function($$v) {
     _vm.$set(_vm.site, "offline", $$v);
