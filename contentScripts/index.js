@@ -26244,7 +26244,7 @@
           contentType: rule2.requestContentType == "application/json" ? "application/json" : "application/x-www-form-urlencoded",
           headers: rule2.headers,
           timeout: this.service.options.connectClientTimeout || 3e4,
-          cache: rule2.dataType && rule2.dataType == ERequestResultType.JSON ? true : false
+          cache: (site2 == null ? void 0 : site2.getInfoAjaxCache) ? site2 == null ? void 0 : site2.getInfoAjaxCache : false
         }).done((result2) => {
           this.removeQueue(host2, url2);
           PPF.updateBadge(--this.requestQueueCount);
