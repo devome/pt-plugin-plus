@@ -1,5 +1,5 @@
-import { k as commonjsGlobal, K as require$$1, m as getDefaultExportFromCjs, E as Extension, V as Vue, P as PPF, h as ECommonKey, a as EAction, y as EDataResultType, L as EUserDataRange, x as dayjs, f as filters, F as FileSaver, n as normalizeComponent } from "./index-_BpZx2GH.js";
-import { d as domtoimage } from "./dom-to-image-OuNB0hU2.js";
+import { k as commonjsGlobal, K as require$$1, m as getDefaultExportFromCjs, E as Extension, V as Vue, P as PPF, h as ECommonKey, a as EAction, y as EDataResultType, L as EUserDataRange, x as dayjs, f as filters, F as FileSaver, n as normalizeComponent } from "./index-CCjtxRlu.js";
+import { d as domtoimage } from "./dom-to-image-Dg27XhJy.js";
 var highchartsVue_min$2 = { exports: {} };
 var highcharts$1 = { exports: {} };
 var highcharts = highcharts$1.exports;
@@ -9627,7 +9627,10 @@ const _sfc_main = Vue.extend({
           // categories: categories,
           gridLineDashStyle: "ShortDash",
           gridLineWidth: 1,
-          gridLineColor: "#dddddd"
+          gridLineColor: "#dddddd",
+          labels: {
+            rotation: -45
+          }
         },
         yAxis: [
           {
@@ -9786,7 +9789,10 @@ const _sfc_main = Vue.extend({
           },
           gridLineDashStyle: "ShortDash",
           gridLineWidth: 1,
-          gridLineColor: "#dddddd"
+          gridLineColor: "#dddddd",
+          labels: {
+            rotation: -45
+          }
         },
         yAxis: [
           {
@@ -9894,14 +9900,17 @@ const _sfc_main = Vue.extend({
         xAxis: {
           type: "datetime",
           dateTimeLabelFormats: {
-            day: "%m-%d",
-            week: "%m-%d",
-            month: "%m-%d",
-            year: "%m-%d"
+            day: "%Y-%m-%d",
+            week: "%Y-%m-%d",
+            month: "%Y-%m-%d",
+            year: "%Y-%m-%d"
           },
           gridLineDashStyle: "ShortDash",
           gridLineWidth: 1,
-          gridLineColor: "#dddddd"
+          gridLineColor: "#dddddd",
+          labels: {
+            rotation: -45
+          }
         },
         yAxis: {
           title: {
@@ -9991,14 +10000,17 @@ const _sfc_main = Vue.extend({
         xAxis: {
           type: "datetime",
           dateTimeLabelFormats: {
-            day: "%m-%d",
-            week: "%m-%d",
-            month: "%m-%d",
-            year: "%m-%d"
+            day: "%Y-%m-%d",
+            week: "%Y-%m-%d",
+            month: "%Y-%m-%d",
+            year: "%Y-%m-%d"
           },
           gridLineDashStyle: "ShortDash",
           gridLineWidth: 1,
-          gridLineColor: "#dddddd"
+          gridLineColor: "#dddddd",
+          labels: {
+            rotation: -45
+          }
         },
         yAxis: {
           title: {
@@ -10147,7 +10159,7 @@ var __component__ = /* @__PURE__ */ normalizeComponent(
   _sfc_staticRenderFns,
   false,
   null,
-  "ffa1e859",
+  "55d1ff4d",
   null,
   null
 );

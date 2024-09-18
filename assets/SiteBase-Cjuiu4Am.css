@@ -1,16 +1,16 @@
-.container[data-v-ffa1e859] {
+.container[data-v-55d1ff4d] {
   width: 900px;
   padding: 0;
 }
-.container .charts[data-v-ffa1e859] {
+.container .charts[data-v-55d1ff4d] {
   background-color: white;
 }
-.container .chart[data-v-ffa1e859] {
+.container .chart[data-v-55d1ff4d] {
   min-width: 320px;
   max-width: 800px;
   height: 240px;
   margin: 0 auto;
 }
-.theme--dark .container .charts[data-v-ffa1e859] {
+.theme--dark .container .charts[data-v-55d1ff4d] {
   background-color: #9e9e9e;
 }
