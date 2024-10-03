@@ -29057,9 +29057,7 @@
      */
     getSiteOptionsFromURL(url2) {
       let host2 = new URLParse(url2).host;
-      let site2 = this.options.system && this.options.system.sites && this.options.system.sites.find((item) => {
-        return item.host == host2;
-      });
+      let site2 = this.getSiteFromHost(host2);
       return site2;
     }
     getUserInfoForAllSite() {
