@@ -20924,9 +20924,12 @@
         }
         if (siteService.options.torrentTagSelectors) {
           if (siteService.options.mergeSchemaTagSelectors) {
-            searchConfig.torrentTagSelectors = siteService.options.torrentTagSelectors.concat(
-              searchConfig.torrentTagSelectors
-            );
+            searchConfig.torrentTagSelectors = [
+              ...new Map([
+                ...searchConfig.torrentTagSelectors ?? [],
+                ...siteService.options.torrentTagSelectors
+              ].map((item) => [item.name, item])).values()
+            ];
           } else {
             searchConfig.torrentTagSelectors = siteService.options.torrentTagSelectors;
           }
