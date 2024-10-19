@@ -26202,7 +26202,15 @@
             for (const key2 in requestData) {
               if (requestData.hasOwnProperty(key2)) {
                 const value = requestData[key2];
-                requestData[key2] = PPF.replaceKeys(value, userInfo2, "user");
+                if (value && typeof value === "object") {
+                  for (const innerKey in value) {
+                    const value1 = value[innerKey];
+                    value[innerKey] = PPF.replaceKeys(value1, userInfo2, "user");
+                  }
+                  requestData[key2] = value;
+                } else {
+                  requestData[key2] = PPF.replaceKeys(value, userInfo2, "user");
+                }
               }
             }
           } catch (error) {
