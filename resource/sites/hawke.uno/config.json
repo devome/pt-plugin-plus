@@ -1,0 +1,65 @@
+{
+    "name": "HUNO",
+    "timezoneOffset": "+0000",
+    "schema": "UNIT3D",
+    "url": "https://hawke.uno/",
+    "icon": "https://hawke.uno/favicon.ico",
+    "tags": ["影视"],
+    "host": "hawke.unoz",
+    "collaborator": ["fzlins"],
+    "searchEntryConfig": {
+        "merge": true,
+        "skipNonLatinCharacters": true,
+        "resultSelector": "#torrent-list-table"
+    },
+    "torrentTagSelectors": [{
+      "name": "Free",
+      "selector": "i.fal.fa-gift.text-orange"
+    }],
+    "selectors": {
+      "userBaseInfo": {
+        "page": "/achievements",
+        "merge": true,
+        "fields": {
+          "id": {
+            "selector": ["a:contains('Profile'):first"],
+            "attribute": "href",
+            "filters": ["query.split('.')", "query ? query[query.length-1]:''"]
+          }
+        }
+      },
+      "userExtendInfo": {
+        "merge": true,
+        "page": "/users/$user.name$.$user.id$",
+        "fields": {
+          "levelName": {
+            "selector": "span[data-original-title='Tier'] span"
+          },
+          "joinTime": {
+            "selector": [".user-info td:contains('Registration date') + td"],
+            "filters": ["query.text().trim()", "dateTime(query).isValid()?dateTime(query).valueOf():query"]
+          },
+          "uploads": {
+            "selector": [".user-info td span[data-original-title='Total Uploads']"],
+            "filters": ["query ? parseInt(query.text().trim().replace(/,/g,'')) : 0"]
+          },
+          "seeding": {
+            "selector": [".user-info td:contains('Active Seeds') + td"],
+            "filters": ["query.text().trim()"]
+          },
+          "seedingSize": {
+            "selector": [".user-info td:contains('Seeding Size') + td"],
+            "filters": ["query.text().trim().replace(/,|\\s|\\n/g,'').sizeToNumber()"]
+          },
+          "uploaded": {
+            "selector": [".user-info td span[data-original-title='Upload Size']"],
+            "filters": ["query.text().trim().replace(/,|\\s|\\n/g,'').sizeToNumber()"]
+          },
+          "downloaded": {
+            "selector": [".user-info td span[data-original-title='Download Size']"],
+            "filters": ["query.text().trim().replace(/,|\\s|\\n/g,'').sizeToNumber()"]
+          }
+        }
+      }
+    }
+}
