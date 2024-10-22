@@ -1,0 +1,129 @@
+{
+  "name": "FileList",
+  "timezoneOffset": "+0000",
+  "description": "FileList",
+  "url": "https://filelist.io/",
+  "icon": "https://filelist.io/favicon.ico",
+  "tags": ["影视", "综合"],
+  "schema": "FileList",
+  "plugins": [{
+    "name": "种子详情页面",
+    "pages": ["^/t/(\\d+)/$", "/details.php"],
+    "scripts": ["/schemas/NexusPHP/common.js", "details.js"]
+  }, {
+    "name": "种子列表",
+    "pages": ["/browse.php"],
+    "scripts": ["/schemas/NexusPHP/common.js", "browse.js"]
+  }],
+  "host": "filelist.io",
+  "levelRequirements": [
+    {
+      "level": 1,
+      "name": "Power User",
+      "interval": "4",
+      "uploaded": "25GB",
+      "ratio": "1.05",
+      "privilege": "It can download DOX files larger than 1MB. This class has the right to apply to uploader status."
+    },
+    {
+      "level": 2,
+      "name": "Addict",
+      "interval": "26",
+      "uploaded": "500GB",
+      "ratio": "4.00",
+      "privilege": "This class has the right to request a Custom Title. This class is entitled to requests."
+    },
+    {
+      "level": 3,
+      "name": "Elite",
+      "interval": "209",
+      "uploaded": "4TB",
+      "ratio": "5.00",
+      "privilege": "This class gives you the right to give reputation to other users."
+    }
+  ],
+  "searchEntryConfig": {
+    "page": "/browse.php",
+    "queryString": "search=$key$&cat=0&searchin=1&sort=2",
+    "resultType": "html",
+    "parseScriptFile": "getSearchResult.js",
+    "resultSelector": "div.visitedlinks:last > div[class=torrentrow]"
+  },
+  "searchEntry": [{
+    "name": "All",
+    "enabled": true
+  }],
+  "torrentTagSelectors": [{
+    "name": "Free",
+    "selector": "img[alt='FreeLeech']"
+  }],
+  "selectors": {
+    "userBaseInfo": {
+      "page": "/index.php",
+      "fields": {
+        "id": {
+          "selector": "a[href*='userdetails.php']:first",
+          "attribute": "href",
+          "filters": ["query ? query.getQueryString('id'):''"]
+        },
+        "name": {
+          "selector": "a[href*='userdetails.php']:eq(1)"
+        },
+        "isLogged": {
+          "selector": ["a[href*='logout.php']"],
+          "filters": ["query.length>0"]
+        },
+        "messageCount": {
+          "selector": [".alert a[href*='messages.php']"],
+          "filters": ["query.text().match(/(\\d+)/)", "(query && query.length>=2)?parseInt(query[1]):0"]
+        },
+        "bonus": {
+          "selector": ["a[href='/shop.php']"],
+          "filters": ["query.text().replace(/,/g,'').match(/([\\d.]+)/)", "(query && query.length>=2)?query[1]:''"]
+        }
+      }
+    },
+    "userExtendInfo": {
+      "page": "/userdetails.php?id=$user.id$",
+      "fields": {
+        "uploaded": {
+          "selector": ["td.colhead:contains('Uploaded') + td"],
+          "filters": ["query.text().replace(/,/g,'').sizeToNumber()"]
+        },
+        "downloaded": {
+          "selector": ["td.colhead:contains('Downloaded') + td"],
+          "filters": ["query.text().replace(/,/g,'').sizeToNumber()"]
+        },
+        "ratio": {
+          "selector": "td.colhead:contains('Share ratio') + td",
+          "filters": ["parseFloat(query.text())"]
+        },
+        "levelName": {
+          "selector": ["td.colhead:contains('Class') + td"]
+        },
+        "joinTime": {
+          "selector": ["td.colhead:contains('Join'):contains('date') + td"],
+          "filters": ["query.text().split(' (')[0]", "dateTime(query).isValid()?dateTime(query).valueOf():query"]
+        },
+        "seeding": {
+          "selector": ["td.colhead:contains('Seed'):contains('bonus') + td > div > b"],
+          "filters": ["query.first().text().match(/([\\d.]+)/)", "(query && query.length>=1)?query[0]:''"]
+        },
+        "seedingSize": {
+          "selector": ["td.colhead:contains('Seed'):contains('bonus') + td > div > b:nth-child(2)"],
+          "filters": ["query.last().text().replace(/,/g,'').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)", "(query && query.length>=2)?(query[1]).sizeToNumber():0"]
+        }
+      }
+    },
+    "bonusExtendInfo": {
+      "prerequisites": "!user.bonusPerHour",
+      "page": "/userdetails.php?id=$user.id$",
+      "fields": {
+        "bonusPerHour": {
+          "selector": ["td.colhead:contains('Seed'):contains('bonus') + td > div:eq(2) > b"],
+          "filters": ["parseFloat(query.text().match(/[\\d.]+/)[0])"]
+        }
+      }
+    }
+  }
+}
