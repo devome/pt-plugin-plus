@@ -1,4 +1,4 @@
-const __vite__fileDeps=["assets/Index-C4UjnhfQ.js","assets/Index-BEuPPN6k.css","assets/SupportSchema-DYguEXHq.js","assets/SupportSchema-BvqZQJrG.css","assets/Index-Bwn-7vMw.js","assets/Index-Vq83NoNm.css","assets/Index-CZ-XzfpG.js","assets/Index-Bh0Arh92.css","assets/Index-Cl1b3u0K.js","assets/Index-zt_nQyKt.css","assets/Index-DJuK-Btd.js","assets/Index-D15lVdF7.css","assets/Index-CoUpV_sb.js","assets/Index-B4ra-pBE.css","assets/SearchTorrent-BESh2CBs.js","assets/DownloadTo-BqBKNGwl.js","assets/SearchTorrent-BQzflRra.css","assets/History-B7NqEyHP.js","assets/History-DBBQckhe.css","assets/SystemLogs-SWUe3bZV.js","assets/SystemLogs-DZO5-4jl.css","assets/Index-eIGR4t0Z.js","assets/Index-CAOoZwoa.css","assets/UserDataTimeline-nLkUL3eO.js","assets/dom-to-image-Dg27XhJy.js","assets/UserDataTimeline-2nK2yT6_.css","assets/SiteBase-7klWGjBa.js","assets/SiteBase-Cjuiu4Am.css","assets/Index-bV3SDf_s.js","assets/Index-BJCuj4hq.css","assets/KeepUploadTasks-nePOTkwD.js","assets/KeepUploadTasks-C_8T016q.css"],__vite__mapDeps=i=>i.map(i=>__vite__fileDeps[i]);
+const __vite__fileDeps=["assets/Index-CDeXH9nO.js","assets/Index-BEuPPN6k.css","assets/SupportSchema-DjuZZkM4.js","assets/SupportSchema-BvqZQJrG.css","assets/Index-CaV4vt8C.js","assets/Index-Vq83NoNm.css","assets/Index-DOsjqKku.js","assets/Index-Bh0Arh92.css","assets/Index-D_9oxG7_.js","assets/Index-zt_nQyKt.css","assets/Index-BfeiX0QC.js","assets/Index-D15lVdF7.css","assets/Index-DdJ6-9V0.js","assets/Index-B4ra-pBE.css","assets/SearchTorrent-bQ1Kya0G.js","assets/DownloadTo-DzYRRL1b.js","assets/SearchTorrent-BQzflRra.css","assets/History-BsGWSPmm.js","assets/History-DBBQckhe.css","assets/SystemLogs-CO4Z9pXy.js","assets/SystemLogs-DZO5-4jl.css","assets/Index-kjuBkjcW.js","assets/Index-B3rhd4-7.css","assets/UserDataTimeline-DLrD8jtA.js","assets/dom-to-image-C13MB40b.js","assets/UserDataTimeline-2nK2yT6_.css","assets/SiteBase-CjbjYgyf.js","assets/SiteBase-Cjuiu4Am.css","assets/Index-B1nAZm9a.js","assets/Index-BJCuj4hq.css","assets/KeepUploadTasks-BbxA8ozI.js","assets/KeepUploadTasks-C_8T016q.css"],__vite__mapDeps=i=>i.map(i=>__vite__fileDeps[i]);
 (function polyfill() {
   const relList = document.createElement("link").relList;
   if (relList && relList.supports && relList.supports("modulepreload")) {
@@ -49471,7 +49471,7 @@ const router = new VueRouter({
     {
       path: "/set-sites",
       name: "set-sites",
-      component: () => __vitePreload(() => import("./Index-C4UjnhfQ.js"), true ? __vite__mapDeps([0,1]) : void 0),
+      component: () => __vitePreload(() => import("./Index-CDeXH9nO.js"), true ? __vite__mapDeps([0,1]) : void 0),
       meta: {
         // 需要被缓存
         keepAlive: true
@@ -49480,58 +49480,58 @@ const router = new VueRouter({
     {
       path: "/set-support-schema",
       name: "set-support-schema",
-      component: () => __vitePreload(() => import("./SupportSchema-DYguEXHq.js"), true ? __vite__mapDeps([2,3]) : void 0)
+      component: () => __vitePreload(() => import("./SupportSchema-DjuZZkM4.js"), true ? __vite__mapDeps([2,3]) : void 0)
     },
     {
       path: "/set-download-clients",
       name: "set-download-clients",
-      component: () => __vitePreload(() => import("./Index-Bwn-7vMw.js"), true ? __vite__mapDeps([4,5]) : void 0)
+      component: () => __vitePreload(() => import("./Index-CaV4vt8C.js"), true ? __vite__mapDeps([4,5]) : void 0)
     },
     {
       path: "/set-base",
       name: "set-base",
-      component: () => __vitePreload(() => import("./Index-CZ-XzfpG.js"), true ? __vite__mapDeps([6,7]) : void 0)
+      component: () => __vitePreload(() => import("./Index-DOsjqKku.js"), true ? __vite__mapDeps([6,7]) : void 0)
     },
     {
       path: "/set-download-paths",
       name: "set-download-paths",
-      component: () => __vitePreload(() => import("./Index-Cl1b3u0K.js"), true ? __vite__mapDeps([8,9]) : void 0)
+      component: () => __vitePreload(() => import("./Index-D_9oxG7_.js"), true ? __vite__mapDeps([8,9]) : void 0)
     },
     {
       path: "/set-backup",
       name: "set-backup",
-      component: () => __vitePreload(() => import("./Index-C0Dsrhi7.js"), true ? [] : void 0)
+      component: () => __vitePreload(() => import("./Index-DOv8zaEo.js"), true ? [] : void 0)
     },
     {
       path: "/technology-stack",
       name: "technology-stack",
-      component: () => __vitePreload(() => import("./TechnologyStack-CrGdlJOI.js"), true ? [] : void 0)
+      component: () => __vitePreload(() => import("./TechnologyStack-CDBydnri.js"), true ? [] : void 0)
     },
     {
       path: "/set-language",
       name: "set-language",
-      component: () => __vitePreload(() => import("./Index-DrOo85Zh.js"), true ? [] : void 0)
+      component: () => __vitePreload(() => import("./Index-1ViaKUhl.js"), true ? [] : void 0)
     },
     {
       path: "/set-search-solution",
       name: "set-search-solution",
-      component: () => __vitePreload(() => import("./Index-DJuK-Btd.js"), true ? __vite__mapDeps([10,11]) : void 0)
+      component: () => __vitePreload(() => import("./Index-BfeiX0QC.js"), true ? __vite__mapDeps([10,11]) : void 0)
     },
     {
       path: "/donate",
       name: "donate",
-      component: () => __vitePreload(() => import("./Donate-CWOxffCx.js"), true ? [] : void 0)
+      component: () => __vitePreload(() => import("./Donate-B5AMUnqb.js"), true ? [] : void 0)
     },
     {
       path: "/set-site-plugins/:host",
       name: "set-site-plugins",
-      component: () => __vitePreload(() => import("./Index-CoUpV_sb.js"), true ? __vite__mapDeps([12,13]) : void 0),
+      component: () => __vitePreload(() => import("./Index-DdJ6-9V0.js"), true ? __vite__mapDeps([12,13]) : void 0),
       props: true
     },
     {
       path: "/search-torrent/:key?/:host?",
       name: "search-torrent",
-      component: () => __vitePreload(() => import("./SearchTorrent-BESh2CBs.js"), true ? __vite__mapDeps([14,15,16]) : void 0),
+      component: () => __vitePreload(() => import("./SearchTorrent-bQ1Kya0G.js"), true ? __vite__mapDeps([14,15,16]) : void 0),
       props: true,
       meta: {
         // 需要被缓存
@@ -49541,33 +49541,33 @@ const router = new VueRouter({
     {
       path: "/history",
       name: "history",
-      component: () => __vitePreload(() => import("./History-B7NqEyHP.js"), true ? __vite__mapDeps([17,15,18]) : void 0)
+      component: () => __vitePreload(() => import("./History-BsGWSPmm.js"), true ? __vite__mapDeps([17,15,18]) : void 0)
     },
     {
       path: "/system-logs",
       name: "system-logs",
-      component: () => __vitePreload(() => import("./SystemLogs-SWUe3bZV.js"), true ? __vite__mapDeps([19,20]) : void 0)
+      component: () => __vitePreload(() => import("./SystemLogs-CO4Z9pXy.js"), true ? __vite__mapDeps([19,20]) : void 0)
     },
     {
       path: "/set-site-search-entry/:host",
       name: "set-site-search-entry",
-      component: () => __vitePreload(() => import("./Index-eIGR4t0Z.js"), true ? __vite__mapDeps([21,22]) : void 0),
+      component: () => __vitePreload(() => import("./Index-kjuBkjcW.js"), true ? __vite__mapDeps([21,22]) : void 0),
       props: true
     },
     {
       path: "/dev-team",
       name: "dev-team",
-      component: () => __vitePreload(() => import("./Teams-CQFLbWF8.js"), true ? [] : void 0)
+      component: () => __vitePreload(() => import("./Teams-CAZes6pE.js"), true ? [] : void 0)
     },
     {
       path: "/user-data-timeline",
       name: "user-data-timeline",
-      component: () => __vitePreload(() => import("./UserDataTimeline-nLkUL3eO.js"), true ? __vite__mapDeps([23,24,25]) : void 0)
+      component: () => __vitePreload(() => import("./UserDataTimeline-DLrD8jtA.js"), true ? __vite__mapDeps([23,24,25]) : void 0)
     },
     {
       path: "/statistic/:host?",
       name: "statistic",
-      component: () => __vitePreload(() => import("./SiteBase-7klWGjBa.js"), true ? __vite__mapDeps([26,24,27]) : void 0)
+      component: () => __vitePreload(() => import("./SiteBase-CjbjYgyf.js"), true ? __vite__mapDeps([26,24,27]) : void 0)
     },
     {
       path: "/set-permissions",
@@ -49577,7 +49577,7 @@ const router = new VueRouter({
     {
       path: "/collection",
       name: "collection",
-      component: () => __vitePreload(() => import("./Index-bV3SDf_s.js"), true ? __vite__mapDeps([28,15,29]) : void 0),
+      component: () => __vitePreload(() => import("./Index-B1nAZm9a.js"), true ? __vite__mapDeps([28,15,29]) : void 0),
       meta: {
         // 需要被缓存
         keepAlive: true
@@ -49586,12 +49586,12 @@ const router = new VueRouter({
     {
       path: "/search-result-snapshot",
       name: "search-result-snapshot",
-      component: () => __vitePreload(() => import("./SearchResultSnapshot-BSAKZ0HK.js"), true ? [] : void 0)
+      component: () => __vitePreload(() => import("./SearchResultSnapshot-AjZYXhhx.js"), true ? [] : void 0)
     },
     {
       path: "/keep-upload-task",
       name: "keep-upload-task",
-      component: () => __vitePreload(() => import("./KeepUploadTasks-nePOTkwD.js"), true ? __vite__mapDeps([30,15,31]) : void 0)
+      component: () => __vitePreload(() => import("./KeepUploadTasks-BbxA8ozI.js"), true ? __vite__mapDeps([30,15,31]) : void 0)
     }
   ]
 });

@@ -1,4 +1,4 @@
-import { V as Vue, n as normalizeComponent, H as ERequestResultType, P as PPF } from "./index-CCjtxRlu.js";
+import { V as Vue, n as normalizeComponent, H as ERequestResultType, P as PPF } from "./index-PaG3smOx.js";
 const _sfc_main$3 = Vue.extend({
   data() {
     return {
@@ -328,7 +328,7 @@ const _sfc_main = Vue.extend({
         let systemSite = this.options.system.sites.find((item) => {
           return item.host == host;
         });
-        if (systemSite) {
+        if (systemSite && systemSite.categories) {
           this.site.categories = PPF.clone(systemSite.categories);
         }
         let searchEntry = [];
@@ -438,7 +438,7 @@ var __component__ = /* @__PURE__ */ normalizeComponent(
   _sfc_staticRenderFns,
   false,
   null,
-  "565e224d",
+  "c04d91ad",
   null,
   null
 );
