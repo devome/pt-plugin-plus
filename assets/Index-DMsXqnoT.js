@@ -1,4 +1,4 @@
-import { V as Vue, n as normalizeComponent, E as Extension, f as filters, a as EAction, b as EModule, F as FileSaver, P as PPF } from "./index-PaG3smOx.js";
+import { V as Vue, n as normalizeComponent, E as Extension, f as filters, a as EAction, b as EModule, F as FileSaver, P as PPF } from "./index--b0EwcwT.js";
 const _sfc_main$4 = Vue.extend({
   data() {
     return {
@@ -327,7 +327,8 @@ const _sfc_main$3 = Vue.extend({
       valid: false,
       isCustom: false,
       newData: {},
-      haveError: false
+      haveError: false,
+      ClickOutSide: false
     };
   },
   props: {
@@ -423,9 +424,15 @@ const _sfc_main$3 = Vue.extend({
 });
 var _sfc_render$3 = function render2() {
   var _vm = this, _c = _vm._self._c, _setup = _vm._self._setupProxy;
-  return _c("div", [_c("v-snackbar", { attrs: { "value": _vm.haveError, "top": "", "timeout": 3e3, "color": "error" } }, [_vm._v(_vm._s(_vm.$t("settings.sites.add.validMsg")))]), _c("v-dialog", { attrs: { "max-width": "800" }, model: { value: _vm.show, callback: function($$v) {
+  return _c("div", [_c("v-snackbar", { attrs: { "value": _vm.haveError, "top": "", "timeout": 3e3, "color": "error" } }, [_vm._v(_vm._s(_vm.$t("settings.sites.add.validMsg")))]), _c("v-dialog", { attrs: { "max-width": "800", "persistent": _vm.ClickOutSide }, model: { value: _vm.show, callback: function($$v) {
     _vm.show = $$v;
-  }, expression: "show" } }, [_c("v-card", [_c("v-toolbar", { attrs: { "dark": "", "color": "blue-grey darken-2" } }, [_c("v-toolbar-title", [_vm._v(_vm._s(_vm.$t("settings.sites.add.title")))]), _c("v-spacer"), _c("v-btn", { attrs: { "icon": "", "flat": "", "color": "success", "href": "https://github.com/pt-plugins/PT-Plugin-Plus/wiki/config-site", "target": "_blank", "rel": "noopener noreferrer nofollow", "title": _vm.$t("common.help") } }, [_c("v-icon", [_vm._v("help")])], 1)], 1), _c("v-card-text", [_c("v-stepper", { model: { value: _vm.step, callback: function($$v) {
+  }, expression: "show" } }, [_c("v-card", { on: { "mousedown": function($event) {
+    _vm.ClickOutSide = true;
+  }, "mouseup": function($event) {
+    _vm.ClickOutSide = false;
+  }, "mouseenter": function($event) {
+    _vm.ClickOutSide = false;
+  } } }, [_c("v-toolbar", { attrs: { "dark": "", "color": "blue-grey darken-2" } }, [_c("v-toolbar-title", [_vm._v(_vm._s(_vm.$t("settings.sites.add.title")))]), _c("v-spacer"), _c("v-btn", { attrs: { "icon": "", "flat": "", "color": "success", "href": "https://github.com/pt-plugins/PT-Plugin-Plus/wiki/config-site", "target": "_blank", "rel": "noopener noreferrer nofollow", "title": _vm.$t("common.help") } }, [_c("v-icon", [_vm._v("help")])], 1)], 1), _c("v-card-text", [_c("v-stepper", { model: { value: _vm.step, callback: function($$v) {
     _vm.step = $$v;
   }, expression: "step" } }, [_c("v-stepper-header", [_c("v-stepper-step", { attrs: { "complete": _vm.step > 1, "step": "1" } }, [_vm._v(_vm._s(_vm.$t("settings.sites.add.step1")))]), _c("v-divider"), _c("v-stepper-step", { attrs: { "step": "2" } }, [_vm._v(_vm._s(_vm.$t("settings.sites.add.step2")))])], 1), _c("v-stepper-items", [_c("v-stepper-content", { attrs: { "step": "1" } }, [_c("v-autocomplete", { attrs: { "items": _vm.$store.getters.sites, "label": _vm.$t("settings.sites.add.validMsg"), "hint": _vm.selectedSiteDescription, "filter": _vm.filterSite, "persistent-hint": "", "return-object": "", "single-line": "", "item-text": "name", "item-value": "name" }, scopedSlots: _vm._u([{ key: "selection", fn: function({ item }) {
     return [_c("v-list-tile-avatar", [_c("img", { attrs: { "src": item.icon } })]), _c("span", { domProps: { "textContent": _vm._s(item.name) } })];
