@@ -2,11 +2,11 @@
   color: #ccc;
 }.torrent-actions {
   display: inline-flex;
-}.list-item a[data-v-d0e50cd0] {
+}.list-item a[data-v-c88cb5a1] {
   color: #000;
   text-decoration: none;
 }
-.list-item a[data-v-d0e50cd0]:hover {
+.list-item a[data-v-c88cb5a1]:hover {
   color: #008c00;
 }.search-torrent .torrent table.v-table thead tr:not(.v-datatable__progress) th,
 .search-torrent .torrent table.v-table tbody tr td {

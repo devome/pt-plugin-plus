@@ -1,5 +1,5 @@
-import { E as Extension, V as Vue, a as EAction, n as normalizeComponent, t as ETorrentStatus, P as PPF, B as BASE_COLORS, u as EResourceOrderMode, v as EPaginationKey, g as EViewKey, w as eventBus, b as EModule, x as dayjs, y as EDataResultType, f as filters, D as Downloader, z as ERequestMethod, C as FileDownloader, h as ECommonKey, G as basicContext_minExports } from "./index--b0EwcwT.js";
-import { D as DownloadTo, P as PathHandler } from "./DownloadTo-OhpTxX7M.js";
+import { E as Extension, V as Vue, a as EAction, n as normalizeComponent, t as ETorrentStatus, P as PPF, B as BASE_COLORS, u as EResourceOrderMode, v as EPaginationKey, g as EViewKey, w as eventBus, b as EModule, x as dayjs, y as EDataResultType, f as filters, D as Downloader, z as ERequestMethod, C as FileDownloader, h as ECommonKey, G as basicContext_minExports } from "./index-Enh9NcAv.js";
+import { D as DownloadTo, P as PathHandler } from "./DownloadTo-Z9_-nlmk.js";
 const extension$3 = new Extension();
 const _sfc_main$5 = Vue.extend({
   props: {
@@ -603,7 +603,9 @@ const _sfc_main$1 = Vue.extend({
             }
           );
         }
-        result.torrent = torrent;
+        result.torrent = {
+          filesLength: torrent.files.length
+        };
         if (result.verified) {
           this.verifiedCount++;
         }
@@ -689,7 +691,7 @@ var _sfc_render$1 = function render5() {
   } }]), model: { value: _vm.dialog, callback: function($$v) {
     _vm.dialog = $$v;
   }, expression: "dialog" } }, [_c("v-card", [_c("v-toolbar", { attrs: { "dark": "", "color": "blue-grey darken-2" } }, [_c("v-toolbar-title", [_vm._v(_vm._s(_vm.$t("keepUploadTask.verification")))]), _c("v-spacer"), _c("v-btn", { attrs: { "icon": "", "flat": "", "color": "success", "href": "https://github.com/pt-plugins/PT-Plugin-Plus/wiki/keep-upload-task", "target": "_blank", "rel": "noopener noreferrer nofollow", "title": _vm.$t("common.help") } }, [_c("v-icon", [_vm._v("help")])], 1)], 1), _c("v-card-text", { staticStyle: { "max-height": "80vh" } }, [_c("v-list", { attrs: { "two-line": "", "subheader": "", "dense": "" } }, [_vm._l(_vm.verifiedItems, function(item, index) {
-    return [index == 0 ? _c("v-subheader", { key: index }, [_vm._v(_vm._s(_vm.$t("keepUploadTask.baseTorrent")))]) : _vm._e(), index == 1 ? _c("v-subheader", { key: index }, [_vm._v(_vm._s(_vm.$t("keepUploadTask.otherTorrent")))]) : _vm._e(), _c("v-list-tile", { key: item.title }, [_c("v-list-tile-avatar", [_c("v-avatar", { attrs: { "size": "18" } }, [_c("img", { attrs: { "src": item.data.site.icon } })])], 1), _c("v-list-tile-content", [_c("v-list-tile-title", { staticClass: "list-item" }, [_c("a", { attrs: { "href": item.data.link, "target": "_blank", "rel": "noopener noreferrer nofollow" } }, [_vm._v(_vm._s(item.data.title))])]), _c("v-list-tile-sub-title", [_vm._v(_vm._s(_vm.$t("keepUploadTask.size")) + _vm._s(_vm._f("formatSize")(item.data.size)) + ", " + _vm._s(_vm.$t("keepUploadTask.fileCount")) + _vm._s(item.torrent ? item.torrent.files.length : "N/A") + ", " + _vm._s(_vm.$t("keepUploadTask.status.label")) + _vm._s(item.status))])], 1), _c("v-list-tile-action", [_c("div", [_vm.verifiedItems[0].verified && !item.loading && !item.verified && index > 0 ? _c("v-btn", { staticClass: "mr-1", attrs: { "icon": "", "title": _vm.$t("keepUploadTask.addToKeepUpload") }, on: { "click": function($event) {
+    return [index == 0 ? _c("v-subheader", { key: index }, [_vm._v(_vm._s(_vm.$t("keepUploadTask.baseTorrent")))]) : _vm._e(), index == 1 ? _c("v-subheader", { key: index }, [_vm._v(_vm._s(_vm.$t("keepUploadTask.otherTorrent")))]) : _vm._e(), _c("v-list-tile", { key: item.title }, [_c("v-list-tile-avatar", [_c("v-avatar", { attrs: { "size": "18" } }, [_c("img", { attrs: { "src": item.data.site.icon } })])], 1), _c("v-list-tile-content", [_c("v-list-tile-title", { staticClass: "list-item" }, [_c("a", { attrs: { "href": item.data.link, "target": "_blank", "rel": "noopener noreferrer nofollow" } }, [_vm._v(_vm._s(item.data.title))])]), _c("v-list-tile-sub-title", [_vm._v(_vm._s(_vm.$t("keepUploadTask.size")) + _vm._s(_vm._f("formatSize")(item.data.size)) + ", " + _vm._s(_vm.$t("keepUploadTask.fileCount")) + _vm._s(item.torrent ? item.torrent.filesLength : "N/A") + ", " + _vm._s(_vm.$t("keepUploadTask.status.label")) + _vm._s(item.status))])], 1), _c("v-list-tile-action", [_c("div", [_vm.verifiedItems[0].verified && !item.loading && !item.verified && index > 0 ? _c("v-btn", { staticClass: "mr-1", attrs: { "icon": "", "title": _vm.$t("keepUploadTask.addToKeepUpload") }, on: { "click": function($event) {
       $event.stopPropagation();
       return _vm.addToVerified(item);
     } } }, [_c("v-icon", { attrs: { "color": "info" } }, [_vm._v("add")])], 1) : _vm._e(), _vm.verifiedItems[0].verified && !item.loading && !item.torrent && index > 0 ? _c("v-btn", { staticClass: "mr-1", attrs: { "icon": "", "title": _vm.$t("keepUploadTask.redownload") }, on: { "click": function($event) {
@@ -714,7 +716,7 @@ var __component__$1 = /* @__PURE__ */ normalizeComponent(
   _sfc_staticRenderFns$1,
   false,
   null,
-  "d0e50cd0",
+  "c88cb5a1",
   null,
   null
 );
