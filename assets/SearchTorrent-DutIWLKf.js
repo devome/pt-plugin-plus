@@ -1,5 +1,5 @@
-import { E as Extension, V as Vue, a as EAction, n as normalizeComponent, t as ETorrentStatus, P as PPF, B as BASE_COLORS, u as EResourceOrderMode, v as EPaginationKey, g as EViewKey, w as eventBus, b as EModule, x as dayjs, y as EDataResultType, f as filters, D as Downloader, z as ERequestMethod, C as FileDownloader, h as ECommonKey, G as basicContext_minExports } from "./index-Enh9NcAv.js";
-import { D as DownloadTo, P as PathHandler } from "./DownloadTo-Z9_-nlmk.js";
+import { E as Extension, V as Vue, a as EAction, n as normalizeComponent, t as ETorrentStatus, P as PPF, B as BASE_COLORS, u as EResourceOrderMode, v as EPaginationKey, g as EViewKey, w as eventBus, b as EModule, x as dayjs, y as EDataResultType, f as filters, D as Downloader, z as ERequestMethod, C as FileDownloader, h as ECommonKey, G as basicContext_minExports } from "./index-BHV5JGMd.js";
+import { D as DownloadTo, P as PathHandler } from "./DownloadTo-BZoL5mCS.js";
 const extension$3 = new Extension();
 const _sfc_main$5 = Vue.extend({
   props: {
@@ -587,10 +587,7 @@ const _sfc_main$1 = Vue.extend({
           result.status = this.$t("keepUploadTask.status.failed").toString();
         }
         if (!item || !this.verifiedItems[0].verified) {
-          this.verifiedItems[index] = Object.assign(
-            this.verifiedItems[index],
-            result
-          );
+          this.$set(this.verifiedItems, index, { ...this.verifiedItems[index], ...result });
           return;
         }
         const torrent = item.torrent;
@@ -622,10 +619,7 @@ const _sfc_main$1 = Vue.extend({
               result.status = this.$t("keepUploadTask.status.missingFiles").toString();
           }
         }
-        this.verifiedItems[index] = Object.assign(
-          this.verifiedItems[index],
-          result
-        );
+        this.$set(this.verifiedItems, index, { ...this.verifiedItems[index], ...result });
       }
     },
     /**
@@ -716,7 +710,7 @@ var __component__$1 = /* @__PURE__ */ normalizeComponent(
   _sfc_staticRenderFns$1,
   false,
   null,
-  "c88cb5a1",
+  "b823b27b",
   null,
   null
 );

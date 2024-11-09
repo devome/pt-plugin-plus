@@ -1,4 +1,4 @@
-import { E as Extension, V as Vue, a as EAction, n as normalizeComponent } from "./index-Enh9NcAv.js";
+import { E as Extension, V as Vue, a as EAction, n as normalizeComponent } from "./index-BHV5JGMd.js";
 const extension = new Extension();
 const _sfc_main = Vue.extend({
   data() {
