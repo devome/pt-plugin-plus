@@ -7380,7 +7380,7 @@
     });
   })(cryptoJs$1, cryptoJs$1.exports);
   var cryptoJsExports = cryptoJs$1.exports;
-  const index$2 = /* @__PURE__ */ getDefaultExportFromCjs(cryptoJsExports);
+  const index$3 = /* @__PURE__ */ getDefaultExportFromCjs(cryptoJsExports);
   var basicContext_min$2 = { exports: {} };
   var basicContext_min = basicContext_min$2.exports;
   (function(module) {
@@ -10087,6 +10087,114 @@
       }
     }
   }
+  class Node {
+    /// value;
+    /// next;
+    constructor(value) {
+      this.value = value;
+      this.next = void 0;
+    }
+  }
+  let Queue$1 = class Queue {
+    // TODO: Use private class fields when targeting Node.js 12.
+    // #_head;
+    // #_tail;
+    // #_size;
+    constructor() {
+      this.clear();
+    }
+    enqueue(value) {
+      const node = new Node(value);
+      if (this._head) {
+        this._tail.next = node;
+        this._tail = node;
+      } else {
+        this._head = node;
+        this._tail = node;
+      }
+      this._size++;
+    }
+    dequeue() {
+      const current = this._head;
+      if (!current) {
+        return;
+      }
+      this._head = this._head.next;
+      this._size--;
+      return current.value;
+    }
+    clear() {
+      this._head = void 0;
+      this._tail = void 0;
+      this._size = 0;
+    }
+    get size() {
+      return this._size;
+    }
+    *[Symbol.iterator]() {
+      let current = this._head;
+      while (current) {
+        yield current.value;
+        current = current.next;
+      }
+    }
+  };
+  var yoctoQueue = Queue$1;
+  const index$2 = /* @__PURE__ */ getDefaultExportFromCjs(yoctoQueue);
+  "use strict";
+  const Queue = yoctoQueue;
+  const pLimit = (concurrency) => {
+    if (!((Number.isInteger(concurrency) || concurrency === Infinity) && concurrency > 0)) {
+      throw new TypeError("Expected `concurrency` to be a number from 1 and up");
+    }
+    const queue2 = new Queue();
+    let activeCount = 0;
+    const next = () => {
+      activeCount--;
+      if (queue2.size > 0) {
+        queue2.dequeue()();
+      }
+    };
+    const run = async (fn, resolve2, ...args) => {
+      activeCount++;
+      const result2 = (async () => fn(...args))();
+      resolve2(result2);
+      try {
+        await result2;
+      } catch {
+      }
+      next();
+    };
+    const enqueue = (fn, resolve2, ...args) => {
+      queue2.enqueue(run.bind(null, fn, resolve2, ...args));
+      (async () => {
+        await Promise.resolve();
+        if (activeCount < concurrency && queue2.size > 0) {
+          queue2.dequeue()();
+        }
+      })();
+    };
+    const generator = (fn, ...args) => new Promise((resolve2) => {
+      enqueue(fn, resolve2, ...args);
+    });
+    Object.defineProperties(generator, {
+      activeCount: {
+        get: () => activeCount
+      },
+      pendingCount: {
+        get: () => queue2.size
+      },
+      clearQueue: {
+        value: () => {
+          queue2.clear();
+        }
+      }
+    });
+    return generator;
+  };
+  var pLimit_1 = pLimit;
+  const pLimit$1 = /* @__PURE__ */ getDefaultExportFromCjs(pLimit_1);
+  const limit = pLimit$1(8);
   let rootPath = "";
   let isExtensionMode = false;
   const isDebugMode = false;
@@ -10302,16 +10410,26 @@
      * @param path 路径
      */
     getScriptContent(path2) {
-      let url2 = `${API.host}/${path2}`;
-      if (path2.substr(0, 4) === "http") {
-        url2 = path2;
-      } else {
-        url2 = url2.replace("resource//", "resource/");
-      }
-      APP.debugMode && console.log("getScriptContent", url2);
-      return $.ajax({
-        url: url2,
-        dataType: "text"
+      return limit(() => {
+        return new Promise((resolve2, reject2) => {
+          let url2 = `${API.host}/${path2}`;
+          if (path2.substr(0, 4) === "http") {
+            url2 = path2;
+          } else {
+            url2 = url2.replace("resource//", "resource/");
+          }
+          APP.debugMode && console.log("getScriptContent", url2);
+          $.ajax({
+            url: url2,
+            dataType: "text",
+            timeout: 3e4
+            // Set timeout to 30 seconds (30000 milliseconds)
+          }).done((result2) => {
+            resolve2(result2);
+          }).fail((jqXHR, status, text) => {
+            reject2(status + ", " + text);
+          });
+        });
       });
     },
     /**
@@ -19759,8 +19877,8 @@
       value = +value;
       offset = offset >>> 0;
       if (!noAssert) {
-        const limit = Math.pow(2, 8 * byteLength3 - 1);
-        checkInt(this, value, offset, byteLength3, limit - 1, -limit);
+        const limit2 = Math.pow(2, 8 * byteLength3 - 1);
+        checkInt(this, value, offset, byteLength3, limit2 - 1, -limit2);
       }
       let i2 = 0;
       let mul = 1;
@@ -19778,8 +19896,8 @@
       value = +value;
       offset = offset >>> 0;
       if (!noAssert) {
-        const limit = Math.pow(2, 8 * byteLength3 - 1);
-        checkInt(this, value, offset, byteLength3, limit - 1, -limit);
+        const limit2 = Math.pow(2, 8 * byteLength3 - 1);
+        checkInt(this, value, offset, byteLength3, limit2 - 1, -limit2);
       }
       let i2 = byteLength3 - 1;
       let mul = 1;
@@ -24696,9 +24814,11 @@
       if (script) {
         eval(script);
       } else {
-        APP.getScriptContent(path).done((script) => {
+        APP.getScriptContent(path).then((script) => {
           this.infoParserCache[path] = script;
           eval(script);
+        }).catch((error) => {
+          console.error("Error loading script:", error);
         });
       }
       return true;
@@ -25049,7 +25169,7 @@
             entry2.parseScript = this.parseScriptCache[scriptPath];
             if (!entry2.parseScript) {
               this.service.debug("searchTorrent: getScriptContent", scriptPath);
-              APP.getScriptContent(scriptPath).done((script2) => {
+              APP.getScriptContent(scriptPath).then((script2) => {
                 this.service.debug(
                   "searchTorrent: getScriptContent done",
                   scriptPath
@@ -25088,7 +25208,7 @@
                     }
                   }
                 });
-              }).fail((error) => {
+              }).catch((error) => {
                 this.service.debug(
                   "searchTorrent: getScriptContent fail",
                   error
@@ -26326,9 +26446,11 @@
       if (script) {
         eval(script);
       } else {
-        APP.getScriptContent(path).done((script) => {
+        APP.getScriptContent(path).then((script) => {
           this.infoParserCache[path] = script;
           eval(script);
+        }).catch((error) => {
+          console.error("Error loading script:", error);
         });
       }
     }
