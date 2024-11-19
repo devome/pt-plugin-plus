@@ -1,4 +1,4 @@
-import { V as Vue, n as normalizeComponent } from "./index-CmTMbFC9.js";
+import { V as Vue, n as normalizeComponent } from "./index-FN6Cy8H5.js";
 const name = "pt-plugin-plus";
 const version = "1.6.1";
 const packageManager = "yarn@1.22.22";
@@ -36,6 +36,9 @@ const dependencies$1 = {
   "parse-torrent": "^11.0.16",
   "ua-parser-js": "^1.0.2",
   "url-parse": "^1.5.10",
+  "simple-mind-map": "^0.12.1",
+  "simple-mind-map-plugin-themes": "^1.0.0",
+  roughjs: "^4.6.6",
   vue: "~2.7.0",
   "vue-class-component": "^6.3.2",
   "vue-i18n": "^8.11.2",
