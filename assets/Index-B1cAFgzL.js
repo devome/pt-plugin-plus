@@ -5,7 +5,7 @@ var __publicField = (obj, key, value) => {
   return value;
 };
 var _a;
-import { m as getDefaultExportFromCjs, k as commonjsGlobal, V as Vue, x as dayjs, n as normalizeComponent } from "./index-FN6Cy8H5.js";
+import { m as getDefaultExportFromCjs, k as commonjsGlobal, V as Vue, x as dayjs, n as normalizeComponent } from "./index-Bu19POTM.js";
 const CONSTANTS = {
   CHANGE_THEME: "changeTheme",
   CHANGE_LAYOUT: "changeLayout",
@@ -35047,17 +35047,15 @@ Break.blotName = "break";
 Break.tagName = "BR";
 let Text$1 = class Text3 extends TextBlot$1 {
 };
+const entityMap = {
+  "&": "&amp;",
+  "<": "&lt;",
+  ">": "&gt;",
+  '"': "&quot;",
+  "'": "&#39;"
+};
 function escapeText(text) {
-  return text.replace(/[&<>"']/g, (s) => {
-    const entityMap = {
-      "&": "&amp;",
-      "<": "&lt;",
-      ">": "&gt;",
-      '"': "&quot;",
-      "'": "&#39;"
-    };
-    return entityMap[s];
-  });
+  return text.replace(/[&<>"']/g, (s) => entityMap[s]);
 }
 const _Inline = class _Inline extends InlineBlot$1 {
   static compare(self2, other) {
@@ -36365,7 +36363,8 @@ function convertHTML(blot, index2, length2) {
     return blot.html(index2, length2);
   }
   if (blot instanceof Text$1) {
-    return escapeText(blot.value().slice(index2, index2 + length2));
+    const escapedText = escapeText(blot.value().slice(index2, index2 + length2));
+    return escapedText.replaceAll(" ", "&nbsp;");
   }
   if (blot instanceof ParentBlot$1) {
     if (blot.statics.blotName === "list-container") {
@@ -37123,7 +37122,7 @@ __publicField(_Quill, "DEFAULTS", {
 });
 __publicField(_Quill, "events", Emitter.events);
 __publicField(_Quill, "sources", Emitter.sources);
-__publicField(_Quill, "version", false ? "dev" : "2.0.2");
+__publicField(_Quill, "version", false ? "dev" : "2.0.3");
 __publicField(_Quill, "imports", {
   delta: Delta,
   parchment: Parchment,
@@ -38959,18 +38958,15 @@ function matchText(node, delta, scroll) {
     if (text.trim().length === 0 && text.includes("\n") && !isBetweenInlineElements(node, scroll)) {
       return delta;
     }
-    const replacer = (collapse, match2) => {
-      const replaced = match2.replace(/[^\u00a0]/g, "");
-      return replaced.length < 1 && collapse ? " " : replaced;
-    };
-    text = text.replace(/\r\n/g, " ").replace(/\n/g, " ");
-    text = text.replace(/\s\s+/g, replacer.bind(replacer, true));
+    text = text.replace(/[^\S\u00a0]/g, " ");
+    text = text.replace(/ {2,}/g, " ");
     if (node.previousSibling == null && node.parentElement != null && isLine(node.parentElement, scroll) || node.previousSibling instanceof Element && isLine(node.previousSibling, scroll)) {
-      text = text.replace(/^\s+/, replacer.bind(replacer, false));
+      text = text.replace(/^ /, "");
     }
     if (node.nextSibling == null && node.parentElement != null && isLine(node.parentElement, scroll) || node.nextSibling instanceof Element && isLine(node.nextSibling, scroll)) {
-      text = text.replace(/\s+$/, replacer.bind(replacer, false));
+      text = text.replace(/ $/, "");
     }
+    text = text.replaceAll(" ", " ");
   }
   return delta.insert(text);
 }
