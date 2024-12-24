@@ -26532,6 +26532,8 @@
   }
   class MovieInfoService {
     constructor() {
+      this.omdbApiURL = "https://www.omdbapi.com";
+      this.omitApiURL = "https://omit.mkrobot.org";
       this.doubanApiURL = "https://api.douban.com/v2";
       this.doubanFrodoApi = "https://frodo.douban.com/api/v2";
       this.douban = {
@@ -26561,8 +26563,8 @@
                   "id": "1294833"
                 }]
               */
-              imdb: `https://omit.mkrobot.org/movie/infos/$imdbid$`,
-              subject: `https://omit.mkrobot.org/movie/infos/douban$id$`
+              imdb: `${this.omitApiURL}/movie/infos/$imdbid$`,
+              subject: `${this.omitApiURL}/movie/infos/douban$id$`
               // imdb: `https://movie.douban.com/j/subject_suggest?q=$imdbid$`,
               // subject: `${this.doubanFrodoApi}/movie/$id$?apiKey=$apikey$`
             }
@@ -26588,8 +26590,6 @@
           }
         }
       };
-      this.omdbApiURL = "https://www.omdbapi.com";
-      this.omitApiURL = "https://omit.mkrobot.org";
       this.omdbApiKeys = [
         "e0d3039d",
         "a67d9bce",

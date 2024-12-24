@@ -10687,19 +10687,19 @@ table.v-table tfoot tr td {
 
 
 /*# sourceMappingURL=vuetify.css.map*/
-.search-solution[data-v-9b0453ab] {
+.search-solution[data-v-afe7c8ad] {
   margin-right: -10px;
 }
-.album img[data-v-9b0453ab] {
+.album img[data-v-afe7c8ad] {
   margin-top: 18px;
   border-radius: 0px;
   margin-right: 10px;
 }
-.top-searches button[data-v-9b0453ab] {
+.top-searches button[data-v-afe7c8ad] {
   min-width: unset;
   margin: 0;
 }
-.top-searches-item[data-v-9b0453ab] {
+.top-searches-item[data-v-afe7c8ad] {
   position: absolute;
   bottom: 0px;
   width: 100%;
@@ -10711,34 +10711,34 @@ table.v-table tfoot tr td {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.top-searches-item .alt-title[data-v-9b0453ab] {
+.top-searches-item .alt-title[data-v-afe7c8ad] {
   display: inline;
 }
-.top-searches-item .rating[data-v-9b0453ab] {
+.top-searches-item .rating[data-v-afe7c8ad] {
   position: absolute;
   text-decoration: none;
   right: 0px;
   background-color: #fff;
   padding: 1px 3px;
 }
-.scroll-card[data-v-9b0453ab] {
+.scroll-card[data-v-afe7c8ad] {
   max-height: 70%;
   overflow-y: auto; /* 启用垂直滚动 */
 }
 
 /* 隐藏滚动条 */
-.scroll-card[data-v-9b0453ab]::-webkit-scrollbar {
+.scroll-card[data-v-afe7c8ad]::-webkit-scrollbar {
   width: 0; /* 隐藏垂直滚动条的宽度 */
   height: 0; /* 隐藏水平滚动条的高度 */
 }
 
 /* 可选：定义滚动条轨道的颜色 */
-.scroll-card[data-v-9b0453ab]::-webkit-scrollbar-track {
+.scroll-card[data-v-afe7c8ad]::-webkit-scrollbar-track {
   background: transparent; /* 使用透明背景 */
 }
 
 /* 可选：定义滚动条滑块的颜色 */
-.scroll-card[data-v-9b0453ab]::-webkit-scrollbar-thumb {
+.scroll-card[data-v-afe7c8ad]::-webkit-scrollbar-thumb {
   background: transparent; /* 使用透明背景 */
 }.item[data-v-fae82a89] {
   padding: 5px;
