@@ -1,4 +1,4 @@
-import { V as Vue, n as normalizeComponent } from "./index-Bn0MhdSz.js";
+import { V as Vue, n as normalizeComponent } from "./index-DUb8ELGV.js";
 const _sfc_main = Vue.extend({
   data() {
     return {

@@ -1,5 +1,8 @@
-.movieInfoCard .caption[data-v-1e789aa1] {
+.movieInfoCard .caption[data-v-4c1be77d] {
   color: #ccc;
+}
+.tmdbStyle[data-v-4c1be77d] {
+  background: linear-gradient(90deg, #90cea1, #01b4e4) !important;
 }.torrent-actions {
   display: inline-flex;
 }.list-item a[data-v-b823b27b] {

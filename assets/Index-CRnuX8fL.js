@@ -1,4 +1,4 @@
-import { P as PPF, E as Extension, V as Vue, c as EBeforeSearchingItemSearchMode, d as EEncryptMode, A as APP, a as EAction, e as ESizeUnit, n as normalizeComponent } from "./index-Bn0MhdSz.js";
+import { P as PPF, E as Extension, V as Vue, c as EBeforeSearchingItemSearchMode, d as EEncryptMode, A as APP, a as EAction, e as ESizeUnit, n as normalizeComponent } from "./index-DUb8ELGV.js";
 class MovieInfoService {
   constructor() {
     this.omdbApiURL = "https://www.omdbapi.com";
@@ -449,7 +449,8 @@ const _sfc_main = Vue.extend({
       options: {
         defaultClientId: "",
         search: {
-          saveKey: true
+          saveKey: true,
+          threads: 0
         },
         needConfirmWhenExceedSize: false,
         autoRefreshUserData: false,
@@ -798,7 +799,9 @@ var _sfc_render = function render() {
     _vm.$set(_vm.options.search, "rows", $$v);
   }, expression: "options.search.rows" } })], 1), _c("v-flex", { attrs: { "xs6": "" } }, [_c("v-slider", { staticStyle: { "display": "none" }, attrs: { "max": 200, "min": 1 }, model: { value: _vm.options.search.rows, callback: function($$v) {
     _vm.$set(_vm.options.search, "rows", $$v);
-  }, expression: "options.search.rows" } })], 1), _c("v-flex", { attrs: { "xs12": "" } }, [_c("v-switch", { attrs: { "color": "success", "label": _vm.$t("settings.base.allowSelectionTextSearch") }, model: { value: _vm.options.allowSelectionTextSearch, callback: function($$v) {
+  }, expression: "options.search.rows" } })], 1), _c("v-flex", { attrs: { "xs12": "" } }, [_c("v-text-field", { attrs: { "type": "number", "label": _vm.$t("settings.base.searchThreads"), "placeholder": _vm.$t("settings.base.searchThreads"), "min": 0 }, model: { value: _vm.options.search.threads, callback: function($$v) {
+    _vm.$set(_vm.options.search, "threads", $$v);
+  }, expression: "options.search.threads" } })], 1), _c("v-flex", { attrs: { "xs12": "" } }, [_c("v-switch", { attrs: { "color": "success", "label": _vm.$t("settings.base.allowSelectionTextSearch") }, model: { value: _vm.options.allowSelectionTextSearch, callback: function($$v) {
     _vm.$set(_vm.options, "allowSelectionTextSearch", $$v);
   }, expression: "options.allowSelectionTextSearch" } }), _c("v-switch", { attrs: { "color": "success", "label": _vm.$t("settings.base.saveSearchKey") }, model: { value: _vm.options.search.saveKey, callback: function($$v) {
     _vm.$set(_vm.options.search, "saveKey", $$v);
@@ -851,7 +854,7 @@ var __component__ = /* @__PURE__ */ normalizeComponent(
   _sfc_staticRenderFns,
   false,
   null,
-  "844a422c",
+  "d643515d",
   null,
   null
 );

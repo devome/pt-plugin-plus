@@ -23347,7 +23347,8 @@
           rows: 50,
           // 搜索超时
           timeout: 3e4,
-          saveKey: true
+          saveKey: true,
+          threads: 0
         },
         // 连接下载服务器超时时间（毫秒）
         connectClientTimeout: 3e4,
@@ -23385,6 +23386,21 @@
         allowSaveSnapshot: true
       };
       this.uiOptions = {};
+      this.optionsTypeRule = {
+        connectClientTimeout: "number",
+        exceedSize: "number",
+        search: {
+          rows: "number",
+          timeout: "number",
+          threads: "number"
+        },
+        downloadFailedFailedRetryCount: "number",
+        downloadFailedFailedRetryInterval: "number",
+        batchDownloadInterval: "number",
+        beforeSearchingOptions: {
+          maxMovieInformationCount: "number"
+        }
+      };
       this.reload();
     }
     reload() {
@@ -23400,6 +23416,54 @@
         this.options = options2;
       }
       this.localStorage.set(this.name, this.cleaningOptions(this.options));
+    }
+    /**
+     * 根据指定的规则转换对象的值
+     * @param obj 
+     * @param rules 
+     * @returns 
+     */
+    transformObjectProperties(obj, rules2) {
+      if (obj && typeof obj === "object" && !Array.isArray(obj)) {
+        for (const key2 in obj) {
+          if (obj.hasOwnProperty(key2)) {
+            const value = obj[key2];
+            const rule2 = rules2[key2];
+            if (rule2) {
+              if (typeof rule2 === "string") {
+                obj[key2] = this.castValueToType(value, rule2);
+              } else if (typeof rule2 === "function") {
+                obj[key2] = rule2(value);
+              } else if (typeof rule2 === "object" && !Array.isArray(rule2)) {
+                obj[key2] = this.transformObjectProperties(value, rule2);
+              }
+            }
+          }
+        }
+      }
+      return obj;
+    }
+    /**
+     * 根据类型名称进行类型转换
+     * @param value 
+     * @param type 
+     * @returns 
+     */
+    castValueToType(value, type) {
+      switch (type.toLowerCase()) {
+        case "string":
+          return String(value);
+        case "number":
+          return Number(value);
+        case "boolean":
+          return Boolean(value);
+        case "object":
+          return value !== null && typeof value === "object" ? value : {};
+        case "array":
+          return Array.isArray(value) ? value : [value];
+        default:
+          return value;
+      }
     }
     /**
      * 获取站点图标并缓存
@@ -23522,6 +23586,7 @@
           });
         });
       }
+      _options2 = this.transformObjectProperties(_options2, this.optionsTypeRule);
       return _options2;
     }
     /**
@@ -23659,6 +23724,7 @@
       if (PPF.isExtensionMode) {
         this.getFavicons();
       }
+      this.options = this.transformObjectProperties(this.options, this.optionsTypeRule);
       console.log(this.options);
     }
     /**
