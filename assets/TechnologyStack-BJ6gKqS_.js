@@ -1,4 +1,4 @@
-import { V as Vue, n as normalizeComponent } from "./index-k3MRywRT.js";
+import { V as Vue, n as normalizeComponent } from "./index-Ca5-5hzk.js";
 const name = "pt-plugin-plus";
 const version = "1.6.1";
 const packageManager = "yarn@1.22.22";

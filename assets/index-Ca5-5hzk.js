@@ -1,4 +1,4 @@
-const __vite__fileDeps=["assets/Index-Qc8YZp7o.js","assets/Index-CIf-0epO.css","assets/SupportSchema-C66khgv_.js","assets/SupportSchema-BvqZQJrG.css","assets/Index-CFGaAwrl.js","assets/Index-Vq83NoNm.css","assets/Index-Duiv_2o2.js","assets/Index-D7NFNvPm.css","assets/Index-BIVbEyjN.js","assets/Index-zt_nQyKt.css","assets/Index-BG9fHFrT.js","assets/Index-D15lVdF7.css","assets/Index-Dsw9bwJ-.js","assets/Index-B4ra-pBE.css","assets/SearchTorrent-Cb2EY-ug.js","assets/DownloadTo-MAt7wx6N.js","assets/SearchTorrent-BHJpR_Uq.css","assets/History-C5tMRrik.js","assets/History-DBBQckhe.css","assets/SystemLogs-BjVX_ZJg.js","assets/SystemLogs-DZO5-4jl.css","assets/Index-DllQImBA.js","assets/Index-B3rhd4-7.css","assets/UserDataTimeline-BKMoifhi.js","assets/dom-to-image-Tik0UajE.js","assets/UserDataTimeline-2nK2yT6_.css","assets/SiteBase-CXxb9CQA.js","assets/SiteBase-Cjuiu4Am.css","assets/Index-DHvXPcYR.js","assets/Index-BJCuj4hq.css","assets/KeepUploadTasks-Cb6QKz0f.js","assets/KeepUploadTasks-C_8T016q.css","assets/Index-yySK7hKY.js","assets/Index-CAF4OCC1.css"],__vite__mapDeps=i=>i.map(i=>__vite__fileDeps[i]);
+const __vite__fileDeps=["assets/service-axNOK7Hj.js","assets/backupFileParser-CRz4AFpO.js","assets/movieInfoService-SmWiXkiS.js","assets/pathHandler-yIpW4LsR.js","assets/Index-C8tHo9-D.js","assets/Index-CIf-0epO.css","assets/SupportSchema-OtoVEcHo.js","assets/SupportSchema-BvqZQJrG.css","assets/Index-CfYdkkD6.js","assets/Index-Vq83NoNm.css","assets/Index-BlR1x9qq.js","assets/Index-DmKrtSwt.css","assets/Index-B4GAV_45.js","assets/Index-D7NFNvPm.css","assets/Index-CPMAbohs.js","assets/Index-zt_nQyKt.css","assets/Index-DfAJlq_I.js","assets/Index-OK_6V7I8.js","assets/Index-D15lVdF7.css","assets/Index-BQwyDQgW.js","assets/Index-B4ra-pBE.css","assets/SearchTorrent-KKuYQWTf.js","assets/DownloadTo-U9eVKMsW.js","assets/SearchTorrent-CL4RE59k.css","assets/History-CI2Ae_f1.js","assets/History-DBBQckhe.css","assets/SystemLogs-BpQqNwyQ.js","assets/SystemLogs-DZO5-4jl.css","assets/Index-B0KNdCWP.js","assets/Index-B3rhd4-7.css","assets/UserDataTimeline-BWXQqM0f.js","assets/dom-to-image-BV4iVg1w.js","assets/UserDataTimeline-2nK2yT6_.css","assets/SiteBase-CrlyQqPh.js","assets/SiteBase-Cjuiu4Am.css","assets/Index-BgtcI769.js","assets/Index-BJCuj4hq.css","assets/KeepUploadTasks-BP-DTG8s.js","assets/KeepUploadTasks-C_8T016q.css","assets/Index-DduJXg0u.js","assets/Index-CAF4OCC1.css"],__vite__mapDeps=i=>i.map(i=>__vite__fileDeps[i]);
 (function polyfill() {
   const relList = document.createElement("link").relList;
   if (relList && relList.supports && relList.supports("modulepreload")) {
@@ -360,11 +360,11 @@ function def(obj, key, val, enumerable) {
   });
 }
 var bailRE = new RegExp("[^".concat(unicodeRegExp.source, ".$_\\d]"));
-function parsePath$1(path) {
-  if (bailRE.test(path)) {
+function parsePath$1(path2) {
+  if (bailRE.test(path2)) {
     return;
   }
-  var segments = path.split(".");
+  var segments = path2.split(".");
   return function(obj) {
     for (var i2 = 0; i2 < segments.length; i2++) {
       if (!obj)
@@ -8709,9 +8709,9 @@ var vuetify = vuetify$1.exports;
                   var _this = this;
                   if (!this.to || !this.$refs.link)
                     return;
-                  var path = "_vnode.data.class." + this.activeClass;
+                  var path2 = "_vnode.data.class." + this.activeClass;
                   this.$nextTick(function() {
-                    if (Object(_util_helpers__WEBPACK_IMPORTED_MODULE_9__["getObjectValueByPath"])(_this.$refs.link, path)) {
+                    if (Object(_util_helpers__WEBPACK_IMPORTED_MODULE_9__["getObjectValueByPath"])(_this.$refs.link, path2)) {
                       _this.toggle();
                     }
                   });
@@ -21974,22 +21974,22 @@ var vuetify = vuetify$1.exports;
                     this.$nextTick(function() {
                       if (!_this.autoDraw || _this.type === "bar")
                         return;
-                      var path = _this.$refs.path;
-                      var length = path.getTotalLength();
+                      var path2 = _this.$refs.path;
+                      var length = path2.getTotalLength();
                       if (!_this.fill) {
-                        path.style.transition = "none";
-                        path.style.strokeDasharray = length + " " + length;
-                        path.style.strokeDashoffset = Math.abs(length - (_this.lastLength || 0)).toString();
-                        path.getBoundingClientRect();
-                        path.style.transition = "stroke-dashoffset " + _this.autoDrawDuration + "ms " + _this.autoDrawEasing;
-                        path.style.strokeDashoffset = "0";
+                        path2.style.transition = "none";
+                        path2.style.strokeDasharray = length + " " + length;
+                        path2.style.strokeDashoffset = Math.abs(length - (_this.lastLength || 0)).toString();
+                        path2.getBoundingClientRect();
+                        path2.style.transition = "stroke-dashoffset " + _this.autoDrawDuration + "ms " + _this.autoDrawEasing;
+                        path2.style.strokeDashoffset = "0";
                       } else {
-                        path.style.transformOrigin = "bottom center";
-                        path.style.transition = "none";
-                        path.style.transform = "scaleY(0)";
-                        path.getBoundingClientRect();
-                        path.style.transition = "transform " + _this.autoDrawDuration + "ms " + _this.autoDrawEasing;
-                        path.style.transform = "scaleY(1)";
+                        path2.style.transformOrigin = "bottom center";
+                        path2.style.transition = "none";
+                        path2.style.transform = "scaleY(0)";
+                        path2.getBoundingClientRect();
+                        path2.style.transition = "transform " + _this.autoDrawDuration + "ms " + _this.autoDrawEasing;
+                        path2.style.transform = "scaleY(1)";
                       }
                       _this.lastLength = length;
                     });
@@ -23354,9 +23354,9 @@ var vuetify = vuetify$1.exports;
                   var _this = this;
                   if (!this.to || !this.$refs.link)
                     return;
-                  var path = "_vnode.data.class." + this.activeClass;
+                  var path2 = "_vnode.data.class." + this.activeClass;
                   this.$nextTick(function() {
-                    if (Object(_util_helpers__WEBPACK_IMPORTED_MODULE_3__["getObjectValueByPath"])(_this.$refs.link, path)) {
+                    if (Object(_util_helpers__WEBPACK_IMPORTED_MODULE_3__["getObjectValueByPath"])(_this.$refs.link, path2)) {
                       _this.toggle();
                     }
                   });
@@ -31672,9 +31672,9 @@ If you're seeing "$attrs is readonly", it's caused by this`);
                   }
                 },
                 checkPath: function checkPath(e) {
-                  var path = e.path || this.composedPath(e);
+                  var path2 = e.path || this.composedPath(e);
                   var delta = e.deltaY;
-                  if (e.type === "keydown" && path[0] === document.body) {
+                  if (e.type === "keydown" && path2[0] === document.body) {
                     var dialog = this.$refs.dialog;
                     var selected = window.getSelection().anchorNode;
                     if (dialog && this.hasScrollbar(dialog) && this.isInside(selected, dialog)) {
@@ -31682,8 +31682,8 @@ If you're seeing "$attrs is readonly", it's caused by this`);
                     }
                     return true;
                   }
-                  for (var index2 = 0; index2 < path.length; index2++) {
-                    var el = path[index2];
+                  for (var index2 = 0; index2 < path2.length; index2++) {
+                    var el = path2[index2];
                     if (el === document)
                       return true;
                     if (el === document.documentElement)
@@ -31701,18 +31701,18 @@ If you're seeing "$attrs is readonly", it's caused by this`);
                 composedPath: function composedPath(e) {
                   if (e.composedPath)
                     return e.composedPath();
-                  var path = [];
+                  var path2 = [];
                   var el = e.target;
                   while (el) {
-                    path.push(el);
+                    path2.push(el);
                     if (el.tagName === "HTML") {
-                      path.push(document);
-                      path.push(window);
-                      return path;
+                      path2.push(document);
+                      path2.push(window);
+                      return path2;
                     }
                     el = el.parentElement;
                   }
-                  return path;
+                  return path2;
                 },
                 hideScroll: function hideScroll() {
                   if (this.$vuetify.breakpoint.smAndDown) {
@@ -34321,19 +34321,19 @@ If you're seeing "$attrs is readonly", it's caused by this`);
             function addPassiveEventListener(el, event, cb, options) {
               el.addEventListener(event, cb, passiveSupported ? options : false);
             }
-            function getNestedValue(obj, path, fallback) {
-              var last = path.length - 1;
+            function getNestedValue(obj, path2, fallback) {
+              var last = path2.length - 1;
               if (last < 0)
                 return obj === void 0 ? fallback : obj;
               for (var i2 = 0; i2 < last; i2++) {
                 if (obj == null) {
                   return fallback;
                 }
-                obj = obj[path[i2]];
+                obj = obj[path2[i2]];
               }
               if (obj == null)
                 return fallback;
-              return obj[path[last]] === void 0 ? fallback : obj[path[last]];
+              return obj[path2[last]] === void 0 ? fallback : obj[path2[last]];
             }
             function deepEqual(a, b) {
               if (a === b)
@@ -34353,12 +34353,12 @@ If you're seeing "$attrs is readonly", it's caused by this`);
                 return deepEqual(a[p], b[p]);
               });
             }
-            function getObjectValueByPath(obj, path, fallback) {
-              if (!path || path.constructor !== String)
+            function getObjectValueByPath(obj, path2, fallback) {
+              if (!path2 || path2.constructor !== String)
                 return fallback;
-              path = path.replace(/\[(\w+)\]/g, ".$1");
-              path = path.replace(/^\./, "");
-              return getNestedValue(obj, path.split("."), fallback);
+              path2 = path2.replace(/\[(\w+)\]/g, ".$1");
+              path2 = path2.replace(/^\./, "");
+              return getNestedValue(obj, path2.split("."), fallback);
             }
             function getPropertyFromItem(item, property, fallback) {
               if (property == null)
@@ -34973,6 +34973,11 @@ const _sfc_main$8 = Vue$2.extend({
               title: "navigation.settings.permissions",
               icon: "verified_user",
               key: "/set-permissions"
+            },
+            {
+              title: "navigation.settings.mediaServers",
+              icon: "movie",
+              key: "/set-media-servers"
             }
           ]
         },
@@ -35213,6 +35218,8 @@ var EAction = /* @__PURE__ */ ((EAction2) => {
   EAction2["pushDebugMsg"] = "pushDebugMsg";
   EAction2["updateDebuggerTabId"] = "updateDebuggerTabId";
   EAction2["getTopSearches"] = "getTopSearches";
+  EAction2["testMediaServerConnectivity"] = "testMediaServerConnectivity";
+  EAction2["getMediaFromMediaServer"] = "getMediaFromMediaServer";
   return EAction2;
 })(EAction || {});
 var EStorageType = /* @__PURE__ */ ((EStorageType2) => {
@@ -35306,6 +35313,10 @@ var EBackupServerType = /* @__PURE__ */ ((EBackupServerType2) => {
   EBackupServerType2["WebDAV"] = "WebDAV";
   return EBackupServerType2;
 })(EBackupServerType || {});
+var EMediaServerType = /* @__PURE__ */ ((EMediaServerType2) => {
+  EMediaServerType2["Emby"] = "Emby";
+  return EMediaServerType2;
+})(EMediaServerType || {});
 var EPluginPosition = /* @__PURE__ */ ((EPluginPosition2) => {
   EPluginPosition2["left"] = "left";
   EPluginPosition2["right"] = "right";
@@ -35423,6 +35434,63 @@ const BASE_TAG_COLORS = {
   // 禁止转载
   "⛔️": "deep-orange darken-1"
 };
+const scriptRel = "modulepreload";
+const assetsURL = function(dep) {
+  return "/" + dep;
+};
+const seen = {};
+const __vitePreload = function preload(baseModule, deps, importerUrl) {
+  let promise = Promise.resolve();
+  if (deps && deps.length > 0) {
+    const links = document.getElementsByTagName("link");
+    const cspNonceMeta = document.querySelector("meta[property=csp-nonce]");
+    const cspNonce = (cspNonceMeta == null ? void 0 : cspNonceMeta.nonce) || (cspNonceMeta == null ? void 0 : cspNonceMeta.getAttribute("nonce"));
+    promise = Promise.all(deps.map((dep) => {
+      dep = assetsURL(dep, importerUrl);
+      if (dep in seen)
+        return;
+      seen[dep] = true;
+      const isCss = dep.endsWith(".css");
+      const cssSelector = isCss ? '[rel="stylesheet"]' : "";
+      const isBaseRelative = !!importerUrl;
+      if (isBaseRelative) {
+        for (let i2 = links.length - 1; i2 >= 0; i2--) {
+          const link2 = links[i2];
+          if (link2.href === dep && (!isCss || link2.rel === "stylesheet")) {
+            return;
+          }
+        }
+      } else if (document.querySelector(`link[href="${dep}"]${cssSelector}`)) {
+        return;
+      }
+      const link = document.createElement("link");
+      link.rel = isCss ? "stylesheet" : scriptRel;
+      if (!isCss) {
+        link.as = "script";
+        link.crossOrigin = "";
+      }
+      link.href = dep;
+      if (cspNonce) {
+        link.setAttribute("nonce", cspNonce);
+      }
+      document.head.appendChild(link);
+      if (isCss) {
+        return new Promise((res, rej) => {
+          link.addEventListener("load", res);
+          link.addEventListener("error", () => rej(new Error(`Unable to preload CSS for ${dep}`)));
+        });
+      }
+    }));
+  }
+  return promise.then(() => baseModule()).catch((err) => {
+    const e = new Event("vite:preloadError", { cancelable: true });
+    e.payload = err;
+    window.dispatchEvent(e);
+    if (!e.defaultPrevented) {
+      throw err;
+    }
+  });
+};
 let localStorage$1 = class localStorage2 {
   constructor() {
     this.isExtensionMode = false;
@@ -35472,16 +35540,16 @@ let localStorage$1 = class localStorage2 {
   }
 };
 var cryptoJs$1 = { exports: {} };
-function commonjsRequire(path) {
-  throw new Error('Could not dynamically require "' + path + '". Please configure the dynamicRequireTargets or/and ignoreDynamicRequires option of @rollup/plugin-commonjs appropriately for this require call to work.');
+function commonjsRequire(path2) {
+  throw new Error('Could not dynamically require "' + path2 + '". Please configure the dynamicRequireTargets or/and ignoreDynamicRequires option of @rollup/plugin-commonjs appropriately for this require call to work.');
 }
 var core$1 = { exports: {} };
-const __viteBrowserExternal = {};
-const __viteBrowserExternal$1 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+const path = {};
+const __viteBrowserExternal = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  default: __viteBrowserExternal
+  default: path
 }, Symbol.toStringTag, { value: "Module" }));
-const require$$0 = /* @__PURE__ */ getAugmentedNamespace(__viteBrowserExternal$1);
+const require$$0 = /* @__PURE__ */ getAugmentedNamespace(__viteBrowserExternal);
 var core = core$1.exports;
 var hasRequiredCore;
 function requireCore() {
@@ -45073,7 +45141,7 @@ const pLimit$1 = /* @__PURE__ */ getDefaultExportFromCjs(pLimit_1);
 const limit = pLimit$1(8);
 let rootPath = "";
 let isExtensionMode = false;
-const isDebugMode = false;
+const isDebugMode$1 = false;
 try {
   let runtime = chrome.runtime;
   isExtensionMode = true;
@@ -45084,12 +45152,12 @@ try {
   if (!rootPath) {
     rootPath = `chrome-extension://${chrome.runtime.id}`;
   }
-  isDebugMode && console.log("is extension mode.");
+  isDebugMode$1 && console.log("is extension mode.");
 } catch (error2) {
   isExtensionMode = false;
-  isDebugMode && console.log("is not extension mode.");
+  isDebugMode$1 && console.log("is not extension mode.");
 }
-const RESOURCE_URL = !isExtensionMode ? `http://${window.location.hostname}:8001` : (isExtensionMode ? rootPath : "") + "/resource";
+const RESOURCE_URL = !isExtensionMode ? `/resource` : (isExtensionMode ? rootPath : "") + "/resource";
 let RESOURCE_API = {
   host: RESOURCE_URL,
   schemas: `${RESOURCE_URL}/schemas.json`,
@@ -45102,7 +45170,7 @@ let RESOURCE_API = {
   systemConfig: `${RESOURCE_URL}/systemConfig.json`
 };
 const APP = {
-  debugMode: isDebugMode,
+  debugMode: isDebugMode$1,
   scriptQueues: [],
   isExtensionMode,
   cache: {
@@ -45285,12 +45353,12 @@ const APP = {
    * 异步获取脚本内容
    * @param path 路径
    */
-  getScriptContent(path) {
+  getScriptContent(path2) {
     return limit(() => {
       return new Promise((resolve2, reject) => {
-        let url = `${API.host}/${path}`;
-        if (path.substr(0, 4) === "http") {
-          url = path;
+        let url = `${API.host}/${path2}`;
+        if (path2.substr(0, 4) === "http") {
+          url = path2;
         } else {
           url = url.replace("resource//", "resource/");
         }
@@ -45343,6 +45411,7 @@ const APP = {
 };
 APP.cache.init();
 const API = RESOURCE_API;
+const isDebugMode = false;
 class Extension {
   constructor() {
     this.isExtensionMode = APP.isExtensionMode;
@@ -45410,8 +45479,8 @@ class Extension {
         }
         return;
       }
-      if (false) {
-        null.then((result) => {
+      if (isDebugMode) {
+        __vitePreload(() => import("./service-axNOK7Hj.js"), true ? __vite__mapDeps([0,1,2,3]) : void 0).then((result) => {
           console.log(result);
           const PTService = new result.default(true);
           PTService.requestMessage({
@@ -46177,63 +46246,6 @@ var __component__$2 = /* @__PURE__ */ normalizeComponent(
   null
 );
 const App = __component__$2.exports;
-const scriptRel = "modulepreload";
-const assetsURL = function(dep) {
-  return "/" + dep;
-};
-const seen = {};
-const __vitePreload = function preload(baseModule, deps, importerUrl) {
-  let promise = Promise.resolve();
-  if (deps && deps.length > 0) {
-    const links = document.getElementsByTagName("link");
-    const cspNonceMeta = document.querySelector("meta[property=csp-nonce]");
-    const cspNonce = (cspNonceMeta == null ? void 0 : cspNonceMeta.nonce) || (cspNonceMeta == null ? void 0 : cspNonceMeta.getAttribute("nonce"));
-    promise = Promise.all(deps.map((dep) => {
-      dep = assetsURL(dep, importerUrl);
-      if (dep in seen)
-        return;
-      seen[dep] = true;
-      const isCss = dep.endsWith(".css");
-      const cssSelector = isCss ? '[rel="stylesheet"]' : "";
-      const isBaseRelative = !!importerUrl;
-      if (isBaseRelative) {
-        for (let i2 = links.length - 1; i2 >= 0; i2--) {
-          const link2 = links[i2];
-          if (link2.href === dep && (!isCss || link2.rel === "stylesheet")) {
-            return;
-          }
-        }
-      } else if (document.querySelector(`link[href="${dep}"]${cssSelector}`)) {
-        return;
-      }
-      const link = document.createElement("link");
-      link.rel = isCss ? "stylesheet" : scriptRel;
-      if (!isCss) {
-        link.as = "script";
-        link.crossOrigin = "";
-      }
-      link.href = dep;
-      if (cspNonce) {
-        link.setAttribute("nonce", cspNonce);
-      }
-      document.head.appendChild(link);
-      if (isCss) {
-        return new Promise((res, rej) => {
-          link.addEventListener("load", res);
-          link.addEventListener("error", () => rej(new Error(`Unable to preload CSS for ${dep}`)));
-        });
-      }
-    }));
-  }
-  return promise.then(() => baseModule()).catch((err) => {
-    const e = new Event("vite:preloadError", { cancelable: true });
-    e.payload = err;
-    window.dispatchEvent(e);
-    if (!e.defaultPrevented) {
-      throw err;
-    }
-  });
-};
 /*!
   * vue-router v3.5.4
   * (c) 2022 Evan You
@@ -46389,7 +46401,7 @@ function formatMatch(record) {
   return res;
 }
 function getFullPath(ref2, _stringifyQuery) {
-  var path = ref2.path;
+  var path2 = ref2.path;
   var query2 = ref2.query;
   if (query2 === void 0)
     query2 = {};
@@ -46397,7 +46409,7 @@ function getFullPath(ref2, _stringifyQuery) {
   if (hash === void 0)
     hash = "";
   var stringify = _stringifyQuery || stringifyQuery;
-  return (path || "/") + stringify(query2) + hash;
+  return (path2 || "/") + stringify(query2) + hash;
 }
 function isSameRoute(a, b, onlyPath) {
   if (b === START) {
@@ -46607,27 +46619,27 @@ function resolvePath(relative, base, append) {
   }
   return stack.join("/");
 }
-function parsePath(path) {
+function parsePath(path2) {
   var hash = "";
   var query2 = "";
-  var hashIndex = path.indexOf("#");
+  var hashIndex = path2.indexOf("#");
   if (hashIndex >= 0) {
-    hash = path.slice(hashIndex);
-    path = path.slice(0, hashIndex);
+    hash = path2.slice(hashIndex);
+    path2 = path2.slice(0, hashIndex);
   }
-  var queryIndex = path.indexOf("?");
+  var queryIndex = path2.indexOf("?");
   if (queryIndex >= 0) {
-    query2 = path.slice(queryIndex + 1);
-    path = path.slice(0, queryIndex);
+    query2 = path2.slice(queryIndex + 1);
+    path2 = path2.slice(0, queryIndex);
   }
   return {
-    path,
+    path: path2,
     query: query2,
     hash
   };
 }
-function cleanPath(path) {
-  return path.replace(/\/(?:\s*\/)+/g, "/");
+function cleanPath(path2) {
+  return path2.replace(/\/(?:\s*\/)+/g, "/");
 }
 var isarray = Array.isArray || function(arr) {
   return Object.prototype.toString.call(arr) == "[object Array]";
@@ -46653,17 +46665,17 @@ function parse$2(str, options) {
   var tokens = [];
   var key = 0;
   var index2 = 0;
-  var path = "";
+  var path2 = "";
   var defaultDelimiter = options && options.delimiter || "/";
   var res;
   while ((res = PATH_REGEXP.exec(str)) != null) {
     var m = res[0];
     var escaped = res[1];
     var offset = res.index;
-    path += str.slice(index2, offset);
+    path2 += str.slice(index2, offset);
     index2 = offset + m.length;
     if (escaped) {
-      path += escaped[1];
+      path2 += escaped[1];
       continue;
     }
     var next = str[index2];
@@ -46673,9 +46685,9 @@ function parse$2(str, options) {
     var group = res[5];
     var modifier = res[6];
     var asterisk = res[7];
-    if (path) {
-      tokens.push(path);
-      path = "";
+    if (path2) {
+      tokens.push(path2);
+      path2 = "";
     }
     var partial2 = prefix != null && next != null && next !== prefix;
     var repeat2 = modifier === "+" || modifier === "*";
@@ -46694,10 +46706,10 @@ function parse$2(str, options) {
     });
   }
   if (index2 < str.length) {
-    path += str.substr(index2);
+    path2 += str.substr(index2);
   }
-  if (path) {
-    tokens.push(path);
+  if (path2) {
+    tokens.push(path2);
   }
   return tokens;
 }
@@ -46722,14 +46734,14 @@ function tokensToFunction(tokens, options) {
     }
   }
   return function(obj, opts) {
-    var path = "";
+    var path2 = "";
     var data = obj || {};
     var options2 = opts || {};
     var encode2 = options2.pretty ? encodeURIComponentPretty : encodeURIComponent;
     for (var i22 = 0; i22 < tokens.length; i22++) {
       var token = tokens[i22];
       if (typeof token === "string") {
-        path += token;
+        path2 += token;
         continue;
       }
       var value = data[token.name];
@@ -46737,7 +46749,7 @@ function tokensToFunction(tokens, options) {
       if (value == null) {
         if (token.optional) {
           if (token.partial) {
-            path += token.prefix;
+            path2 += token.prefix;
           }
           continue;
         } else {
@@ -46760,7 +46772,7 @@ function tokensToFunction(tokens, options) {
           if (!matches2[i22].test(segment)) {
             throw new TypeError('Expected all "' + token.name + '" to match "' + token.pattern + '", but received `' + JSON.stringify(segment) + "`");
           }
-          path += (j === 0 ? token.prefix : token.delimiter) + segment;
+          path2 += (j === 0 ? token.prefix : token.delimiter) + segment;
         }
         continue;
       }
@@ -46768,9 +46780,9 @@ function tokensToFunction(tokens, options) {
       if (!matches2[i22].test(segment)) {
         throw new TypeError('Expected "' + token.name + '" to match "' + token.pattern + '", but received "' + segment + '"');
       }
-      path += token.prefix + segment;
+      path2 += token.prefix + segment;
     }
-    return path;
+    return path2;
   };
 }
 function escapeString(str) {
@@ -46786,8 +46798,8 @@ function attachKeys(re, keys) {
 function flags(options) {
   return options && options.sensitive ? "" : "i";
 }
-function regexpToRegexp(path, keys) {
-  var groups = path.source.match(/\((?!\?)/g);
+function regexpToRegexp(path2, keys) {
+  var groups = path2.source.match(/\((?!\?)/g);
   if (groups) {
     for (var i2 = 0; i2 < groups.length; i2++) {
       keys.push({
@@ -46802,18 +46814,18 @@ function regexpToRegexp(path, keys) {
       });
     }
   }
-  return attachKeys(path, keys);
+  return attachKeys(path2, keys);
 }
-function arrayToRegexp(path, keys, options) {
+function arrayToRegexp(path2, keys, options) {
   var parts = [];
-  for (var i2 = 0; i2 < path.length; i2++) {
-    parts.push(pathToRegexp(path[i2], keys, options).source);
+  for (var i2 = 0; i2 < path2.length; i2++) {
+    parts.push(pathToRegexp(path2[i2], keys, options).source);
   }
   var regexp = new RegExp("(?:" + parts.join("|") + ")", flags(options));
   return attachKeys(regexp, keys);
 }
-function stringToRegexp(path, keys, options) {
-  return tokensToRegExp(parse$2(path, options), keys, options);
+function stringToRegexp(path2, keys, options) {
+  return tokensToRegExp(parse$2(path2, options), keys, options);
 }
 function tokensToRegExp(tokens, keys, options) {
   if (!isarray(keys)) {
@@ -46860,24 +46872,24 @@ function tokensToRegExp(tokens, keys, options) {
   }
   return attachKeys(new RegExp("^" + route, flags(options)), keys);
 }
-function pathToRegexp(path, keys, options) {
+function pathToRegexp(path2, keys, options) {
   if (!isarray(keys)) {
     options = /** @type {!Object} */
     keys || options;
     keys = [];
   }
   options = options || {};
-  if (path instanceof RegExp) {
+  if (path2 instanceof RegExp) {
     return regexpToRegexp(
-      path,
+      path2,
       /** @type {!Array} */
       keys
     );
   }
-  if (isarray(path)) {
+  if (isarray(path2)) {
     return arrayToRegexp(
       /** @type {!Array} */
-      path,
+      path2,
       /** @type {!Array} */
       keys,
       options
@@ -46885,7 +46897,7 @@ function pathToRegexp(path, keys, options) {
   }
   return stringToRegexp(
     /** @type {string} */
-    path,
+    path2,
     /** @type {!Array} */
     keys,
     options
@@ -46896,10 +46908,10 @@ pathToRegexp_1.compile = compile_1;
 pathToRegexp_1.tokensToFunction = tokensToFunction_1;
 pathToRegexp_1.tokensToRegExp = tokensToRegExp_1;
 var regexpCompileCache = /* @__PURE__ */ Object.create(null);
-function fillParams(path, params, routeMsg) {
+function fillParams(path2, params, routeMsg) {
   params = params || {};
   try {
-    var filler = regexpCompileCache[path] || (regexpCompileCache[path] = pathToRegexp_1.compile(path));
+    var filler = regexpCompileCache[path2] || (regexpCompileCache[path2] = pathToRegexp_1.compile(path2));
     if (typeof params.pathMatch === "string") {
       params[0] = params.pathMatch;
     }
@@ -46942,7 +46954,7 @@ function normalizeLocation(raw, current, append, router2) {
   }
   var parsedPath = parsePath(next.path || "");
   var basePath = current && current.path || "/";
-  var path = parsedPath.path ? resolvePath(parsedPath.path, basePath, append || next.append) : basePath;
+  var path2 = parsedPath.path ? resolvePath(parsedPath.path, basePath, append || next.append) : basePath;
   var query2 = resolveQuery(
     parsedPath.query,
     next.query,
@@ -46954,7 +46966,7 @@ function normalizeLocation(raw, current, append, router2) {
   }
   return {
     _normalized: true,
-    path,
+    path: path2,
     query: query2,
     hash
   };
@@ -47204,12 +47216,12 @@ function createRouteMap(routes, oldPathList, oldPathMap, oldNameMap, parentRoute
     }
   }
   if (false) {
-    var found = pathList.filter(function(path) {
-      return path && path.charAt(0) !== "*" && path.charAt(0) !== "/";
+    var found = pathList.filter(function(path2) {
+      return path2 && path2.charAt(0) !== "*" && path2.charAt(0) !== "/";
     });
     if (found.length > 0) {
-      var pathNames = found.map(function(path) {
-        return "- " + path;
+      var pathNames = found.map(function(path2) {
+        return "- " + path2;
       }).join("\n");
       warn$1(false, "Non-nested routes must include a leading slash character. Fix the following routes: \n" + pathNames);
     }
@@ -47221,24 +47233,24 @@ function createRouteMap(routes, oldPathList, oldPathMap, oldNameMap, parentRoute
   };
 }
 function addRouteRecord(pathList, pathMap, nameMap, route, parent, matchAs) {
-  var path = route.path;
+  var path2 = route.path;
   var name = route.name;
   if (false) {
-    assert$2(path != null, '"path" is required in a route configuration.');
+    assert$2(path2 != null, '"path" is required in a route configuration.');
     assert$2(
       typeof route.component !== "string",
       'route config "component" for path: ' + String(
-        path || name
+        path2 || name
       ) + " cannot be a string id. Use an actual component instead."
     );
     warn$1(
       // eslint-disable-next-line no-control-regex
-      !/[^\u0000-\u007F]+/.test(path),
-      'Route with path "' + path + '" contains unencoded characters, make sure your path is correctly encoded before passing it to the router. Use encodeURI to encode static segments of your path.'
+      !/[^\u0000-\u007F]+/.test(path2),
+      'Route with path "' + path2 + '" contains unencoded characters, make sure your path is correctly encoded before passing it to the router. Use encodeURI to encode static segments of your path.'
     );
   }
   var pathToRegexpOptions = route.pathToRegexpOptions || {};
-  var normalizedPath = normalizePath(path, parent, pathToRegexpOptions.strict);
+  var normalizedPath = normalizePath(path2, parent, pathToRegexpOptions.strict);
   if (typeof route.caseSensitive === "boolean") {
     pathToRegexpOptions.sensitive = route.caseSensitive;
   }
@@ -47284,7 +47296,7 @@ function addRouteRecord(pathList, pathMap, nameMap, route, parent, matchAs) {
       if (false) {
         warn$1(
           false,
-          'Found an alias with the same value as the path: "' + path + '". You have to remove that alias. It will be ignored in development.'
+          'Found an alias with the same value as the path: "' + path2 + '". You have to remove that alias. It will be ignored in development.'
         );
         continue;
       }
@@ -47314,31 +47326,31 @@ function addRouteRecord(pathList, pathMap, nameMap, route, parent, matchAs) {
     }
   }
 }
-function compileRouteRegex(path, pathToRegexpOptions) {
-  var regex = pathToRegexp_1(path, [], pathToRegexpOptions);
+function compileRouteRegex(path2, pathToRegexpOptions) {
+  var regex = pathToRegexp_1(path2, [], pathToRegexpOptions);
   if (false) {
     var keys = /* @__PURE__ */ Object.create(null);
     regex.keys.forEach(function(key) {
       warn$1(
         !keys[key.name],
-        'Duplicate param keys in route with path: "' + path + '"'
+        'Duplicate param keys in route with path: "' + path2 + '"'
       );
       keys[key.name] = true;
     });
   }
   return regex;
 }
-function normalizePath(path, parent, strict) {
+function normalizePath(path2, parent, strict) {
   if (!strict) {
-    path = path.replace(/\/$/, "");
+    path2 = path2.replace(/\/$/, "");
   }
-  if (path[0] === "/") {
-    return path;
+  if (path2[0] === "/") {
+    return path2;
   }
   if (parent == null) {
-    return path;
+    return path2;
   }
-  return cleanPath(parent.path + "/" + path);
+  return cleanPath(parent.path + "/" + path2);
 }
 function createMatcher(routes, router2) {
   var ref2 = createRouteMap(routes);
@@ -47365,8 +47377,8 @@ function createMatcher(routes, router2) {
     }
   }
   function getRoutes2() {
-    return pathList.map(function(path) {
-      return pathMap[path];
+    return pathList.map(function(path2) {
+      return pathMap[path2];
     });
   }
   function match2(raw, currentRoute, redirectedFrom) {
@@ -47400,8 +47412,8 @@ function createMatcher(routes, router2) {
     } else if (location2.path) {
       location2.params = {};
       for (var i2 = 0; i2 < pathList.length; i2++) {
-        var path = pathList[i2];
-        var record$1 = pathMap[path];
+        var path2 = pathList[i2];
+        var record$1 = pathMap[path2];
         if (matchRoute(record$1.regex, location2.path, location2.params)) {
           return _createRoute(record$1, location2, redirectedFrom);
         }
@@ -47426,7 +47438,7 @@ function createMatcher(routes, router2) {
     }
     var re = redirect2;
     var name = re.name;
-    var path = re.path;
+    var path2 = re.path;
     var query2 = location2.query;
     var hash = location2.hash;
     var params = location2.params;
@@ -47445,8 +47457,8 @@ function createMatcher(routes, router2) {
         hash,
         params
       }, void 0, location2);
-    } else if (path) {
-      var rawPath = resolveRecordPath(path, record);
+    } else if (path2) {
+      var rawPath = resolveRecordPath(path2, record);
       var resolvedPath = fillParams(rawPath, params, 'redirect route with path "' + rawPath + '"');
       return match2({
         _normalized: true,
@@ -47491,8 +47503,8 @@ function createMatcher(routes, router2) {
     addRoutes: addRoutes2
   };
 }
-function matchRoute(regex, path, params) {
-  var m = path.match(regex);
+function matchRoute(regex, path2, params) {
+  var m = path2.match(regex);
   if (!m) {
     return false;
   } else if (!params) {
@@ -47506,8 +47518,8 @@ function matchRoute(regex, path, params) {
   }
   return true;
 }
-function resolveRecordPath(path, record) {
-  return resolvePath(path, record.parent ? record.parent.path : "/", true);
+function resolveRecordPath(path2, record) {
+  return resolvePath(path2, record.parent ? record.parent.path : "/", true);
 }
 var Time = inBrowser && window.performance && window.performance.now ? window.performance : Date;
 function genStateKey() {
@@ -48172,13 +48184,13 @@ var HTML5History = /* @__PURE__ */ function(History3) {
   return HTML5History2;
 }(History);
 function getLocation(base) {
-  var path = window.location.pathname;
-  var pathLowerCase = path.toLowerCase();
+  var path2 = window.location.pathname;
+  var pathLowerCase = path2.toLowerCase();
   var baseLowerCase = base.toLowerCase();
   if (base && (pathLowerCase === baseLowerCase || pathLowerCase.indexOf(cleanPath(baseLowerCase + "/")) === 0)) {
-    path = path.slice(base.length);
+    path2 = path2.slice(base.length);
   }
-  return (path || "/") + window.location.search + window.location.hash;
+  return (path2 || "/") + window.location.search + window.location.hash;
 }
 var HashHistory = /* @__PURE__ */ function(History3) {
   function HashHistory2(router2, base, fallback) {
@@ -48276,11 +48288,11 @@ function checkFallback(base) {
   }
 }
 function ensureSlash() {
-  var path = getHash();
-  if (path.charAt(0) === "/") {
+  var path2 = getHash();
+  if (path2.charAt(0) === "/") {
     return true;
   }
-  replaceHash("/" + path);
+  replaceHash("/" + path2);
   return false;
 }
 function getHash() {
@@ -48292,24 +48304,24 @@ function getHash() {
   href = href.slice(index2 + 1);
   return href;
 }
-function getUrl(path) {
+function getUrl(path2) {
   var href = window.location.href;
   var i2 = href.indexOf("#");
   var base = i2 >= 0 ? href.slice(0, i2) : href;
-  return base + "#" + path;
+  return base + "#" + path2;
 }
-function pushHash(path) {
+function pushHash(path2) {
   if (supportsPushState) {
-    pushState(getUrl(path));
+    pushState(getUrl(path2));
   } else {
-    window.location.hash = path;
+    window.location.hash = path2;
   }
 }
-function replaceHash(path) {
+function replaceHash(path2) {
   if (supportsPushState) {
-    replaceState(getUrl(path));
+    replaceState(getUrl(path2));
   } else {
-    window.location.replace(getUrl(path));
+    window.location.replace(getUrl(path2));
   }
 }
 var AbstractHistory = /* @__PURE__ */ function(History3) {
@@ -48570,8 +48582,8 @@ function registerHook(list, fn) {
   };
 }
 function createHref(base, fullPath, mode) {
-  var path = mode === "hash" ? "#" + fullPath : fullPath;
-  return base ? cleanPath(base + "/" + path) : path;
+  var path2 = mode === "hash" ? "#" + fullPath : fullPath;
+  return base ? cleanPath(base + "/" + path2) : path2;
 }
 VueRouter.install = install$2;
 VueRouter.version = "3.5.4";
@@ -49593,7 +49605,7 @@ const router = new VueRouter({
     {
       path: "/set-sites",
       name: "set-sites",
-      component: () => __vitePreload(() => import("./Index-Qc8YZp7o.js"), true ? __vite__mapDeps([0,1]) : void 0),
+      component: () => __vitePreload(() => import("./Index-C8tHo9-D.js"), true ? __vite__mapDeps([4,5]) : void 0),
       meta: {
         // 需要被缓存
         keepAlive: true
@@ -49602,58 +49614,63 @@ const router = new VueRouter({
     {
       path: "/set-support-schema",
       name: "set-support-schema",
-      component: () => __vitePreload(() => import("./SupportSchema-C66khgv_.js"), true ? __vite__mapDeps([2,3]) : void 0)
+      component: () => __vitePreload(() => import("./SupportSchema-OtoVEcHo.js"), true ? __vite__mapDeps([6,7]) : void 0)
     },
     {
       path: "/set-download-clients",
       name: "set-download-clients",
-      component: () => __vitePreload(() => import("./Index-CFGaAwrl.js"), true ? __vite__mapDeps([4,5]) : void 0)
+      component: () => __vitePreload(() => import("./Index-CfYdkkD6.js"), true ? __vite__mapDeps([8,9]) : void 0)
+    },
+    {
+      path: "/set-media-servers",
+      name: "set-media-servers",
+      component: () => __vitePreload(() => import("./Index-BlR1x9qq.js"), true ? __vite__mapDeps([10,11]) : void 0)
     },
     {
       path: "/set-base",
       name: "set-base",
-      component: () => __vitePreload(() => import("./Index-Duiv_2o2.js"), true ? __vite__mapDeps([6,7]) : void 0)
+      component: () => __vitePreload(() => import("./Index-B4GAV_45.js"), true ? __vite__mapDeps([12,2,13]) : void 0)
     },
     {
       path: "/set-download-paths",
       name: "set-download-paths",
-      component: () => __vitePreload(() => import("./Index-BIVbEyjN.js"), true ? __vite__mapDeps([8,9]) : void 0)
+      component: () => __vitePreload(() => import("./Index-CPMAbohs.js"), true ? __vite__mapDeps([14,15]) : void 0)
     },
     {
       path: "/set-backup",
       name: "set-backup",
-      component: () => __vitePreload(() => import("./Index-HQGaJzdx.js"), true ? [] : void 0)
+      component: () => __vitePreload(() => import("./Index-DfAJlq_I.js"), true ? __vite__mapDeps([16,1]) : void 0)
     },
     {
       path: "/technology-stack",
       name: "technology-stack",
-      component: () => __vitePreload(() => import("./TechnologyStack-BG_D6-mR.js"), true ? [] : void 0)
+      component: () => __vitePreload(() => import("./TechnologyStack-BJ6gKqS_.js"), true ? [] : void 0)
     },
     {
       path: "/set-language",
       name: "set-language",
-      component: () => __vitePreload(() => import("./Index-cOrDAaw-.js"), true ? [] : void 0)
+      component: () => __vitePreload(() => import("./Index-CHmb-AmQ.js"), true ? [] : void 0)
     },
     {
       path: "/set-search-solution",
       name: "set-search-solution",
-      component: () => __vitePreload(() => import("./Index-BG9fHFrT.js"), true ? __vite__mapDeps([10,11]) : void 0)
+      component: () => __vitePreload(() => import("./Index-OK_6V7I8.js"), true ? __vite__mapDeps([17,18]) : void 0)
     },
     {
       path: "/donate",
       name: "donate",
-      component: () => __vitePreload(() => import("./Donate-BHZb5_re.js"), true ? [] : void 0)
+      component: () => __vitePreload(() => import("./Donate-By7UxSCw.js"), true ? [] : void 0)
     },
     {
       path: "/set-site-plugins/:host",
       name: "set-site-plugins",
-      component: () => __vitePreload(() => import("./Index-Dsw9bwJ-.js"), true ? __vite__mapDeps([12,13]) : void 0),
+      component: () => __vitePreload(() => import("./Index-BQwyDQgW.js"), true ? __vite__mapDeps([19,20]) : void 0),
       props: true
     },
     {
       path: "/search-torrent/:key?/:host?",
       name: "search-torrent",
-      component: () => __vitePreload(() => import("./SearchTorrent-Cb2EY-ug.js"), true ? __vite__mapDeps([14,15,16]) : void 0),
+      component: () => __vitePreload(() => import("./SearchTorrent-KKuYQWTf.js"), true ? __vite__mapDeps([21,3,22,23]) : void 0),
       props: true,
       meta: {
         // 需要被缓存
@@ -49663,33 +49680,33 @@ const router = new VueRouter({
     {
       path: "/history",
       name: "history",
-      component: () => __vitePreload(() => import("./History-C5tMRrik.js"), true ? __vite__mapDeps([17,15,18]) : void 0)
+      component: () => __vitePreload(() => import("./History-CI2Ae_f1.js"), true ? __vite__mapDeps([24,22,3,25]) : void 0)
     },
     {
       path: "/system-logs",
       name: "system-logs",
-      component: () => __vitePreload(() => import("./SystemLogs-BjVX_ZJg.js"), true ? __vite__mapDeps([19,20]) : void 0)
+      component: () => __vitePreload(() => import("./SystemLogs-BpQqNwyQ.js"), true ? __vite__mapDeps([26,27]) : void 0)
     },
     {
       path: "/set-site-search-entry/:host",
       name: "set-site-search-entry",
-      component: () => __vitePreload(() => import("./Index-DllQImBA.js"), true ? __vite__mapDeps([21,22]) : void 0),
+      component: () => __vitePreload(() => import("./Index-B0KNdCWP.js"), true ? __vite__mapDeps([28,29]) : void 0),
       props: true
     },
     {
       path: "/dev-team",
       name: "dev-team",
-      component: () => __vitePreload(() => import("./Teams-ATbSVtX3.js"), true ? [] : void 0)
+      component: () => __vitePreload(() => import("./Teams-kO-rGNjG.js"), true ? [] : void 0)
     },
     {
       path: "/user-data-timeline",
       name: "user-data-timeline",
-      component: () => __vitePreload(() => import("./UserDataTimeline-BKMoifhi.js"), true ? __vite__mapDeps([23,24,25]) : void 0)
+      component: () => __vitePreload(() => import("./UserDataTimeline-BWXQqM0f.js"), true ? __vite__mapDeps([30,31,32]) : void 0)
     },
     {
       path: "/statistic/:host?",
       name: "statistic",
-      component: () => __vitePreload(() => import("./SiteBase-CXxb9CQA.js"), true ? __vite__mapDeps([26,24,27]) : void 0)
+      component: () => __vitePreload(() => import("./SiteBase-CrlyQqPh.js"), true ? __vite__mapDeps([33,31,34]) : void 0)
     },
     {
       path: "/set-permissions",
@@ -49699,7 +49716,7 @@ const router = new VueRouter({
     {
       path: "/collection",
       name: "collection",
-      component: () => __vitePreload(() => import("./Index-DHvXPcYR.js"), true ? __vite__mapDeps([28,15,29]) : void 0),
+      component: () => __vitePreload(() => import("./Index-BgtcI769.js"), true ? __vite__mapDeps([35,22,3,36]) : void 0),
       meta: {
         // 需要被缓存
         keepAlive: true
@@ -49708,17 +49725,17 @@ const router = new VueRouter({
     {
       path: "/search-result-snapshot",
       name: "search-result-snapshot",
-      component: () => __vitePreload(() => import("./SearchResultSnapshot-DcTTV0ey.js"), true ? [] : void 0)
+      component: () => __vitePreload(() => import("./SearchResultSnapshot-Cw-RwtS9.js"), true ? [] : void 0)
     },
     {
       path: "/keep-upload-task",
       name: "keep-upload-task",
-      component: () => __vitePreload(() => import("./KeepUploadTasks-Cb6QKz0f.js"), true ? __vite__mapDeps([30,15,31]) : void 0)
+      component: () => __vitePreload(() => import("./KeepUploadTasks-BP-DTG8s.js"), true ? __vite__mapDeps([37,22,3,38]) : void 0)
     },
     {
       path: "/mind",
       name: "mind",
-      component: () => __vitePreload(() => import("./Index-yySK7hKY.js"), true ? __vite__mapDeps([32,33]) : void 0),
+      component: () => __vitePreload(() => import("./Index-DduJXg0u.js"), true ? __vite__mapDeps([39,40]) : void 0),
       meta: {
         keepAlive: false
       }
@@ -49873,14 +49890,14 @@ Object.defineProperties(Module.prototype, prototypeAccessors$1);
 var ModuleCollection = function ModuleCollection2(rawRootModule) {
   this.register([], rawRootModule, false);
 };
-ModuleCollection.prototype.get = function get(path) {
-  return path.reduce(function(module, key) {
+ModuleCollection.prototype.get = function get(path2) {
+  return path2.reduce(function(module, key) {
     return module.getChild(key);
   }, this.root);
 };
-ModuleCollection.prototype.getNamespace = function getNamespace(path) {
+ModuleCollection.prototype.getNamespace = function getNamespace(path2) {
   var module = this.root;
-  return path.reduce(function(namespace, key) {
+  return path2.reduce(function(namespace, key) {
     module = module.getChild(key);
     return namespace + (module.namespaced ? key + "/" : "");
   }, "");
@@ -49888,29 +49905,29 @@ ModuleCollection.prototype.getNamespace = function getNamespace(path) {
 ModuleCollection.prototype.update = function update$1(rawRootModule) {
   update2([], this.root, rawRootModule);
 };
-ModuleCollection.prototype.register = function register(path, rawModule, runtime) {
+ModuleCollection.prototype.register = function register(path2, rawModule, runtime) {
   var this$1$1 = this;
   if (runtime === void 0)
     runtime = true;
   if (false) {
-    assertRawModule(path, rawModule);
+    assertRawModule(path2, rawModule);
   }
   var newModule = new Module(rawModule, runtime);
-  if (path.length === 0) {
+  if (path2.length === 0) {
     this.root = newModule;
   } else {
-    var parent = this.get(path.slice(0, -1));
-    parent.addChild(path[path.length - 1], newModule);
+    var parent = this.get(path2.slice(0, -1));
+    parent.addChild(path2[path2.length - 1], newModule);
   }
   if (rawModule.modules) {
     forEachValue(rawModule.modules, function(rawChildModule, key) {
-      this$1$1.register(path.concat(key), rawChildModule, runtime);
+      this$1$1.register(path2.concat(key), rawChildModule, runtime);
     });
   }
 };
-ModuleCollection.prototype.unregister = function unregister(path) {
-  var parent = this.get(path.slice(0, -1));
-  var key = path[path.length - 1];
+ModuleCollection.prototype.unregister = function unregister(path2) {
+  var parent = this.get(path2.slice(0, -1));
+  var key = path2[path2.length - 1];
   var child = parent.getChild(key);
   if (!child) {
     if (false) {
@@ -49925,17 +49942,17 @@ ModuleCollection.prototype.unregister = function unregister(path) {
   }
   parent.removeChild(key);
 };
-ModuleCollection.prototype.isRegistered = function isRegistered(path) {
-  var parent = this.get(path.slice(0, -1));
-  var key = path[path.length - 1];
+ModuleCollection.prototype.isRegistered = function isRegistered(path2) {
+  var parent = this.get(path2.slice(0, -1));
+  var key = path2[path2.length - 1];
   if (parent) {
     return parent.hasChild(key);
   }
   return false;
 };
-function update2(path, targetModule, newModule) {
+function update2(path2, targetModule, newModule) {
   if (false) {
-    assertRawModule(path, newModule);
+    assertRawModule(path2, newModule);
   }
   targetModule.update(newModule);
   if (newModule.modules) {
@@ -49949,7 +49966,7 @@ function update2(path, targetModule, newModule) {
         return;
       }
       update2(
-        path.concat(key),
+        path2.concat(key),
         targetModule.getChild(key),
         newModule.modules[key]
       );
@@ -49973,7 +49990,7 @@ var assertTypes = {
   mutations: functionAssert,
   actions: objectAssert
 };
-function assertRawModule(path, rawModule) {
+function assertRawModule(path2, rawModule) {
   Object.keys(assertTypes).forEach(function(key) {
     if (!rawModule[key]) {
       return;
@@ -49982,15 +49999,15 @@ function assertRawModule(path, rawModule) {
     forEachValue(rawModule[key], function(value, type) {
       assert$1(
         assertOptions.assert(value),
-        makeAssertionMessage(path, key, type, value, assertOptions.expected)
+        makeAssertionMessage(path2, key, type, value, assertOptions.expected)
       );
     });
   });
 }
-function makeAssertionMessage(path, key, type, value, expected) {
+function makeAssertionMessage(path2, key, type, value, expected) {
   var buf = key + " should be " + expected + ' but "' + key + "." + type + '"';
-  if (path.length > 0) {
-    buf += ' in module "' + path.join(".") + '"';
+  if (path2.length > 0) {
+    buf += ' in module "' + path2.join(".") + '"';
   }
   buf += " is " + JSON.stringify(value) + ".";
   return buf;
@@ -50165,43 +50182,43 @@ Store.prototype.replaceState = function replaceState2(state) {
     this$1$1._vm._data.$$state = state;
   });
 };
-Store.prototype.registerModule = function registerModule(path, rawModule, options) {
+Store.prototype.registerModule = function registerModule(path2, rawModule, options) {
   if (options === void 0)
     options = {};
-  if (typeof path === "string") {
-    path = [path];
+  if (typeof path2 === "string") {
+    path2 = [path2];
   }
   if (false) {
-    assert$1(Array.isArray(path), "module path must be a string or an Array.");
-    assert$1(path.length > 0, "cannot register the root module by using registerModule.");
+    assert$1(Array.isArray(path2), "module path must be a string or an Array.");
+    assert$1(path2.length > 0, "cannot register the root module by using registerModule.");
   }
-  this._modules.register(path, rawModule);
-  installModule(this, this.state, path, this._modules.get(path), options.preserveState);
+  this._modules.register(path2, rawModule);
+  installModule(this, this.state, path2, this._modules.get(path2), options.preserveState);
   resetStoreVM(this, this.state);
 };
-Store.prototype.unregisterModule = function unregisterModule(path) {
+Store.prototype.unregisterModule = function unregisterModule(path2) {
   var this$1$1 = this;
-  if (typeof path === "string") {
-    path = [path];
+  if (typeof path2 === "string") {
+    path2 = [path2];
   }
   if (false) {
-    assert$1(Array.isArray(path), "module path must be a string or an Array.");
+    assert$1(Array.isArray(path2), "module path must be a string or an Array.");
   }
-  this._modules.unregister(path);
+  this._modules.unregister(path2);
   this._withCommit(function() {
-    var parentState = getNestedState(this$1$1.state, path.slice(0, -1));
-    Vue$1.delete(parentState, path[path.length - 1]);
+    var parentState = getNestedState(this$1$1.state, path2.slice(0, -1));
+    Vue$1.delete(parentState, path2[path2.length - 1]);
   });
   resetStore(this);
 };
-Store.prototype.hasModule = function hasModule(path) {
-  if (typeof path === "string") {
-    path = [path];
+Store.prototype.hasModule = function hasModule(path2) {
+  if (typeof path2 === "string") {
+    path2 = [path2];
   }
   if (false) {
-    assert$1(Array.isArray(path), "module path must be a string or an Array.");
+    assert$1(Array.isArray(path2), "module path must be a string or an Array.");
   }
-  return this._modules.isRegistered(path);
+  return this._modules.isRegistered(path2);
 };
 Store.prototype.hotUpdate = function hotUpdate(newOptions) {
   this._modules.update(newOptions);
@@ -50273,30 +50290,30 @@ function resetStoreVM(store2, state, hot) {
     });
   }
 }
-function installModule(store2, rootState, path, module, hot) {
-  var isRoot = !path.length;
-  var namespace = store2._modules.getNamespace(path);
+function installModule(store2, rootState, path2, module, hot) {
+  var isRoot = !path2.length;
+  var namespace = store2._modules.getNamespace(path2);
   if (module.namespaced) {
     if (store2._modulesNamespaceMap[namespace] && false) {
-      console.error("[vuex] duplicate namespace " + namespace + " for the namespaced module " + path.join("/"));
+      console.error("[vuex] duplicate namespace " + namespace + " for the namespaced module " + path2.join("/"));
     }
     store2._modulesNamespaceMap[namespace] = module;
   }
   if (!isRoot && !hot) {
-    var parentState = getNestedState(rootState, path.slice(0, -1));
-    var moduleName = path[path.length - 1];
+    var parentState = getNestedState(rootState, path2.slice(0, -1));
+    var moduleName = path2[path2.length - 1];
     store2._withCommit(function() {
       if (false) {
         if (moduleName in parentState) {
           console.warn(
-            '[vuex] state field "' + moduleName + '" was overridden by a module with the same name at "' + path.join(".") + '"'
+            '[vuex] state field "' + moduleName + '" was overridden by a module with the same name at "' + path2.join(".") + '"'
           );
         }
       }
       Vue$1.set(parentState, moduleName, module.state);
     });
   }
-  var local = module.context = makeLocalContext(store2, namespace, path);
+  var local = module.context = makeLocalContext(store2, namespace, path2);
   module.forEachMutation(function(mutation, key) {
     var namespacedType = namespace + key;
     registerMutation(store2, namespacedType, mutation, local);
@@ -50311,10 +50328,10 @@ function installModule(store2, rootState, path, module, hot) {
     registerGetter(store2, namespacedType, getter, local);
   });
   module.forEachChild(function(child, key) {
-    installModule(store2, rootState, path.concat(key), child, hot);
+    installModule(store2, rootState, path2.concat(key), child, hot);
   });
 }
-function makeLocalContext(store2, namespace, path) {
+function makeLocalContext(store2, namespace, path2) {
   var noNamespace = namespace === "";
   var local = {
     dispatch: noNamespace ? store2.dispatch : function(_type, _payload, _options) {
@@ -50356,7 +50373,7 @@ function makeLocalContext(store2, namespace, path) {
     },
     state: {
       get: function() {
-        return getNestedState(store2.state, path);
+        return getNestedState(store2.state, path2);
       }
     }
   });
@@ -50441,8 +50458,8 @@ function enableStrictMode(store2) {
     }
   }, { deep: true, sync: true });
 }
-function getNestedState(state, path) {
-  return path.reduce(function(state2, key) {
+function getNestedState(state, path2) {
+  return path2.reduce(function(state2, key) {
     return state2[key];
   }, state);
 }
@@ -50950,6 +50967,52 @@ const store = new index.Store({
     },
     updateSearchStatus(state, searching) {
       state.searching = searching;
+    },
+    /**
+     * 更新媒体服务器
+     * @param param0
+     * @param newData
+     */
+    updateMediaServer(state, newData) {
+      var _a;
+      let id = newData.id;
+      if (!id) {
+        if (!state.options.mediaServers) {
+          state.options.mediaServers = [];
+        }
+        newData.id = cryptoJsExports.MD5((/* @__PURE__ */ new Date()).toString()).toString();
+        newData.enabled = true;
+        (_a = state.options.mediaServers) == null ? void 0 : _a.push(newData);
+        extension.sendRequest(EAction.saveConfig, null, state.options);
+        return;
+      }
+      if (state.options.mediaServers) {
+        let index2 = state.options.mediaServers.findIndex((item) => {
+          return item.id === newData.id;
+        });
+        if (index2 !== -1) {
+          state.options.mediaServers[index2] = newData;
+          extension.sendRequest(EAction.saveConfig, null, state.options);
+        }
+      }
+    },
+    /**
+     * 删除指定的媒体服务器
+     * @param state
+     * @param source
+     */
+    removeMediaServer(state, source) {
+      var _a;
+      if (!state.options.mediaServers) {
+        return;
+      }
+      let index2 = (_a = state.options.mediaServers) == null ? void 0 : _a.findIndex((item) => {
+        return item.id === source.id;
+      });
+      if (index2 !== -1) {
+        state.options.mediaServers.splice(index2, 1);
+        extension.sendRequest(EAction.saveConfig, null, state.options);
+      }
     }
   },
   actions: {
@@ -51283,16 +51346,16 @@ const store = new index.Store({
       let client = state.options.clients.find((item) => {
         return item.id === clientId;
       });
-      let path = "";
+      let path2 = "";
       if (client == null ? void 0 : client.paths) {
         for (const host in client.paths) {
           if (site.host === host) {
-            path = client.paths[host][0];
+            path2 = client.paths[host][0];
             break;
           }
         }
       }
-      return path;
+      return path2;
     },
     pagination: (state) => (key, defalutValue) => {
       if (state.uiOptions && state.uiOptions.paginations) {
@@ -51705,12 +51768,12 @@ var interpolationComponent = {
       }
       return;
     }
-    var path = props2.path;
+    var path2 = props2.path;
     var locale = props2.locale;
     var places = props2.places;
     var params = slots();
     var children = $i18n.i(
-      path,
+      path2,
       locale,
       onlyHasDefaultPlace(params) || places ? useLegacyPlaces(params.default, places) : params
     );
@@ -51877,41 +51940,41 @@ function t(el, binding, vnode) {
   var ref$12, ref$2;
   var value = binding.value;
   var ref2 = parseValue(value);
-  var path = ref2.path;
+  var path2 = ref2.path;
   var locale = ref2.locale;
   var args = ref2.args;
   var choice = ref2.choice;
-  if (!path && !locale && !args) {
+  if (!path2 && !locale && !args) {
     warn("value type not supported");
     return;
   }
-  if (!path) {
+  if (!path2) {
     warn("`path` is required in v-t directive");
     return;
   }
   var vm = vnode.context;
   if (choice != null) {
-    el._vt = el.textContent = (ref$12 = vm.$i18n).tc.apply(ref$12, [path, choice].concat(makeParams(locale, args)));
+    el._vt = el.textContent = (ref$12 = vm.$i18n).tc.apply(ref$12, [path2, choice].concat(makeParams(locale, args)));
   } else {
-    el._vt = el.textContent = (ref$2 = vm.$i18n).t.apply(ref$2, [path].concat(makeParams(locale, args)));
+    el._vt = el.textContent = (ref$2 = vm.$i18n).t.apply(ref$2, [path2].concat(makeParams(locale, args)));
   }
   el._locale = vm.$i18n.locale;
   el._localeMessage = vm.$i18n.getLocaleMessage(vm.$i18n.locale);
 }
 function parseValue(value) {
-  var path;
+  var path2;
   var locale;
   var args;
   var choice;
   if (isString(value)) {
-    path = value;
+    path2 = value;
   } else if (isPlainObject(value)) {
-    path = value.path;
+    path2 = value.path;
     locale = value.locale;
     args = value.args;
     choice = value.choice;
   }
-  return { path, locale, args, choice };
+  return { path: path2, locale, args, choice };
 }
 function makeParams(locale, args) {
   var params = [];
@@ -52123,14 +52186,14 @@ function getPathCharType(ch) {
   }
   return "ident";
 }
-function formatSubPath(path) {
-  var trimmed = path.trim();
-  if (path.charAt(0) === "0" && isNaN(path)) {
+function formatSubPath(path2) {
+  var trimmed = path2.trim();
+  if (path2.charAt(0) === "0" && isNaN(path2)) {
     return false;
   }
   return isLiteral(trimmed) ? stripQuotes(trimmed) : "*" + trimmed;
 }
-function parse$1(path) {
+function parse$1(path2) {
   var keys = [];
   var index2 = -1;
   var mode = BEFORE_PATH;
@@ -52179,7 +52242,7 @@ function parse$1(path) {
     }
   };
   function maybeUnescapeQuote() {
-    var nextChar = path[index2 + 1];
+    var nextChar = path2[index2 + 1];
     if (mode === IN_SINGLE_QUOTE && nextChar === "'" || mode === IN_DOUBLE_QUOTE && nextChar === '"') {
       index2++;
       newChar = "\\" + nextChar;
@@ -52189,7 +52252,7 @@ function parse$1(path) {
   }
   while (mode !== null) {
     index2++;
-    c = path[index2];
+    c = path2[index2];
     if (c === "\\" && maybeUnescapeQuote()) {
       continue;
     }
@@ -52216,21 +52279,21 @@ function parse$1(path) {
 var I18nPath = function I18nPath2() {
   this._cache = /* @__PURE__ */ Object.create(null);
 };
-I18nPath.prototype.parsePath = function parsePath2(path) {
-  var hit = this._cache[path];
+I18nPath.prototype.parsePath = function parsePath2(path2) {
+  var hit = this._cache[path2];
   if (!hit) {
-    hit = parse$1(path);
+    hit = parse$1(path2);
     if (hit) {
-      this._cache[path] = hit;
+      this._cache[path2] = hit;
     }
   }
   return hit || [];
 };
-I18nPath.prototype.getPathValue = function getPathValue(obj, path) {
+I18nPath.prototype.getPathValue = function getPathValue(obj, path2) {
   if (!isObject(obj)) {
     return null;
   }
-  var paths = this.parsePath(path);
+  var paths = this.parsePath(path2);
   if (paths.length === 0) {
     return null;
   } else {
@@ -52682,7 +52745,7 @@ VueI18n.prototype._link = function _link(locale, message, str, host, interpolate
   }
   return ret;
 };
-VueI18n.prototype._createMessageContext = function _createMessageContext(values, formatter, path, interpolateMode) {
+VueI18n.prototype._createMessageContext = function _createMessageContext(values, formatter, path2, interpolateMode) {
   var this$1$1 = this;
   var _list = isArray(values) ? values : [];
   var _named = isObject(values) ? values : {};
@@ -52699,7 +52762,7 @@ VueI18n.prototype._createMessageContext = function _createMessageContext(values,
     named,
     values,
     formatter,
-    path,
+    path: path2,
     messages,
     locale,
     linked: function(linkedKey) {
@@ -52707,15 +52770,15 @@ VueI18n.prototype._createMessageContext = function _createMessageContext(values,
     }
   };
 };
-VueI18n.prototype._render = function _render(message, interpolateMode, values, path) {
+VueI18n.prototype._render = function _render(message, interpolateMode, values, path2) {
   if (isFunction(message)) {
     return message(
-      this._createMessageContext(values, this._formatter || defaultFormatter, path, interpolateMode)
+      this._createMessageContext(values, this._formatter || defaultFormatter, path2, interpolateMode)
     );
   }
-  var ret = this._formatter.interpolate(message, values, path);
+  var ret = this._formatter.interpolate(message, values, path2);
   if (!ret) {
-    ret = defaultFormatter.interpolate(message, values, path);
+    ret = defaultFormatter.interpolate(message, values, path2);
   }
   return interpolateMode === "string" && !isString(ret) ? ret.join("") : ret;
 };
@@ -53542,44 +53605,58 @@ class Main {
   new Main();
 })();
 export {
+  ERestoreError as $,
   APP as A,
   BASE_COLORS as B,
-  FileDownloader as C,
+  ERequestResultType as C,
   Downloader as D,
   Extension as E,
   FileSaver as F,
-  basicContext_minExports as G,
-  ERequestResultType as H,
-  ETagType as I,
-  EUserDataRequestStatus as J,
-  require$$1 as K,
-  EUserDataRange as L,
+  ETagType as G,
+  EUserDataRequestStatus as H,
+  require$$1 as I,
+  EUserDataRange as J,
+  EResourceOrderBy as K,
+  EConfigKey as L,
+  localStorage$1 as M,
+  Favicon as N,
+  EPluginPosition as O,
   PPF as P,
+  API as Q,
+  cryptoJsExports as R,
+  ERequestType as S,
+  BASE_TAG_COLORS as T,
+  path as U,
   Vue$2 as V,
+  EDownloadClientType as W,
+  EWikiLink as X,
+  ELogEvent as Y,
+  EAlarm as Z,
+  commonjsRequire as _,
   EAction as a,
   EModule as b,
-  EBeforeSearchingItemSearchMode as c,
-  EEncryptMode as d,
-  ESizeUnit as e,
+  EMediaServerType as c,
+  EBeforeSearchingItemSearchMode as d,
+  EEncryptMode as e,
   filters as f,
-  EViewKey as g,
-  ECommonKey as h,
-  EBackupServerType as i,
-  ERestoreContent as j,
-  commonjsGlobal as k,
-  commonjsRequire as l,
-  getDefaultExportFromCjs as m,
+  ESizeUnit as g,
+  EViewKey as h,
+  ECommonKey as i,
+  EBackupServerType as j,
+  ERestoreContent as k,
+  EWorkingStatus as l,
+  EInstallType as m,
   normalizeComponent as n,
-  cryptoJsExports as o,
-  ERestoreError as p,
-  EWorkingStatus as q,
-  EInstallType as r,
-  EBrowserType as s,
-  ETorrentStatus as t,
-  EResourceOrderMode as u,
-  EPaginationKey as v,
-  eventBus as w,
-  dayjs as x,
-  EDataResultType as y,
-  ERequestMethod as z
+  EBrowserType as o,
+  commonjsGlobal as p,
+  getDefaultExportFromCjs as q,
+  dayjs as r,
+  ETorrentStatus as s,
+  EResourceOrderMode as t,
+  EPaginationKey as u,
+  eventBus as v,
+  EDataResultType as w,
+  ERequestMethod as x,
+  FileDownloader as y,
+  basicContext_minExports as z
 };

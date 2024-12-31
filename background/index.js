@@ -244,6 +244,8 @@
     EAction2["pushDebugMsg"] = "pushDebugMsg";
     EAction2["updateDebuggerTabId"] = "updateDebuggerTabId";
     EAction2["getTopSearches"] = "getTopSearches";
+    EAction2["testMediaServerConnectivity"] = "testMediaServerConnectivity";
+    EAction2["getMediaFromMediaServer"] = "getMediaFromMediaServer";
     return EAction2;
   })(EAction || {});
   var EStorageType = /* @__PURE__ */ ((EStorageType2) => {
@@ -337,6 +339,10 @@
     EBackupServerType2["WebDAV"] = "WebDAV";
     return EBackupServerType2;
   })(EBackupServerType || {});
+  var EMediaServerType = /* @__PURE__ */ ((EMediaServerType2) => {
+    EMediaServerType2["Emby"] = "Emby";
+    return EMediaServerType2;
+  })(EMediaServerType || {});
   var EPluginPosition = /* @__PURE__ */ ((EPluginPosition2) => {
     EPluginPosition2["left"] = "left";
     EPluginPosition2["right"] = "right";
@@ -10156,7 +10162,7 @@
     isExtensionMode = false;
     isDebugMode && console.log("is not extension mode.");
   }
-  const RESOURCE_URL = !isExtensionMode ? `http://${window.location.hostname}:8001` : (isExtensionMode ? rootPath : "") + "/resource";
+  const RESOURCE_URL = !isExtensionMode ? `/resource` : (isExtensionMode ? rootPath : "") + "/resource";
   let RESOURCE_API = {
     host: RESOURCE_URL,
     schemas: `${RESOURCE_URL}/schemas.json`,
@@ -24662,6 +24668,153 @@
       throw new Error(`Torrent is missing required field: ${fieldName}`);
   }
   const toMagnetURI = magnetURIEncode;
+  class Emby {
+    constructor(options2) {
+      this.options = options2;
+      this.serverURL = "";
+      this.API = {
+        methods: {
+          findFromIMDb: "Items?Recursive=true&Fields=Path,Size,OfficialRating,MediaSources&AnyProviderIdEquals=imdb.$imdbId$",
+          getSystemInfo: "System/Info"
+        }
+      };
+      this.serverURL = this.options.address;
+      if (this.serverURL.substr(-1) !== "/") {
+        this.serverURL += "/";
+      }
+    }
+    /**
+    * 替换指定的字符串列表
+    * @param source
+    * @param maps
+    */
+    replaceKeys(source2, maps, prefix = "") {
+      if (!source2) {
+        return source2;
+      }
+      let result2 = source2;
+      for (const key2 in maps) {
+        if (maps.hasOwnProperty(key2)) {
+          const value = maps[key2];
+          let search = "$" + key2 + "$";
+          if (prefix) {
+            search = `$${prefix}.${key2}$`;
+          }
+          result2 = result2.replace(search, value);
+        }
+      }
+      return result2;
+    }
+    /**
+     * 指定指定的API
+     * @param method 
+     * @param data 
+     * @returns 
+     */
+    async execAPI(method = "", data2 = {}) {
+      let m;
+      let methods = method.split(".");
+      if (methods.length == 1) {
+        m = this.API.methods[method];
+      } else {
+        m = this.API.methods[methods[0]][methods[1]];
+      }
+      let url2 = "";
+      let mode = "GET";
+      if (typeof m == "string") {
+        url2 = m;
+      } else {
+        url2 = m.url;
+        mode = m.mode || "GET";
+      }
+      url2 = this.serverURL + this.replaceKeys(url2, data2);
+      const options2 = {
+        method: mode,
+        headers: {
+          accept: "application/json",
+          "X-Emby-Token": `${this.options.apiKey}`
+        }
+      };
+      try {
+        const response = await fetch(url2, options2);
+        if (response.ok) {
+          const result2 = await response.json();
+          return result2;
+        } else {
+          throw new Error(`HTTP 错误！状态码：${response.status}`);
+        }
+      } catch (error) {
+      }
+      return false;
+    }
+    /**
+     * 验证服务器可用性
+     */
+    async ping() {
+      const result2 = await this.execAPI("getSystemInfo");
+      if (result2 && result2.Id) {
+        return true;
+      }
+      return false;
+    }
+    /**
+     * 根据imdbId 获取媒体信息
+     * @param imdbId 
+     * @returns 
+     */
+    async getMediaFromMediaServer(imdbId) {
+      const result2 = await this.execAPI("findFromIMDb", {
+        imdbId
+      });
+      if (result2 && result2.Items) {
+        return result2;
+      }
+      return false;
+    }
+  }
+  class MediaServerManager {
+    constructor() {
+      this.servers = {};
+    }
+    getServer(options2) {
+      let server = this.servers[options2.id];
+      if (server) {
+        return server;
+      }
+      switch (options2.type) {
+        case EMediaServerType.Emby:
+          server = new Emby(options2);
+          break;
+        default:
+          break;
+      }
+      if (server) {
+        this.servers[options2.id] = server;
+      }
+      return server;
+    }
+    reset() {
+      for (const item of this.servers) {
+        this.servers[item] = void 0;
+        delete this.servers[item];
+      }
+      this.servers = {};
+    }
+    async ping(options2) {
+      let server = this.getServer(options2);
+      if (server) {
+        return server.ping();
+      }
+      return false;
+    }
+    async getMediaFromMediaServer(options2, imdbId) {
+      let server = this.getServer(options2);
+      if (server) {
+        return server.getMediaFromMediaServer(imdbId);
+      }
+      return false;
+    }
+  }
   class Controller {
     constructor(service) {
       this.service = service;
@@ -24677,6 +24830,7 @@
       this.searcher = new Searcher(this.service);
       this.userService = new User(this.service);
       this.movieInfoService = new MovieInfoService();
+      this.mediaServerManager = new MediaServerManager();
       this.clientController = new ClientController();
       this.isInitialized = false;
       this.contentPages = [];
@@ -25768,6 +25922,12 @@
     }
     testBackupServerConnectivity(options2) {
       return this.service.config.testBackupServerConnectivity(options2);
+    }
+    testMediaServerConnectivity(options2) {
+      return this.mediaServerManager.ping(options2);
+    }
+    getMediaFromMediaServer(options2) {
+      return this.mediaServerManager.getMediaFromMediaServer(options2.server, options2.imdbId);
     }
     createSearchResultSnapshot(options2) {
       return this.service.searchResultSnapshot.add(options2);

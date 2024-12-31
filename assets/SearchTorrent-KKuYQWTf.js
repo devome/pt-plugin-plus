@@ -1,7 +1,263 @@
-import { E as Extension, V as Vue, a as EAction, n as normalizeComponent, t as ETorrentStatus, P as PPF, B as BASE_COLORS, u as EResourceOrderMode, v as EPaginationKey, g as EViewKey, w as eventBus, b as EModule, x as dayjs, y as EDataResultType, f as filters, D as Downloader, z as ERequestMethod, C as FileDownloader, h as ECommonKey, G as basicContext_minExports } from "./index-k3MRywRT.js";
-import { D as DownloadTo, P as PathHandler } from "./DownloadTo-MAt7wx6N.js";
+import { p as commonjsGlobal, q as getDefaultExportFromCjs, r as dayjs, E as Extension, V as Vue, a as EAction, f as filters, n as normalizeComponent, s as ETorrentStatus, P as PPF, B as BASE_COLORS, t as EResourceOrderMode, u as EPaginationKey, h as EViewKey, v as eventBus, b as EModule, w as EDataResultType, D as Downloader, x as ERequestMethod, y as FileDownloader, i as ECommonKey, z as basicContext_minExports } from "./index-Ca5-5hzk.js";
+import { P as PathHandler } from "./pathHandler-yIpW4LsR.js";
+import { D as DownloadTo } from "./DownloadTo-U9eVKMsW.js";
+var duration$2 = { exports: {} };
+var duration = duration$2.exports;
+(function(module, exports) {
+  !function(t, s) {
+    true ? module.exports = s() : false ? (void 0)(s) : (t = "undefined" != typeof globalThis ? globalThis : t || self).dayjs_plugin_duration = s();
+  }(commonjsGlobal, function() {
+    "use strict";
+    var t, s, n = 1e3, i = 6e4, e = 36e5, r = 864e5, o = /\[([^\]]+)]|Y{1,4}|M{1,4}|D{1,2}|d{1,4}|H{1,2}|h{1,2}|a|A|m{1,2}|s{1,2}|Z{1,2}|SSS/g, u = 31536e6, h = 2592e6, a = /^(-|\+)?P(?:([-+]?[0-9,.]*)Y)?(?:([-+]?[0-9,.]*)M)?(?:([-+]?[0-9,.]*)W)?(?:([-+]?[0-9,.]*)D)?(?:T(?:([-+]?[0-9,.]*)H)?(?:([-+]?[0-9,.]*)M)?(?:([-+]?[0-9,.]*)S)?)?$/, d = { years: u, months: h, days: r, hours: e, minutes: i, seconds: n, milliseconds: 1, weeks: 6048e5 }, c = function(t2) {
+      return t2 instanceof p;
+    }, f = function(t2, s2, n2) {
+      return new p(t2, n2, s2.$l);
+    }, m = function(t2) {
+      return s.p(t2) + "s";
+    }, l = function(t2) {
+      return t2 < 0;
+    }, $2 = function(t2) {
+      return l(t2) ? Math.ceil(t2) : Math.floor(t2);
+    }, y = function(t2) {
+      return Math.abs(t2);
+    }, g = function(t2, s2) {
+      return t2 ? l(t2) ? { negative: true, format: "" + y(t2) + s2 } : { negative: false, format: "" + t2 + s2 } : { negative: false, format: "" };
+    }, p = function() {
+      function l2(t2, s2, n2) {
+        var i2 = this;
+        if (this.$d = {}, this.$l = n2, void 0 === t2 && (this.$ms = 0, this.parseFromMilliseconds()), s2)
+          return f(t2 * d[m(s2)], this);
+        if ("number" == typeof t2)
+          return this.$ms = t2, this.parseFromMilliseconds(), this;
+        if ("object" == typeof t2)
+          return Object.keys(t2).forEach(function(s3) {
+            i2.$d[m(s3)] = t2[s3];
+          }), this.calMilliseconds(), this;
+        if ("string" == typeof t2) {
+          var e2 = t2.match(a);
+          if (e2) {
+            var r2 = e2.slice(2).map(function(t3) {
+              return null != t3 ? Number(t3) : 0;
+            });
+            return this.$d.years = r2[0], this.$d.months = r2[1], this.$d.weeks = r2[2], this.$d.days = r2[3], this.$d.hours = r2[4], this.$d.minutes = r2[5], this.$d.seconds = r2[6], this.calMilliseconds(), this;
+          }
+        }
+        return this;
+      }
+      var y2 = l2.prototype;
+      return y2.calMilliseconds = function() {
+        var t2 = this;
+        this.$ms = Object.keys(this.$d).reduce(function(s2, n2) {
+          return s2 + (t2.$d[n2] || 0) * d[n2];
+        }, 0);
+      }, y2.parseFromMilliseconds = function() {
+        var t2 = this.$ms;
+        this.$d.years = $2(t2 / u), t2 %= u, this.$d.months = $2(t2 / h), t2 %= h, this.$d.days = $2(t2 / r), t2 %= r, this.$d.hours = $2(t2 / e), t2 %= e, this.$d.minutes = $2(t2 / i), t2 %= i, this.$d.seconds = $2(t2 / n), t2 %= n, this.$d.milliseconds = t2;
+      }, y2.toISOString = function() {
+        var t2 = g(this.$d.years, "Y"), s2 = g(this.$d.months, "M"), n2 = +this.$d.days || 0;
+        this.$d.weeks && (n2 += 7 * this.$d.weeks);
+        var i2 = g(n2, "D"), e2 = g(this.$d.hours, "H"), r2 = g(this.$d.minutes, "M"), o2 = this.$d.seconds || 0;
+        this.$d.milliseconds && (o2 += this.$d.milliseconds / 1e3);
+        var u2 = g(o2, "S"), h2 = t2.negative || s2.negative || i2.negative || e2.negative || r2.negative || u2.negative, a2 = e2.format || r2.format || u2.format ? "T" : "", d2 = (h2 ? "-" : "") + "P" + t2.format + s2.format + i2.format + a2 + e2.format + r2.format + u2.format;
+        return "P" === d2 || "-P" === d2 ? "P0D" : d2;
+      }, y2.toJSON = function() {
+        return this.toISOString();
+      }, y2.format = function(t2) {
+        var n2 = t2 || "YYYY-MM-DDTHH:mm:ss", i2 = { Y: this.$d.years, YY: s.s(this.$d.years, 2, "0"), YYYY: s.s(this.$d.years, 4, "0"), M: this.$d.months, MM: s.s(this.$d.months, 2, "0"), D: this.$d.days, DD: s.s(this.$d.days, 2, "0"), H: this.$d.hours, HH: s.s(this.$d.hours, 2, "0"), m: this.$d.minutes, mm: s.s(this.$d.minutes, 2, "0"), s: this.$d.seconds, ss: s.s(this.$d.seconds, 2, "0"), SSS: s.s(this.$d.milliseconds, 3, "0") };
+        return n2.replace(o, function(t3, s2) {
+          return s2 || String(i2[t3]);
+        });
+      }, y2.as = function(t2) {
+        return this.$ms / d[m(t2)];
+      }, y2.get = function(t2) {
+        var s2 = this.$ms, n2 = m(t2);
+        return "milliseconds" === n2 ? s2 %= 1e3 : s2 = "weeks" === n2 ? $2(s2 / d[n2]) : this.$d[n2], 0 === s2 ? 0 : s2;
+      }, y2.add = function(t2, s2, n2) {
+        var i2;
+        return i2 = s2 ? t2 * d[m(s2)] : c(t2) ? t2.$ms : f(t2, this).$ms, f(this.$ms + i2 * (n2 ? -1 : 1), this);
+      }, y2.subtract = function(t2, s2) {
+        return this.add(t2, s2, true);
+      }, y2.locale = function(t2) {
+        var s2 = this.clone();
+        return s2.$l = t2, s2;
+      }, y2.clone = function() {
+        return f(this.$ms, this);
+      }, y2.humanize = function(s2) {
+        return t().add(this.$ms, "ms").locale(this.$l).fromNow(!s2);
+      }, y2.milliseconds = function() {
+        return this.get("milliseconds");
+      }, y2.asMilliseconds = function() {
+        return this.as("milliseconds");
+      }, y2.seconds = function() {
+        return this.get("seconds");
+      }, y2.asSeconds = function() {
+        return this.as("seconds");
+      }, y2.minutes = function() {
+        return this.get("minutes");
+      }, y2.asMinutes = function() {
+        return this.as("minutes");
+      }, y2.hours = function() {
+        return this.get("hours");
+      }, y2.asHours = function() {
+        return this.as("hours");
+      }, y2.days = function() {
+        return this.get("days");
+      }, y2.asDays = function() {
+        return this.as("days");
+      }, y2.weeks = function() {
+        return this.get("weeks");
+      }, y2.asWeeks = function() {
+        return this.as("weeks");
+      }, y2.months = function() {
+        return this.get("months");
+      }, y2.asMonths = function() {
+        return this.as("months");
+      }, y2.years = function() {
+        return this.get("years");
+      }, y2.asYears = function() {
+        return this.as("years");
+      }, l2;
+    }();
+    return function(n2, i2, e2) {
+      t = e2, s = e2().$utils(), e2.duration = function(t2, s2) {
+        var n3 = e2.locale();
+        return f(t2, { $l: n3 }, s2);
+      }, e2.isDuration = c;
+      var r2 = i2.prototype.add, o2 = i2.prototype.subtract;
+      i2.prototype.add = function(t2, s2) {
+        return c(t2) && (t2 = t2.asMilliseconds()), r2.bind(this)(t2, s2);
+      }, i2.prototype.subtract = function(t2, s2) {
+        return c(t2) && (t2 = t2.asMilliseconds()), o2.bind(this)(t2, s2);
+      };
+    };
+  });
+})(duration$2, duration$2.exports);
+var durationExports = duration$2.exports;
+const duration$1 = /* @__PURE__ */ getDefaultExportFromCjs(durationExports);
+dayjs.extend(duration$1);
+const extension$4 = new Extension();
+const _sfc_main$6 = Vue.extend({
+  props: {
+    IMDbId: String
+  },
+  data() {
+    return {
+      visible: false,
+      items: []
+    };
+  },
+  watch: {
+    IMDbId() {
+      this.reset();
+    }
+  },
+  created() {
+    this.reset();
+  },
+  methods: {
+    reset() {
+      this.visible = false;
+      console.log(this.IMDbId);
+      if (this.IMDbId) {
+        this.visible = true;
+        this.getMediaFromMediaServers();
+      }
+    },
+    /**
+     * 从已定义的媒体服务器获取信息
+     */
+    getMediaFromMediaServers() {
+      var _a;
+      this.items = [];
+      try {
+        (_a = this.$store.state.options.mediaServers) == null ? void 0 : _a.forEach(async (server) => {
+          if (!server.enabled) {
+            return;
+          }
+          const result = await extension$4.sendRequest(EAction.getMediaFromMediaServer, null, {
+            server,
+            imdbId: this.IMDbId
+          });
+          console.debug("result", result);
+          if (result && result.Items) {
+            let address = server.address;
+            if (address.slice(-1) != "/") {
+              address += "/";
+            }
+            result.Items.forEach((item) => {
+              let texts = [];
+              texts.push(item.Name);
+              texts.push(filters.formatSize(item.Size).replace("iB", ""));
+              let media = {
+                video: "",
+                audio: 0,
+                audios: [],
+                subtitle: 0,
+                subtitles: []
+              };
+              if (item.MediaSources) {
+                item.MediaSources.forEach((MediaSource) => {
+                  var _a2;
+                  (_a2 = MediaSource.MediaStreams) == null ? void 0 : _a2.forEach((MediaStream) => {
+                    if (MediaStream.Type == "Video" && !media.video) {
+                      media.video = MediaStream.DisplayTitle;
+                    }
+                    if (MediaStream.Type == "Audio") {
+                      media.audio++;
+                      media.audios.push(MediaStream.DisplayTitle + " " + (MediaStream.Title || ""));
+                    }
+                    if (MediaStream.Type == "Subtitle") {
+                      media.subtitle++;
+                      media.subtitles.push(MediaStream.DisplayTitle + " " + (MediaStream.Title || ""));
+                    }
+                  });
+                });
+              }
+              this.items.push({
+                url: `${address}web/index.html#!/item?id=${item.Id}&serverId=${item.ServerId}`,
+                text: texts.join(" "),
+                media,
+                path: item.Path,
+                container: item.Container,
+                runTime: this.formatRunTimeTicks(item.RunTimeTicks),
+                icon: server.type.toLowerCase()
+              });
+            });
+          }
+        });
+      } catch (error) {
+      }
+    },
+    formatRunTimeTicks(runTimeTicks) {
+      const totalSeconds = runTimeTicks / 1e7;
+      return dayjs.duration(totalSeconds, "seconds").format("H[h] m[m]");
+    }
+  },
+  computed: {}
+});
+var _sfc_render$6 = function render() {
+  var _vm = this, _c = _vm._self._c, _setup = _vm._self._setupProxy;
+  return _vm.visible ? _c("div", _vm._l(_vm.items, function(item, index) {
+    return _c("v-btn", { key: index, staticClass: "mr-1 py-3 pr-1 pl-2", attrs: { "color": "green lighten-3", "small": "", "depressed": "", "href": item.link || item.url, "target": "_blank", "rel": "noopener noreferrer nofollow" } }, [[_c("img", { staticStyle: { "width": "16px", "height": "16px" }, attrs: { "src": `./assets/media-server/${item.icon}.svg` } }), _c("span", { staticClass: "mx-1" }, [_vm._v(_vm._s(index + 1))]), _c("v-chip", { staticClass: "ml-0 py-2 px-1 pr-2 chip-compact", staticStyle: { "margin-right": "-1px" }, attrs: { "label": "", "color": "blue-grey darken-2", "small": "", "text-color": "white", "disabled": "" } }, [_c("v-icon", { staticClass: "mr-1", attrs: { "small": "", "left": "" } }, [_vm._v("dvr")]), _c("span", [_vm._v(" " + _vm._s(item.text))])], 1), _c("v-chip", { staticClass: "py-2 px-1 pr-2 chip-compact", staticStyle: { "margin-right": "-1px" }, attrs: { "label": "", "color": "blue-grey", "small": "", "text-color": "white", "disabled": "" } }, [_c("v-icon", { staticClass: "mr-1", attrs: { "small": "", "left": "" } }, [_vm._v("schedule")]), _c("span", { staticStyle: { "text-transform": "none" } }, [_vm._v(_vm._s(item.runTime))])], 1), _c("v-chip", { staticClass: "py-2 px-1 pr-2 chip-compact", staticStyle: { "margin-right": "-1px" }, attrs: { "label": "", "color": "blue-grey", "small": "", "text-color": "white", "disabled": "", "title": item.path } }, [_c("v-icon", { staticClass: "mr-1", attrs: { "small": "", "left": "" } }, [_vm._v("aspect_ratio")]), _c("span", [_vm._v(_vm._s(item.container))])], 1), _c("v-chip", { staticClass: "py-2 px-1 pr-2 chip-compact", staticStyle: { "margin-right": "-1px" }, attrs: { "label": "", "color": "blue-grey", "small": "", "text-color": "white", "disabled": "" } }, [_c("v-icon", { staticClass: "mr-1", attrs: { "small": "", "left": "" } }, [_vm._v("movie")]), _c("span", [_vm._v(_vm._s(item.media.video))])], 1), _c("v-chip", { staticClass: "py-2 px-1 pr-2 chip-compact", staticStyle: { "margin-right": "-1px" }, attrs: { "label": "", "color": "blue-grey", "small": "", "text-color": "white", "disabled": "", "title": item.media.audios.join("\n") } }, [_c("v-icon", { staticClass: "mr-1", attrs: { "small": "", "left": "" } }, [_vm._v("graphic_eq")]), _c("span", [_vm._v(_vm._s(item.media.audio))])], 1), _c("v-chip", { staticClass: "py-2 px-1 pr-2 mr-0 chip-compact", attrs: { "label": "", "color": "blue-grey", "small": "", "text-color": "white", "disabled": "", "title": item.media.subtitles.join("\n") } }, [_c("v-icon", { staticClass: "mr-1", attrs: { "small": "", "left": "" } }, [_vm._v("closed_caption_off")]), _c("span", [_vm._v(_vm._s(item.media.subtitle))])], 1)]], 2);
+  }), 1) : _vm._e();
+};
+var _sfc_staticRenderFns$6 = [];
+var __component__$6 = /* @__PURE__ */ normalizeComponent(
+  _sfc_main$6,
+  _sfc_render$6,
+  _sfc_staticRenderFns$6,
+  false,
+  null,
+  "8c3e9c9b",
+  null,
+  null
+);
+const MediaServerInfoCard = __component__$6.exports;
 const extension$3 = new Extension();
 const _sfc_main$5 = Vue.extend({
+  components: {
+    MediaServerInfoCard
+  },
   props: {
     IMDbId: String,
     doubanId: String
@@ -110,6 +366,11 @@ const _sfc_main$5 = Vue.extend({
         return result.join(splitChar);
       }
       return "";
+    },
+    /**
+     * 从已定义的媒体服务器获取信息
+     */
+    getMediaFromMediaServers() {
     }
   },
   computed: {
@@ -162,7 +423,8 @@ const _sfc_main$5 = Vue.extend({
     }
   }
 });
-var _sfc_render$5 = function render() {
+var _sfc_render$5 = function render2() {
+  var _a;
   var _vm = this, _c = _vm._self._c, _setup = _vm._self._setupProxy;
   return _vm.visible ? _c("div", { staticClass: "movieInfoCard" }, [_c("v-card", { staticClass: "white--text", attrs: { "color": "blue-grey darken-2" } }, [_c("v-card-title", { staticClass: "pb-2" }, [_c("div", { class: _vm.$vuetify.breakpoint.mdAndUp ? "headline" : "title" }, [_c("span", [_vm._v(_vm._s(_vm.info.title))]), _c("span", { class: [
     "ml-1",
@@ -174,7 +436,7 @@ var _sfc_render$5 = function render() {
     _vm.imdbRating = $$v;
   }, expression: "imdbRating" } }), _c("span", { staticClass: "ma-2" }, [_vm._v(_vm._s(_vm.$t("movieInfoCard.ratings.imdb", { average: _vm.ratings.imdbRating, numRaters: _vm.ratings.imdbVotes.replace(/,/g, "") })))])], 1) : _vm._e(), _vm.tmdbRating > 0 ? _c("v-flex", { attrs: { "xs4": "" } }, [_c("v-rating", { attrs: { "background-color": "white", "color": "yellow accent-4", "dense": "", "readonly": "", "half-increments": "", "size": "30" }, model: { value: _vm.tmdbRating, callback: function($$v) {
     _vm.tmdbRating = $$v;
-  }, expression: "tmdbRating" } }), _c("span", { staticClass: "ma-2" }, [_vm._v(_vm._s(_vm.$t("movieInfoCard.ratings.tmdb", { average: _vm.info.tmdbAverage, numRaters: _vm.info.tmdb.vote_count })))])], 1) : _vm._e()], 1) : _vm._e()], 1)], 1)], 1) : _vm._e();
+  }, expression: "tmdbRating" } }), _c("span", { staticClass: "ma-2" }, [_vm._v(_vm._s(_vm.$t("movieInfoCard.ratings.tmdb", { average: _vm.info.tmdbAverage, numRaters: _vm.info.tmdb.vote_count })))])], 1) : _vm._e()], 1) : _vm._e()], 1), ((_a = _vm.$store.state.options.mediaServers) == null ? void 0 : _a.length) > 0 ? [_c("v-divider", { attrs: { "light": "" } }), _c("MediaServerInfoCard", { staticClass: "pa-2", attrs: { "IMDbId": _vm.IMDbId } })] : _vm._e()], 2)], 1) : _vm._e();
 };
 var _sfc_staticRenderFns$5 = [];
 var __component__$5 = /* @__PURE__ */ normalizeComponent(
@@ -183,7 +445,7 @@ var __component__$5 = /* @__PURE__ */ normalizeComponent(
   _sfc_staticRenderFns$5,
   false,
   null,
-  "4c1be77d",
+  "6a466144",
   null,
   null
 );
@@ -252,7 +514,7 @@ const _sfc_main$4 = Vue.extend({
     }
   }
 });
-var _sfc_render$4 = function render2() {
+var _sfc_render$4 = function render3() {
   var _vm = this, _c = _vm._self._c, _setup = _vm._self._setupProxy;
   return _c("v-layout", { attrs: { "row": "", "wrap": "" } }, [_c("v-flex", { staticClass: "mt-1", attrs: { "xs2": "" } }, [_c("v-icon", { attrs: { "size": 10, "color": _vm.color, "title": _vm.statusTip } }, [_vm._v(_vm._s(_vm.icon))])], 1), _c("v-flex", { attrs: { "xs10": "" } }, [_c("v-progress-linear", { staticStyle: { "margin-left": "1px" }, attrs: { "color": _vm.color, "height": "4", "value": _vm.progress, "title": `${_vm.progress}%` } })], 1)], 1);
 };
@@ -346,7 +608,7 @@ const _sfc_main$3 = Vue.extend({
     }
   }
 });
-var _sfc_render$3 = function render3() {
+var _sfc_render$3 = function render4() {
   var _vm = this, _c = _vm._self._c, _setup = _vm._self._setupProxy;
   return _c("v-btn", { class: _vm.$vuetify.breakpoint.smAndUp ? "" : "mini", attrs: { "flat": _vm.flat, "icon": _vm.icon, "small": _vm.small, "loading": _vm.loading, "color": _vm.color, "disabled": _vm.disabled, "title": _vm.$t("collection.add"), "dark": _vm.dark }, on: { "click": function($event) {
     $event.stopPropagation();
@@ -399,7 +661,7 @@ const _sfc_main$2 = Vue.extend({
     }
   }
 });
-var _sfc_render$2 = function render4() {
+var _sfc_render$2 = function render5() {
   var _vm = this, _c = _vm._self._c, _setup = _vm._self._setupProxy;
   return _c("div", { staticClass: "torrent-actions" }, [_c("DownloadTo", { staticClass: "mx-0", attrs: { "downloadOptions": _vm.item, "flat": "", "icon": "", "small": "", "mini": _vm.$vuetify.breakpoint.smAndDown, "color": "grey darken-1" }, on: { "error": _vm.downloadError, "success": _vm.downloadSuccess } }), _c("v-btn", { class: _vm.$vuetify.breakpoint.mdAndUp ? "mx-0" : "mx-0 btn-mini", attrs: { "flat": "", "icon": "", "small": "", "color": "grey darken-1" } }, [_c("v-icon", { attrs: { "small": "", "title": _vm.$t("searchTorrent.copyToClipboardTip") }, on: { "click": _vm.copyLinkToClipboard } }, [_vm._v("file_copy")])], 1), _c("v-btn", { class: _vm.$vuetify.breakpoint.mdAndUp ? "mx-0" : "mx-0 btn-mini", attrs: { "flat": "", "icon": "", "small": "", "color": "grey darken-1" } }, [_c("v-icon", { attrs: { "small": "", "title": _vm.$t("searchTorrent.saveTip") }, on: { "click": function($event) {
     $event.stopPropagation();
@@ -692,7 +954,7 @@ const _sfc_main$1 = Vue.extend({
     }
   }
 });
-var _sfc_render$1 = function render5() {
+var _sfc_render$1 = function render6() {
   var _vm = this, _c = _vm._self._c, _setup = _vm._self._setupProxy;
   return _c("v-dialog", { attrs: { "persistent": "", "scrollable": "", "max-width": "1024", "fullscreen": _vm.$vuetify.breakpoint.smAndDown }, scopedSlots: _vm._u([{ key: "activator", fn: function({ on }) {
     return [_c("v-btn", _vm._g({ class: _vm.$vuetify.breakpoint.smAndUp ? "" : "mini", attrs: { "dark": "", "small": "", "title": _vm.$t("keepUploadTask.keepUpload"), "color": _vm.color } }, on), [_c("v-icon", { attrs: { "small": "" } }, [_vm._v("merge_type")]), _c("span", { staticClass: "ml-2" }, [_vm._v(_vm._s(_vm.label || _vm.$t("keepUploadTask.keepUpload")))])], 1)];
@@ -2564,7 +2826,7 @@ const _sfc_main = Vue.extend({
     }
   }
 });
-var _sfc_render = function render6() {
+var _sfc_render = function render7() {
   var _vm = this, _c = _vm._self._c, _setup = _vm._self._setupProxy;
   return _c("div", { staticClass: "search-torrent" }, [!!_vm.options.showMovieInfoCardOnSearch ? _c("MovieInfoCard", { attrs: { "IMDbId": _vm.IMDbId, "doubanId": _vm.searchPayload.doubanId } }) : _vm._e(), _c("v-alert", { staticStyle: { "padding": "8px 16px" }, attrs: { "value": true, "type": "info" } }, [_vm._v(" " + _vm._s(_vm.$t("searchTorrent.title")) + " [" + _vm._s(_vm.key) + "], " + _vm._s(_vm.searchMsg) + " " + _vm._s(_vm.skipSites) + " "), !_vm.loading && _vm.key != "" ? _c("v-btn", { attrs: { "flat": "", "icon": "", "small": "", "color": "white", "title": _vm.$t("searchTorrent.reSearch") }, on: { "click": function($event) {
     $event.stopPropagation();

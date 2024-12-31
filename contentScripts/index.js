@@ -1,167 +1,5 @@
 (function() {
   "use strict";
-  function getDefaultExportFromCjs$1(x) {
-    return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, "default") ? x["default"] : x;
-  }
-  var browser = { exports: {} };
-  var process = browser.exports = {};
-  var cachedSetTimeout;
-  var cachedClearTimeout;
-  function defaultSetTimout() {
-    throw new Error("setTimeout has not been defined");
-  }
-  function defaultClearTimeout() {
-    throw new Error("clearTimeout has not been defined");
-  }
-  (function() {
-    try {
-      if (typeof setTimeout === "function") {
-        cachedSetTimeout = setTimeout;
-      } else {
-        cachedSetTimeout = defaultSetTimout;
-      }
-    } catch (e2) {
-      cachedSetTimeout = defaultSetTimout;
-    }
-    try {
-      if (typeof clearTimeout === "function") {
-        cachedClearTimeout = clearTimeout;
-      } else {
-        cachedClearTimeout = defaultClearTimeout;
-      }
-    } catch (e2) {
-      cachedClearTimeout = defaultClearTimeout;
-    }
-  })();
-  function runTimeout(fun) {
-    if (cachedSetTimeout === setTimeout) {
-      return setTimeout(fun, 0);
-    }
-    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-      cachedSetTimeout = setTimeout;
-      return setTimeout(fun, 0);
-    }
-    try {
-      return cachedSetTimeout(fun, 0);
-    } catch (e2) {
-      try {
-        return cachedSetTimeout.call(null, fun, 0);
-      } catch (e3) {
-        return cachedSetTimeout.call(this, fun, 0);
-      }
-    }
-  }
-  function runClearTimeout(marker) {
-    if (cachedClearTimeout === clearTimeout) {
-      return clearTimeout(marker);
-    }
-    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-      cachedClearTimeout = clearTimeout;
-      return clearTimeout(marker);
-    }
-    try {
-      return cachedClearTimeout(marker);
-    } catch (e2) {
-      try {
-        return cachedClearTimeout.call(null, marker);
-      } catch (e3) {
-        return cachedClearTimeout.call(this, marker);
-      }
-    }
-  }
-  var queue = [];
-  var draining = false;
-  var currentQueue;
-  var queueIndex = -1;
-  function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-      return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-      queue = currentQueue.concat(queue);
-    } else {
-      queueIndex = -1;
-    }
-    if (queue.length) {
-      drainQueue();
-    }
-  }
-  function drainQueue() {
-    if (draining) {
-      return;
-    }
-    var timeout = runTimeout(cleanUpNextTick);
-    draining = true;
-    var len2 = queue.length;
-    while (len2) {
-      currentQueue = queue;
-      queue = [];
-      while (++queueIndex < len2) {
-        if (currentQueue) {
-          currentQueue[queueIndex].run();
-        }
-      }
-      queueIndex = -1;
-      len2 = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    runClearTimeout(timeout);
-  }
-  process.nextTick = function(fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-      for (var i2 = 1; i2 < arguments.length; i2++) {
-        args[i2 - 1] = arguments[i2];
-      }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-      runTimeout(drainQueue);
-    }
-  };
-  function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-  }
-  Item.prototype.run = function() {
-    this.fun.apply(null, this.array);
-  };
-  process.title = "browser";
-  process.browser = true;
-  process.env = {};
-  process.argv = [];
-  process.version = "";
-  process.versions = {};
-  function noop$1() {
-  }
-  process.on = noop$1;
-  process.addListener = noop$1;
-  process.once = noop$1;
-  process.off = noop$1;
-  process.removeListener = noop$1;
-  process.removeAllListeners = noop$1;
-  process.emit = noop$1;
-  process.prependListener = noop$1;
-  process.prependOnceListener = noop$1;
-  process.listeners = function(name2) {
-    return [];
-  };
-  process.binding = function(name2) {
-    throw new Error("process.binding is not supported");
-  };
-  process.cwd = function() {
-    return "/";
-  };
-  process.chdir = function(dir) {
-    throw new Error("process.chdir is not supported");
-  };
-  process.umask = function() {
-    return 0;
-  };
-  var browserExports = browser.exports;
-  const process$1 = /* @__PURE__ */ getDefaultExportFromCjs$1(browserExports);
   var ESizeUnit = /* @__PURE__ */ ((ESizeUnit2) => {
     ESizeUnit2["ZiB"] = "ZiB";
     ESizeUnit2["EiB"] = "EiB";
@@ -302,6 +140,8 @@
     EAction2["pushDebugMsg"] = "pushDebugMsg";
     EAction2["updateDebuggerTabId"] = "updateDebuggerTabId";
     EAction2["getTopSearches"] = "getTopSearches";
+    EAction2["testMediaServerConnectivity"] = "testMediaServerConnectivity";
+    EAction2["getMediaFromMediaServer"] = "getMediaFromMediaServer";
     return EAction2;
   })(EAction || {});
   var EStorageType = /* @__PURE__ */ ((EStorageType2) => {
@@ -395,6 +235,10 @@
     EBackupServerType2["WebDAV"] = "WebDAV";
     return EBackupServerType2;
   })(EBackupServerType || {});
+  var EMediaServerType = /* @__PURE__ */ ((EMediaServerType2) => {
+    EMediaServerType2["Emby"] = "Emby";
+    return EMediaServerType2;
+  })(EMediaServerType || {});
   var EPluginPosition = /* @__PURE__ */ ((EPluginPosition2) => {
     EPluginPosition2["left"] = "left";
     EPluginPosition2["right"] = "right";
@@ -561,7 +405,7 @@
     }
   }
   var commonjsGlobal = typeof globalThis !== "undefined" ? globalThis : typeof window !== "undefined" ? window : typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : {};
-  function getDefaultExportFromCjs(x) {
+  function getDefaultExportFromCjs$1(x) {
     return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, "default") ? x["default"] : x;
   }
   function getDefaultExportFromNamespaceIfPresent(n2) {
@@ -2924,15 +2768,15 @@
         }
       })(commonjsGlobal, function(CryptoJS) {
         /** @preserve
-            			(c) 2012 by Cédric Mesnil. All rights reserved.
+          			(c) 2012 by Cédric Mesnil. All rights reserved.
         
-            			Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+          			Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
         
-            			    - Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-            			    - Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+          			    - Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+          			    - Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
         
-            			THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-            			*/
+          			THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+          			*/
         (function(Math2) {
           var C = CryptoJS;
           var C_lib = C.lib;
@@ -7381,7 +7225,7 @@
     });
   })(cryptoJs$1, cryptoJs$1.exports);
   var cryptoJsExports = cryptoJs$1.exports;
-  const index$3 = /* @__PURE__ */ getDefaultExportFromCjs(cryptoJsExports);
+  const index$3 = /* @__PURE__ */ getDefaultExportFromCjs$1(cryptoJsExports);
   var basicContext_min$2 = { exports: {} };
   var basicContext_min = basicContext_min$2.exports;
   (function(module) {
@@ -7436,7 +7280,7 @@
     });
   })(basicContext_min$2);
   var basicContext_minExports = basicContext_min$2.exports;
-  const basicContext_min$1 = /* @__PURE__ */ getDefaultExportFromCjs(basicContext_minExports);
+  const basicContext_min$1 = /* @__PURE__ */ getDefaultExportFromCjs$1(basicContext_minExports);
   var dayjs_min$1 = { exports: {} };
   var dayjs_min = dayjs_min$1.exports;
   (function(module, exports) {
@@ -7648,7 +7492,7 @@
     });
   })(dayjs_min$1, dayjs_min$1.exports);
   var dayjs_minExports = dayjs_min$1.exports;
-  const dayjs = /* @__PURE__ */ getDefaultExportFromCjs(dayjs_minExports);
+  const dayjs = /* @__PURE__ */ getDefaultExportFromCjs$1(dayjs_minExports);
   var uaParser$2 = { exports: {} };
   var uaParser = uaParser$2.exports;
   (function(module, exports) {
@@ -8839,7 +8683,7 @@
     })(typeof window === "object" ? window : commonjsGlobal);
   })(uaParser$2, uaParser$2.exports);
   var uaParserExports = uaParser$2.exports;
-  const uaParser$1 = /* @__PURE__ */ getDefaultExportFromCjs(uaParserExports);
+  const uaParser$1 = /* @__PURE__ */ getDefaultExportFromCjs$1(uaParserExports);
   class HelpFunctions {
     constructor() {
       this.isExtensionMode = false;
@@ -9679,7 +9523,7 @@
     });
   })(FileSaver_min$1, FileSaver_min$1.exports);
   var FileSaver_minExports = FileSaver_min$1.exports;
-  const FileSaver = /* @__PURE__ */ getDefaultExportFromCjs(FileSaver_minExports);
+  const FileSaver = /* @__PURE__ */ getDefaultExportFromCjs$1(FileSaver_minExports);
   class Downloader {
     constructor(options2) {
       this.options = options2;
@@ -10141,7 +9985,7 @@
     }
   };
   var yoctoQueue = Queue$1;
-  const index$2 = /* @__PURE__ */ getDefaultExportFromCjs(yoctoQueue);
+  const index$2 = /* @__PURE__ */ getDefaultExportFromCjs$1(yoctoQueue);
   "use strict";
   const Queue = yoctoQueue;
   const pLimit = (concurrency) => {
@@ -10194,11 +10038,11 @@
     return generator;
   };
   var pLimit_1 = pLimit;
-  const pLimit$1 = /* @__PURE__ */ getDefaultExportFromCjs(pLimit_1);
+  const pLimit$1 = /* @__PURE__ */ getDefaultExportFromCjs$1(pLimit_1);
   const limit = pLimit$1(8);
   let rootPath = "";
   let isExtensionMode = false;
-  const isDebugMode = false;
+  const isDebugMode$1 = false;
   try {
     let runtime = chrome.runtime;
     isExtensionMode = true;
@@ -10209,12 +10053,12 @@
     if (!rootPath) {
       rootPath = `chrome-extension://${chrome.runtime.id}`;
     }
-    isDebugMode && console.log("is extension mode.");
+    isDebugMode$1 && console.log("is extension mode.");
   } catch (error) {
     isExtensionMode = false;
-    isDebugMode && console.log("is not extension mode.");
+    isDebugMode$1 && console.log("is not extension mode.");
   }
-  const RESOURCE_URL = !isExtensionMode ? `http://${window.location.hostname}:8001` : (isExtensionMode ? rootPath : "") + "/resource";
+  const RESOURCE_URL = !isExtensionMode ? `/resource` : (isExtensionMode ? rootPath : "") + "/resource";
   let RESOURCE_API = {
     host: RESOURCE_URL,
     schemas: `${RESOURCE_URL}/schemas.json`,
@@ -10227,7 +10071,7 @@
     systemConfig: `${RESOURCE_URL}/systemConfig.json`
   };
   const APP = {
-    debugMode: isDebugMode,
+    debugMode: isDebugMode$1,
     scriptQueues: [],
     isExtensionMode,
     cache: {
@@ -10468,6 +10312,7 @@
   };
   APP.cache.init();
   const API = RESOURCE_API;
+  const isDebugMode = false;
   class Extension {
     constructor() {
       this.isExtensionMode = APP.isExtensionMode;
@@ -10535,7 +10380,7 @@
           }
           return;
         }
-        if (process$1.env.NODE_ENV === "test") {
+        if (isDebugMode) {
           Promise.resolve().then(() => service).then((result2) => {
             console.log(result2);
             const PTService = new result2.default(true);
@@ -13067,7 +12912,7 @@
       return false;
     }
   }
-  function noop() {
+  function noop$1() {
   }
   function bindMemberFunctions(inst) {
     var mems = Object.getOwnPropertyNames(Object.getPrototypeOf(inst));
@@ -13204,7 +13049,7 @@
         }
         this.format = this.options.interpolation.format;
         if (!callback)
-          callback = noop;
+          callback = noop$1;
         if (this.options.fallbackLng && !this.services.languageDetector && !this.options.lng) {
           var codes = this.services.languageUtils.getFallbackCodes(this.options.fallbackLng);
           if (codes.length > 0 && codes[0] !== "dev")
@@ -13255,7 +13100,7 @@
       key: "loadResources",
       value: function loadResources2(language) {
         var _this3 = this;
-        var callback = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : noop;
+        var callback = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : noop$1;
         var usedCallback = callback;
         var usedLng = typeof language === "string" ? language : this.language;
         if (typeof language === "function")
@@ -13304,7 +13149,7 @@
         if (!ns)
           ns = this.options.ns;
         if (!callback)
-          callback = noop;
+          callback = noop$1;
         this.services.backendConnector.reload(lngs, ns, function(err) {
           deferred.resolve();
           callback(err);
@@ -13558,7 +13403,7 @@
       value: function cloneInstance() {
         var _this8 = this;
         var options2 = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {};
-        var callback = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : noop;
+        var callback = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : noop$1;
         var mergedOptions = _objectSpread$6(_objectSpread$6(_objectSpread$6({}, this.options), options2), {
           isClone: true
         });
@@ -13758,7 +13603,7 @@
     });
   })(customParseFormat$2, customParseFormat$2.exports);
   var customParseFormatExports = customParseFormat$2.exports;
-  const customParseFormat$1 = /* @__PURE__ */ getDefaultExportFromCjs(customParseFormatExports);
+  const customParseFormat$1 = /* @__PURE__ */ getDefaultExportFromCjs$1(customParseFormatExports);
   var advancedFormat$2 = { exports: {} };
   var advancedFormat = advancedFormat$2.exports;
   (function(module, exports) {
@@ -13811,7 +13656,7 @@
     });
   })(advancedFormat$2, advancedFormat$2.exports);
   var advancedFormatExports = advancedFormat$2.exports;
-  const advancedFormat$1 = /* @__PURE__ */ getDefaultExportFromCjs(advancedFormatExports);
+  const advancedFormat$1 = /* @__PURE__ */ getDefaultExportFromCjs$1(advancedFormatExports);
   dayjs.extend(customParseFormat$1);
   dayjs.extend(advancedFormat$1);
   class InfoParser {
@@ -15142,6 +14987,168 @@
     }
   }
   const global$1 = globalThis || void 0 || self;
+  function getDefaultExportFromCjs(x) {
+    return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, "default") ? x["default"] : x;
+  }
+  var browser = { exports: {} };
+  var process = browser.exports = {};
+  var cachedSetTimeout;
+  var cachedClearTimeout;
+  function defaultSetTimout() {
+    throw new Error("setTimeout has not been defined");
+  }
+  function defaultClearTimeout() {
+    throw new Error("clearTimeout has not been defined");
+  }
+  (function() {
+    try {
+      if (typeof setTimeout === "function") {
+        cachedSetTimeout = setTimeout;
+      } else {
+        cachedSetTimeout = defaultSetTimout;
+      }
+    } catch (e2) {
+      cachedSetTimeout = defaultSetTimout;
+    }
+    try {
+      if (typeof clearTimeout === "function") {
+        cachedClearTimeout = clearTimeout;
+      } else {
+        cachedClearTimeout = defaultClearTimeout;
+      }
+    } catch (e2) {
+      cachedClearTimeout = defaultClearTimeout;
+    }
+  })();
+  function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+      return setTimeout(fun, 0);
+    }
+    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+      cachedSetTimeout = setTimeout;
+      return setTimeout(fun, 0);
+    }
+    try {
+      return cachedSetTimeout(fun, 0);
+    } catch (e2) {
+      try {
+        return cachedSetTimeout.call(null, fun, 0);
+      } catch (e3) {
+        return cachedSetTimeout.call(this, fun, 0);
+      }
+    }
+  }
+  function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+      return clearTimeout(marker);
+    }
+    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+      cachedClearTimeout = clearTimeout;
+      return clearTimeout(marker);
+    }
+    try {
+      return cachedClearTimeout(marker);
+    } catch (e2) {
+      try {
+        return cachedClearTimeout.call(null, marker);
+      } catch (e3) {
+        return cachedClearTimeout.call(this, marker);
+      }
+    }
+  }
+  var queue = [];
+  var draining = false;
+  var currentQueue;
+  var queueIndex = -1;
+  function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+      return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+      queue = currentQueue.concat(queue);
+    } else {
+      queueIndex = -1;
+    }
+    if (queue.length) {
+      drainQueue();
+    }
+  }
+  function drainQueue() {
+    if (draining) {
+      return;
+    }
+    var timeout = runTimeout(cleanUpNextTick);
+    draining = true;
+    var len2 = queue.length;
+    while (len2) {
+      currentQueue = queue;
+      queue = [];
+      while (++queueIndex < len2) {
+        if (currentQueue) {
+          currentQueue[queueIndex].run();
+        }
+      }
+      queueIndex = -1;
+      len2 = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    runClearTimeout(timeout);
+  }
+  process.nextTick = function(fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+      for (var i2 = 1; i2 < arguments.length; i2++) {
+        args[i2 - 1] = arguments[i2];
+      }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+      runTimeout(drainQueue);
+    }
+  };
+  function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+  }
+  Item.prototype.run = function() {
+    this.fun.apply(null, this.array);
+  };
+  process.title = "browser";
+  process.browser = true;
+  process.env = {};
+  process.argv = [];
+  process.version = "";
+  process.versions = {};
+  function noop() {
+  }
+  process.on = noop;
+  process.addListener = noop;
+  process.once = noop;
+  process.off = noop;
+  process.removeListener = noop;
+  process.removeAllListeners = noop;
+  process.emit = noop;
+  process.prependListener = noop;
+  process.prependOnceListener = noop;
+  process.listeners = function(name2) {
+    return [];
+  };
+  process.binding = function(name2) {
+    throw new Error("process.binding is not supported");
+  };
+  process.cwd = function() {
+    return "/";
+  };
+  process.chdir = function(dir) {
+    throw new Error("process.chdir is not supported");
+  };
+  process.umask = function() {
+    return 0;
+  };
+  var browserExports = browser.exports;
+  const process$1 = /* @__PURE__ */ getDefaultExportFromCjs(browserExports);
   /*! For license information please see index.js.LICENSE.txt */
   var t = { 2: (t2) => {
     function e2(t3, e3, o2) {
@@ -23067,7 +23074,7 @@
     });
   })(jszip_min$1, jszip_min$1.exports);
   var jszip_minExports = jszip_min$1.exports;
-  const JSZip = /* @__PURE__ */ getDefaultExportFromCjs(jszip_minExports);
+  const JSZip = /* @__PURE__ */ getDefaultExportFromCjs$1(jszip_minExports);
   class BackupFileParser {
     /**
      * 创建用于验证数据对象
@@ -24647,7 +24654,7 @@
     }
     return target;
   };
-  const extend$1 = /* @__PURE__ */ getDefaultExportFromCjs(extend);
+  const extend$1 = /* @__PURE__ */ getDefaultExportFromCjs$1(extend);
   class SiteService {
     constructor(options2, systemOptions) {
       this.options = options2;
@@ -25814,7 +25821,7 @@
     }
     return port2 !== 0;
   };
-  const index$1 = /* @__PURE__ */ getDefaultExportFromCjs(requiresPort);
+  const index$1 = /* @__PURE__ */ getDefaultExportFromCjs$1(requiresPort);
   var querystringify$1 = {};
   "use strict";
   var has = Object.prototype.hasOwnProperty, undef;
@@ -26179,7 +26186,7 @@
   Url.trimLeft = trimLeft;
   Url.qs = qs;
   var urlParse = Url;
-  const URLParse = /* @__PURE__ */ getDefaultExportFromCjs(urlParse);
+  const URLParse = /* @__PURE__ */ getDefaultExportFromCjs$1(urlParse);
   class User {
     constructor(service2) {
       this.service = service2;
@@ -28308,13 +28315,13 @@
   };
   posix.posix = posix;
   var pathBrowserify = posix;
-  const path = /* @__PURE__ */ getDefaultExportFromCjs(pathBrowserify);
+  const path = /* @__PURE__ */ getDefaultExportFromCjs$1(pathBrowserify);
   /*! queue-microtask. MIT License. Feross Aboukhadijeh <https://feross.org/opensource> */
   let promise;
   var queueMicrotask_1 = typeof queueMicrotask === "function" ? queueMicrotask.bind(typeof window !== "undefined" ? window : commonjsGlobal) : (cb) => (promise || (promise = Promise.resolve())).then(cb).catch((err) => setTimeout(() => {
     throw err;
   }, 0));
-  const queueMicrotask$1 = /* @__PURE__ */ getDefaultExportFromCjs(queueMicrotask_1);
+  const queueMicrotask$1 = /* @__PURE__ */ getDefaultExportFromCjs$1(queueMicrotask_1);
   /*! parse-torrent. MIT License. WebTorrent LLC <https://webtorrent.io/opensource> */
   async function parseTorrent(torrentId) {
     if (typeof torrentId === "string" && /^(stream-)?magnet:/.test(torrentId)) {
@@ -28506,6 +28513,153 @@
       throw new Error(`Torrent is missing required field: ${fieldName}`);
   }
   const toMagnetURI = magnetURIEncode;
+  class Emby {
+    constructor(options2) {
+      this.options = options2;
+      this.serverURL = "";
+      this.API = {
+        methods: {
+          findFromIMDb: "Items?Recursive=true&Fields=Path,Size,OfficialRating,MediaSources&AnyProviderIdEquals=imdb.$imdbId$",
+          getSystemInfo: "System/Info"
+        }
+      };
+      this.serverURL = this.options.address;
+      if (this.serverURL.substr(-1) !== "/") {
+        this.serverURL += "/";
+      }
+    }
+    /**
+    * 替换指定的字符串列表
+    * @param source
+    * @param maps
+    */
+    replaceKeys(source2, maps, prefix = "") {
+      if (!source2) {
+        return source2;
+      }
+      let result2 = source2;
+      for (const key2 in maps) {
+        if (maps.hasOwnProperty(key2)) {
+          const value = maps[key2];
+          let search = "$" + key2 + "$";
+          if (prefix) {
+            search = `$${prefix}.${key2}$`;
+          }
+          result2 = result2.replace(search, value);
+        }
+      }
+      return result2;
+    }
+    /**
+     * 指定指定的API
+     * @param method 
+     * @param data 
+     * @returns 
+     */
+    async execAPI(method = "", data2 = {}) {
+      let m;
+      let methods = method.split(".");
+      if (methods.length == 1) {
+        m = this.API.methods[method];
+      } else {
+        m = this.API.methods[methods[0]][methods[1]];
+      }
+      let url2 = "";
+      let mode = "GET";
+      if (typeof m == "string") {
+        url2 = m;
+      } else {
+        url2 = m.url;
+        mode = m.mode || "GET";
+      }
+      url2 = this.serverURL + this.replaceKeys(url2, data2);
+      const options2 = {
+        method: mode,
+        headers: {
+          accept: "application/json",
+          "X-Emby-Token": `${this.options.apiKey}`
+        }
+      };
+      try {
+        const response = await fetch(url2, options2);
+        if (response.ok) {
+          const result2 = await response.json();
+          return result2;
+        } else {
+          throw new Error(`HTTP 错误！状态码：${response.status}`);
+        }
+      } catch (error) {
+      }
+      return false;
+    }
+    /**
+     * 验证服务器可用性
+     */
+    async ping() {
+      const result2 = await this.execAPI("getSystemInfo");
+      if (result2 && result2.Id) {
+        return true;
+      }
+      return false;
+    }
+    /**
+     * 根据imdbId 获取媒体信息
+     * @param imdbId 
+     * @returns 
+     */
+    async getMediaFromMediaServer(imdbId) {
+      const result2 = await this.execAPI("findFromIMDb", {
+        imdbId
+      });
+      if (result2 && result2.Items) {
+        return result2;
+      }
+      return false;
+    }
+  }
+  class MediaServerManager {
+    constructor() {
+      this.servers = {};
+    }
+    getServer(options2) {
+      let server = this.servers[options2.id];
+      if (server) {
+        return server;
+      }
+      switch (options2.type) {
+        case EMediaServerType.Emby:
+          server = new Emby(options2);
+          break;
+        default:
+          break;
+      }
+      if (server) {
+        this.servers[options2.id] = server;
+      }
+      return server;
+    }
+    reset() {
+      for (const item of this.servers) {
+        this.servers[item] = void 0;
+        delete this.servers[item];
+      }
+      this.servers = {};
+    }
+    async ping(options2) {
+      let server = this.getServer(options2);
+      if (server) {
+        return server.ping();
+      }
+      return false;
+    }
+    async getMediaFromMediaServer(options2, imdbId) {
+      let server = this.getServer(options2);
+      if (server) {
+        return server.getMediaFromMediaServer(imdbId);
+      }
+      return false;
+    }
+  }
   class Controller {
     constructor(service2) {
       this.service = service2;
@@ -28521,6 +28675,7 @@
       this.searcher = new Searcher(this.service);
       this.userService = new User(this.service);
       this.movieInfoService = new MovieInfoService();
+      this.mediaServerManager = new MediaServerManager();
       this.clientController = new ClientController();
       this.isInitialized = false;
       this.contentPages = [];
@@ -29612,6 +29767,12 @@
     }
     testBackupServerConnectivity(options2) {
       return this.service.config.testBackupServerConnectivity(options2);
+    }
+    testMediaServerConnectivity(options2) {
+      return this.mediaServerManager.ping(options2);
+    }
+    getMediaFromMediaServer(options2) {
+      return this.mediaServerManager.getMediaFromMediaServer(options2.server, options2.imdbId);
     }
     createSearchResultSnapshot(options2) {
       return this.service.searchResultSnapshot.add(options2);
