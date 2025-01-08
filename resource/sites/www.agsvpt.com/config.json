@@ -1,0 +1,270 @@
+{
+  "name": "AGSV",
+  "timezoneOffset": "+0800",
+  "schema": "NexusPHP",
+  "url": "https://www.agsvpt.com/",
+  "description": "The Ultimate File Sharing Experience",
+  "icon": "https://www.agsvpt.com/favicon.ico",
+  "tags": [
+    "综合"
+  ],
+  "host": "www.agsvpt.com",
+  "plugins": [
+    {
+      "name": "种子列表",
+      "pages": [
+        "/special.php"
+      ],
+      "scripts": [
+        "/schemas/NexusPHP/common.js",
+        "/schemas/NexusPHP/torrents.js"
+      ]
+    }
+  ],
+  "levelRequirements": [
+    {
+      "level": "1",
+      "name": "Power User",
+      "interval": "4",
+      "downloaded": "50GB",
+      "ratio": "1.05",
+      "seedingPoints": "40000",
+      "privilege": ""
+    },
+    {
+      "level": "2",
+      "name": "Elite User",
+      "interval": "8",
+      "downloaded": "120GB",
+      "ratio": "1.55",
+      "seedingPoints": "80000",
+      "privilege": ""
+    },
+    {
+      "level": "3",
+      "name": "Crazy User",
+      "interval": "12",
+      "downloaded": "300GB",
+      "ratio": "2.05",
+      "seedingPoints": "150000",
+      "privilege": ""
+    },
+    {
+      "level": "4",
+      "name": "Insane User",
+      "interval": "20",
+      "downloaded": "500GB",
+      "ratio": "2.55",
+      "seedingPoints": "400000",
+      "privilege": "查看普通日志"
+    },
+    {
+      "level": "5",
+      "name": "Veteran User",
+      "interval": "28",
+      "downloaded": "750GB",
+      "ratio": "4.05",
+      "seedingPoints": "800000",
+      "privilege": "永远保留账号；查看其它用户的评论、帖子历史"
+    },
+    {
+      "level": "6",
+      "name": "Extreme User",
+      "interval": "40",
+      "downloaded": "1TB",
+      "ratio": "5.05",
+      "seedingPoints": "1400000",
+      "privilege": ""
+    },
+    {
+      "level": "7",
+      "name": "Ultimate User",
+      "interval": "52",
+      "downloaded": "1.5TB",
+      "ratio": "6.05",
+      "seedingPoints": "2200000",
+      "privilege": "首次升级至此等级的用户将获得2个邀请名额。"
+    },
+    {
+      "level": "8",
+      "name": "Nexus Master",
+      "interval": "70",
+      "downloaded": "3TB",
+      "ratio": "7.05",
+      "seedingPoints": "3200000",
+      "privilege": "首次升级至此等级的用户将获得2个邀请名额。"
+    }
+  ],
+  "collaborator": [
+    "Exception"
+  ],
+  "selectors": {
+    "userSeedingTorrents": {
+      "page": "/getusertorrentlistajax.php?userid=$user.id$&type=seeding",
+      "fields": {
+        "seeding": {
+          "selector": [
+            "b:first"
+          ],
+          "filters": [
+            "query.text()"
+          ]
+        },
+        "seedingSize": {
+          "selector": "",
+          "filters": [
+            "query.text().match(/总大小：(.*?)上一页/g)",
+            "(query && query.length>0) ? query[0].replace('总大小：', '').replace('<< 上一页', '').trim() : 0",
+            "(query != 0) ? query.sizeToNumber() : 0"
+          ]
+        }
+      }
+    },
+    "userExtendInfo": {
+      "merge": true,
+      "fields": {
+        "bonus": {
+          "selector": [
+            "td.rowhead:contains('冰晶') + td"
+          ],
+          "filters": [
+            "query.text().replace(/,/g,'')",
+            "parseFloat(query)"
+          ]
+        },
+        "seeding": {
+          "selector": [
+            "a[href*='getusertorrentlist.php'][href*='seeding']"
+          ],
+          "filters": [
+            "query ? parseInt(query.text().replace(/,/g,'')) : 0"
+          ]
+        },
+        "seedingSize": {
+          "selector": [
+            "td.rowhead:contains('做种大小') + td, td.rowhead:contains('Seeding Size') + td, td.rowhead:contains('做種大小') + td"
+          ],
+          "filters": [
+            "query.text().trim().sizeToNumber()"
+          ]
+        }
+      }
+    }
+  },
+  "searchEntryConfig": {
+    "area": [
+      {
+        "name": "IMDB",
+        "keyAutoMatch": "^(tt\\d+)$",
+        "appendQueryString": "&search_area=1"
+      }
+    ],
+    "fieldSelector": {
+      "subTitle": {
+        "selector": [".torrent_title_desc"],
+        "filters": ["query.html().split('</span>').pop()"]
+      },
+      "progress": {
+        "selector": [
+          "div[title^='seeding'], div[title^='leeching'], div[title^='inactivity']"
+        ],
+        "filters": [
+          "query ? parseFloat(query.attr('title').match(/[\\d.]+/)) : null"
+        ]
+      },
+      "status": {
+        "selector": [
+          "div[title^='seeding'], div[title^='leeching'], div[title^='inactivity']"
+        ],
+        "filters": [
+          "query ? query.attr('title') : ''",
+          "query.indexOf('seeding') != -1 ? 2 : query.indexOf('leeching') != -1 ? 1 : query.indexOf('100%') != -1 ? 255 : 3"
+        ]
+      }
+    }
+  },
+  "searchEntry": [
+    {
+      "name": "全站",
+      "enabled": true
+    },
+    {
+      "queryString": "cat401=1",
+      "name": "电影",
+      "enabled": false
+    },
+    {
+      "queryString": "cat402=1",
+      "name": "电视剧",
+      "enabled": false
+    },
+    {
+      "queryString": "cat403=1",
+      "name": "综艺",
+      "enabled": false
+    },
+    {
+      "queryString": "cat404=1",
+      "name": "纪录片",
+      "enabled": false
+    },
+    {
+      "queryString": "cat405=1",
+      "name": "动画",
+      "enabled": false
+    },
+    {
+      "queryString": "cat406=1",
+      "name": "MV",
+      "enabled": false
+    },
+    {
+      "queryString": "cat407=1",
+      "name": "体育",
+      "enabled": false
+    }
+  ],
+  "categories": [
+    {
+      "entry": "torrents.php",
+      "result": "&cat$id$=1",
+      "category": [
+        {
+          "id": 401,
+          "name": "电影"
+        },
+        {
+          "id": 402,
+          "name": "电视剧"
+        },
+        {
+          "id": 403,
+          "name": "综艺"
+        },
+        {
+          "id": 404,
+          "name": "纪录片"
+        },
+        {
+          "id": 405,
+          "name": "动画"
+        },
+        {
+          "id": 406,
+          "name": "MV"
+        },
+        {
+          "id": 407,
+          "name": "体育"
+        }
+      ]
+    }
+  ],
+  "mergeSchemaTagSelectors": true,
+  "torrentTagSelectors": [
+    {
+      "name": "⛔️",
+      "selector": "span[style*='background-color:#e50014']"
+    }
+  ]
+}
