@@ -1,6 +1,6 @@
-import { p as commonjsGlobal, q as getDefaultExportFromCjs, r as dayjs, E as Extension, V as Vue, a as EAction, f as filters, n as normalizeComponent, s as ETorrentStatus, P as PPF, B as BASE_COLORS, t as EResourceOrderMode, u as EPaginationKey, h as EViewKey, v as eventBus, b as EModule, w as EDataResultType, D as Downloader, x as ERequestMethod, y as FileDownloader, i as ECommonKey, z as basicContext_minExports } from "./index-Ca5-5hzk.js";
+import { p as commonjsGlobal, q as getDefaultExportFromCjs, r as dayjs, E as Extension, V as Vue, a as EAction, f as filters, n as normalizeComponent, s as ETorrentStatus, P as PPF, B as BASE_COLORS, t as EResourceOrderMode, u as EPaginationKey, h as EViewKey, v as eventBus, b as EModule, w as EDataResultType, D as Downloader, x as ERequestMethod, y as FileDownloader, i as ECommonKey, z as basicContext_minExports } from "./index-7t3YJu3Z.js";
 import { P as PathHandler } from "./pathHandler-yIpW4LsR.js";
-import { D as DownloadTo } from "./DownloadTo-U9eVKMsW.js";
+import { D as DownloadTo } from "./DownloadTo-DtyDcGX6.js";
 var duration$2 = { exports: {} };
 var duration = duration$2.exports;
 (function(module, exports) {
@@ -1064,6 +1064,7 @@ const _sfc_main = Vue.extend({
       siteContentMenus: {},
       clientContentMenus: [],
       filterKey: "",
+      filterKeyExclude: "",
       // 已过滤的数据
       filteredDatas: [],
       showFailedSites: false,
@@ -2482,22 +2483,16 @@ const _sfc_main = Vue.extend({
      * @param search
      */
     searchResultFilter(items, search) {
-      search = search.toString().toLowerCase();
-      this.filteredDatas = [];
-      if (search.trim() === "")
-        return items;
-      let searchs = search.split(" ");
-      this.filteredDatas = items.filter((item) => {
-        let source = (item.title + (item.subTitle || "")).toLowerCase();
-        let result = true;
-        searchs.forEach((key) => {
-          if (key.trim() != "") {
-            result = result && source.indexOf(key) > -1;
-          }
-        });
-        return result;
+      const [include, exclude] = search.split("<@>");
+      const includes = include.toLowerCase().trim().split(" ").filter((key) => key !== "");
+      const excludes = exclude.toLowerCase().trim().split(" ").filter((key) => key !== "");
+      const filteredItems = items.filter((item) => {
+        const source = (item.title + (item.subTitle || "")).toLowerCase();
+        const includeResult = includes.length === 0 || includes.some((key) => source.includes(key));
+        const excludeResult = excludes.length === 0 || !excludes.some((key) => source.includes(key));
+        return includeResult && excludeResult;
       });
-      return this.filteredDatas;
+      return filteredItems;
     },
     getIMDbIdFromDouban(doubanId) {
       let match = doubanId.match(/douban(\d+)/);
@@ -2871,7 +2866,9 @@ var _sfc_render = function render7() {
     } } }, [_c("span", [_vm._v(_vm._s(key))]), _c("v-chip", { staticClass: "ml-2", staticStyle: { "margin-right": "-13px" }, attrs: { "label": "", "color": "grey", "small": "", "text-color": "white", "disabled": "" } }, [_c("span", [_vm._v(_vm._s(item.items.length))])])], 1)];
   })], 2) : _vm._e()]), _c("v-flex", { attrs: { "xs6": "" } }, [_c("div", [_c("v-text-field", { attrs: { "append-icon": "search", "label": _vm.$t("searchTorrent.filterSearchResults"), "single-line": "", "hide-details": "", "enterkeyhint": "search" }, model: { value: _vm.filterKey, callback: function($$v) {
     _vm.filterKey = $$v;
-  }, expression: "filterKey" } })], 1)])], 1), _c("div", { ref: "divToolbar", attrs: { "id": "divToolbar" } }, [_c("div", { directives: [{ name: "show", rawName: "v-show", value: _vm.toolbarIsFixed, expression: "toolbarIsFixed" }], attrs: { "id": "divToobarHeight" } }), _c("div", { class: _vm.toolbarClass, attrs: { "id": "divToobarInner" } }, [_vm.$vuetify.breakpoint.smAndDown ? _c("div", { staticStyle: { "display": "inline-flex" } }, [_c("v-flex", { staticClass: "px-2", staticStyle: { "height": "50px" }, attrs: { "xs6": "" } }, [_c("v-select", { attrs: { "items": _vm.orderHeaders, "label": _vm.$t("common.orderBy") }, model: { value: _vm.pagination.sortBy, callback: function($$v) {
+  }, expression: "filterKey" } }), _c("v-text-field", { attrs: { "append-icon": "block", "label": _vm.$t("searchTorrent.filterSearchResultsExclude"), "single-line": "", "hide-details": "", "enterkeyhint": "search" }, model: { value: _vm.filterKeyExclude, callback: function($$v) {
+    _vm.filterKeyExclude = $$v;
+  }, expression: "filterKeyExclude" } })], 1)])], 1), _c("div", { ref: "divToolbar", attrs: { "id": "divToolbar" } }, [_c("div", { directives: [{ name: "show", rawName: "v-show", value: _vm.toolbarIsFixed, expression: "toolbarIsFixed" }], attrs: { "id": "divToobarHeight" } }), _c("div", { class: _vm.toolbarClass, attrs: { "id": "divToobarInner" } }, [_vm.$vuetify.breakpoint.smAndDown ? _c("div", { staticStyle: { "display": "inline-flex" } }, [_c("v-flex", { staticClass: "px-2", staticStyle: { "height": "50px" }, attrs: { "xs6": "" } }, [_c("v-select", { attrs: { "items": _vm.orderHeaders, "label": _vm.$t("common.orderBy") }, model: { value: _vm.pagination.sortBy, callback: function($$v) {
     _vm.$set(_vm.pagination, "sortBy", $$v);
   }, expression: "pagination.sortBy" } })], 1), _c("v-flex", { staticClass: "px-0", staticStyle: { "height": "50px" }, attrs: { "xs6": "" } }, [_c("v-radio-group", { attrs: { "row": "" }, model: { value: _vm.currentOrderMode, callback: function($$v) {
     _vm.currentOrderMode = $$v;
@@ -2896,7 +2893,7 @@ var _sfc_render = function render7() {
     _vm.showCategory = $$v;
   }, expression: "showCategory" } }), _c("v-switch", { attrs: { "color": "success", "label": _vm.$t("searchTorrent.titleMiddleEllipsis") }, on: { "change": _vm.updateViewOptions }, model: { value: _vm.titleMiddleEllipsis, callback: function($$v) {
     _vm.titleMiddleEllipsis = $$v;
-  }, expression: "titleMiddleEllipsis" } })], 1)], 1)], 1)], 2)])]), _c("v-data-table", { class: "torrent" + (_vm.fixedTable ? " fixed-table fixed-header v-table__overflow" : ""), attrs: { "search": _vm.filterKey, "custom-filter": _vm.searchResultFilter, "headers": _vm.headers, "items": _vm.datas, "pagination": _vm.pagination, "loading": _vm.loading, "item-key": "link", "select-all": _vm.checkBox, "rows-per-page-items": _vm.options.rowsPerPageItems }, on: { "update:pagination": function($event) {
+  }, expression: "titleMiddleEllipsis" } })], 1)], 1)], 1)], 2)])]), _c("v-data-table", { class: "torrent" + (_vm.fixedTable ? " fixed-table fixed-header v-table__overflow" : ""), attrs: { "search": _vm.filterKey + "<@>" + _vm.filterKeyExclude, "custom-filter": _vm.searchResultFilter, "headers": _vm.headers, "items": _vm.datas, "pagination": _vm.pagination, "loading": _vm.loading, "item-key": "link", "select-all": _vm.checkBox, "rows-per-page-items": _vm.options.rowsPerPageItems }, on: { "update:pagination": function($event) {
     _vm.pagination = $event;
   } }, scopedSlots: _vm._u([{ key: "headers", fn: function(props) {
     return [_c("tr", [_vm.checkBox ? _c("th", [_c("v-checkbox", { attrs: { "input-value": props.all, "indeterminate": props.indeterminate, "primary": "", "hide-details": "" }, on: { "click": function($event) {
