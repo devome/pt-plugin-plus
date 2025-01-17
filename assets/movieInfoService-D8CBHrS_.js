@@ -1,4 +1,4 @@
-import { P as PPF } from "./index-7t3YJu3Z.js";
+import { P as PPF } from "./index-a-kPTsLM.js";
 class MovieInfoService {
   constructor() {
     this.omdbApiURL = "https://www.omdbapi.com";

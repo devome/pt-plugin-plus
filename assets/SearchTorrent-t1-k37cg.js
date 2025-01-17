@@ -1,6 +1,6 @@
-import { p as commonjsGlobal, q as getDefaultExportFromCjs, r as dayjs, E as Extension, V as Vue, a as EAction, f as filters, n as normalizeComponent, s as ETorrentStatus, P as PPF, B as BASE_COLORS, t as EResourceOrderMode, u as EPaginationKey, h as EViewKey, v as eventBus, b as EModule, w as EDataResultType, D as Downloader, x as ERequestMethod, y as FileDownloader, i as ECommonKey, z as basicContext_minExports } from "./index-7t3YJu3Z.js";
+import { p as commonjsGlobal, q as getDefaultExportFromCjs, r as dayjs, E as Extension, V as Vue, a as EAction, f as filters, n as normalizeComponent, s as ETorrentStatus, P as PPF, B as BASE_COLORS, t as EResourceOrderMode, u as EPaginationKey, h as EViewKey, v as eventBus, b as EModule, w as EDataResultType, D as Downloader, x as ERequestMethod, y as FileDownloader, i as ECommonKey, z as basicContext_minExports } from "./index-a-kPTsLM.js";
 import { P as PathHandler } from "./pathHandler-yIpW4LsR.js";
-import { D as DownloadTo } from "./DownloadTo-DtyDcGX6.js";
+import { D as DownloadTo } from "./DownloadTo-Cidj6OnK.js";
 var duration$2 = { exports: {} };
 var duration = duration$2.exports;
 (function(module, exports) {
@@ -2488,7 +2488,7 @@ const _sfc_main = Vue.extend({
       const excludes = exclude.toLowerCase().trim().split(" ").filter((key) => key !== "");
       const filteredItems = items.filter((item) => {
         const source = (item.title + (item.subTitle || "")).toLowerCase();
-        const includeResult = includes.length === 0 || includes.some((key) => source.includes(key));
+        const includeResult = includes.length === 0 || includes.every((key) => source.includes(key));
         const excludeResult = excludes.length === 0 || !excludes.some((key) => source.includes(key));
         return includeResult && excludeResult;
       });
