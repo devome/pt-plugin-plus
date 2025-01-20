@@ -1,0 +1,215 @@
+{
+  "name": "OpenCD",
+  "timezoneOffset": "+0800",
+  "description": "皇后，专一的音乐类PT站，是目前国内最大的无损音乐PT",
+  "url": "https://open.cd/",
+  "icon": "https://open.cd/favicon.ico",
+  "tags": ["音乐"],
+  "schema": "NexusPHP",
+  "host": "open.cd",
+  "collaborator": ["*", "cnsunyour"],
+  "levelRequirements": [{
+    "level": "1",
+    "name": "常在-正七品(Power User)",
+    "interval": "5",
+    "ratio": "1.5",
+    "alternative": [
+      {
+        "downloaded": "20GB"
+      },
+      {
+      "uploads": "5"
+      }
+    ],
+    "privilege": "得到一个邀请名额；可以请求续种； 可以发送邀请； 可以查看排行榜；可以查看其它用户的种子历史(如果用户隐私等级未设置为\"强\")； 可以删除自己上传的字幕。"
+  },{
+    "level": "2",
+    "name": "贵人-正六品(Elite User)",
+    "interval": "10",
+    "ratio": "2.0",
+    "alternative": [
+      {
+        "downloaded": "60GB"
+      },
+      {
+      "uploads": "20"
+      }
+    ],
+    "privilege": "得到两个邀请名额；贵人-正六品(Elite User)及以上用户封存账号后规定时间内不会被删除；发布三个种子后无需经过候选 可直接发布种子。"
+  },{
+    "level": "3",
+    "name": "良媛-正五品(Crazy User)",
+    "interval": "15",
+    "ratio": "2.5",
+    "alternative": [
+      {
+        "downloaded": "200GB"
+      },
+      {
+      "uploads": "50"
+      }
+    ],
+    "privilege": "得到三个邀请名额；可以在做种/下载/发布的时候选择匿名模式。"
+  },{
+    "level": "4",
+    "name": "容华-正四品(Insane User)",
+    "interval": "20",
+    "ratio": "3.0",
+    "alternative": [
+      {
+        "downloaded": "400GB"
+      },
+      {
+      "uploads": "100"
+      }
+    ],
+    "privilege": "得到四个邀请名额；可以查看普通日志。"
+  },{
+    "level": "5",
+    "name": "贵嫔-正三品(Veteran User)",
+    "interval": "25",
+    "ratio": "3.5",
+    "alternative": [
+      {
+        "downloaded": "600GB"
+      },
+      {
+      "uploads": "200"
+      }
+    ],
+    "privilege": "得到五个邀请名额；可以查看用户列表，可以查看其它用户的评论、帖子历史。贵嫔-正三品(Veteran User)及以上用户会永远保留账号。"
+  },{
+    "level": "6",
+    "name": "淑仪-正二品(Extreme User)",
+    "interval": "25",
+    "ratio": "4.0",
+    "alternative": [
+      {
+        "downloaded": "1TB"
+      },
+      {
+      "uploads": "300"
+      }
+    ],
+    "privilege": "得到六个邀请名额；可以更新过期的外部信息。"
+  },{
+    "level": "7",
+    "name": "贵妃-正一品(Ultimate User)",
+    "interval": "30",
+    "ratio": "4.5",
+    "alternative": [
+      {
+        "downloaded": "2TB"
+      },
+      {
+      "uploads": "450"
+      }
+    ],
+    "privilege": "得到七个邀请名额；查看种子文件的结构。"
+  },{
+    "level": "8",
+    "name": "皇后(Nexus Master)",
+    "interval": "30",
+    "ratio": "5.0",
+    "alternative": [
+      {
+        "downloaded": "3TB"
+      },
+      {
+      "uploads": "600"
+      }
+    ],
+    "privilege": "得到十个邀请名额。"
+  }],
+  "searchEntryConfig": {
+    "skipIMDbId": true,
+    "fieldSelector": {
+      "progress": {
+        "selector": [".progress:eq(0) > div"],
+        "filters": ["query.attr('style')||''", "query.match(/width:([ \\d.]+)%/)", "(query && query.length>=2)?query[1]:null"]
+      },
+      "status": {
+        "selector": ["div.progress_seeding", "div.progress_completed, div.progress_completed_hr", "div.progress_no_downloading", "div.progress_downloading"],
+        "switchFilters": [
+          [2],
+          [255],
+          [3],
+          [1]
+        ]
+      }
+    }
+  },
+  "searchEntry": [{
+    "appendQueryString": "&boardid=2",
+    "name": "原抓区",
+    "enabled": true
+  }, {
+    "appendQueryString": "&boardid=1",
+    "name": "普通区",
+    "enabled": true
+  }],
+  "categories": [{
+    "entry": "*",
+    "result": "&source$id$=1",
+    "category": [{
+      "id": 2,
+      "name": "流行(Pop)"
+    }, {
+      "id": 3,
+      "name": "古典(Classical)"
+    }, {
+      "id": 11,
+      "name": "器乐(Instrumental)"
+    }, {
+      "id": 4,
+      "name": "原声(OST)"
+    }, {
+      "id": 5,
+      "name": "摇滚(Rock)"
+    }, {
+      "id": 8,
+      "name": "爵士(Jazz)"
+    }, {
+      "id": 12,
+      "name": "新世纪(NewAge)"
+    }, {
+      "id": 13,
+      "name": "舞曲(Dance)"
+    }, {
+      "id": 14,
+      "name": "电子(Electronic)"
+    }, {
+      "id": 15,
+      "name": "民谣(Folk)"
+    }, {
+      "id": 16,
+      "name": "独立(Indie)"
+    }, {
+      "id": 17,
+      "name": "嘻哈(Hip Hop)"
+    }, {
+      "id": 9,
+      "name": "其他(Others)"
+    }]
+  }],
+  "selectors": {
+    "userExtendInfo": {
+      "merge": true,
+      "fields": {
+        "seeding": {
+          "selector": ["div#ka1"],
+          "filters": ["query.parent().text().match(/\\(([\\d.]+)个种子/)", "(query && query.length>=2)?query[1]:0"]
+        },
+        "seedingSize": {
+          "selector": ["div#ka1"],
+          "filters": ["query.parent().text().match(/共计([\\d.]+ ?[ZEPTGMK]?i?B)/)", "(query && query.length>=2)?(query[1]).sizeToNumber():0"]
+        }
+      }
+    }
+  },
+  "mergeSchemaTagSelectors": true,
+  "torrentTagSelectors": [{
+    "name": "⛔️",
+    "selector": "img[src*='pic/share_rule_1.gif']"
+  }]
+}
