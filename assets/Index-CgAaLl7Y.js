@@ -1,5 +1,5 @@
-import { E as Extension, V as Vue, j as EBackupServerType, a as EAction, n as normalizeComponent, k as ERestoreContent, P as PPF, l as EWorkingStatus, A as APP, m as EInstallType, F as FileSaver, b as EModule, o as EBrowserType } from "./index-DJA1DKKX.js";
-import { B as BackupFileParser } from "./backupFileParser-DeRKjG9L.js";
+import { E as Extension, V as Vue, j as EBackupServerType, a as EAction, n as normalizeComponent, k as ERestoreContent, P as PPF, l as EWorkingStatus, A as APP, m as EInstallType, F as FileSaver, b as EModule, o as EBrowserType } from "./index-BwFzq1Q7.js";
+import { B as BackupFileParser } from "./backupFileParser-qiSsCBB9.js";
 const extension$1 = new Extension();
 const _sfc_main$5 = Vue.extend({
   data() {

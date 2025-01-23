@@ -1,4 +1,4 @@
-import { n as normalizeComponent } from "./index-DJA1DKKX.js";
+import { n as normalizeComponent } from "./index-BwFzq1Q7.js";
 const _sfc_main = {};
 var _sfc_render = function render() {
   var _vm = this, _c = _vm._self._c;
