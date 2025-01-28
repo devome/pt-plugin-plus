@@ -1,4 +1,4 @@
-import { V as Vue, n as normalizeComponent, E as Extension, f as filters, a as EAction, b as EModule, F as FileSaver, P as PPF } from "./index-BwFzq1Q7.js";
+import { V as Vue, n as normalizeComponent, E as Extension, f as filters, a as EAction, b as EModule, F as FileSaver, P as PPF } from "./index-DzMzv318.js";
 const _sfc_main$4 = Vue.extend({
   data() {
     return {
@@ -169,7 +169,7 @@ const _sfc_main$4 = Vue.extend({
         }
         this.$emit("change", {
           data: this.site,
-          valid: this.valid
+          valid: this.$refs.form.validate()
         });
       },
       deep: true
@@ -218,7 +218,7 @@ const _sfc_main$4 = Vue.extend({
     initData() {
       if (this.initData) {
         this.site = Object.assign({}, this.initData);
-        this.valid = this.site.name && this.site.host ? true : false;
+        this.valid = this.$refs.form.validate();
       }
     }
   },
@@ -236,7 +236,7 @@ const _sfc_main$4 = Vue.extend({
 });
 var _sfc_render$4 = function render() {
   var _vm = this, _c = _vm._self._c, _setup = _vm._self._setupProxy;
-  return _c("v-card", { staticClass: "mb-5", attrs: { "color": _vm.$vuetify.dark ? "" : "grey lighten-4" } }, [_c("v-card-text", [_c("v-form", { model: { value: _vm.valid, callback: function($$v) {
+  return _c("v-card", { staticClass: "mb-5", attrs: { "color": _vm.$vuetify.dark ? "" : "grey lighten-4" } }, [_c("v-card-text", [_c("v-form", { ref: "form", model: { value: _vm.valid, callback: function($$v) {
     _vm.valid = $$v;
   }, expression: "valid" } }, [_c("v-text-field", { ref: "name", attrs: { "label": _vm.$t("settings.sites.editor.name"), "placeholder": _vm.$t("settings.sites.editor.name"), "required": "", "rules": _vm.rules.require }, model: { value: _vm.site.name, callback: function($$v) {
     _vm.$set(_vm.site, "name", $$v);
@@ -370,7 +370,7 @@ const _sfc_main$3 = Vue.extend({
     },
     next(step) {
       if (this.selectedSite && this.selectedSite.name) {
-        this.valid = true;
+        this.valid = !this.selectedSite.tokenRequired;
         this.haveError = false;
         this.step++;
       } else {
