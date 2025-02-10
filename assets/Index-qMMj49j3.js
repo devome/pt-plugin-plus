@@ -1,4 +1,4 @@
-import { V as Vue, n as normalizeComponent, P as PPF, F as FileSaver } from "./index-DzMzv318.js";
+import { V as Vue, n as normalizeComponent, P as PPF, F as FileSaver } from "./index-COZ_5UUZ.js";
 const _sfc_main$3 = Vue.extend({
   data() {
     return {
@@ -308,7 +308,7 @@ const _sfc_main = Vue.extend({
               return item.name == schema;
             }
           );
-          if (_schema) {
+          if (_schema && _schema.plugins) {
             plugins.push(..._schema.plugins);
           }
         } else if (schema && schema.plugins) {
@@ -499,7 +499,7 @@ var __component__ = /* @__PURE__ */ normalizeComponent(
   _sfc_staticRenderFns,
   false,
   null,
-  "f7fccac8",
+  "a155f445",
   null,
   null
 );

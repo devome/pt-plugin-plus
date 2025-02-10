@@ -1,4 +1,4 @@
-import { E as Extension, V as Vue, a as EAction, n as normalizeComponent, c as EMediaServerType } from "./index-DzMzv318.js";
+import { E as Extension, V as Vue, a as EAction, n as normalizeComponent, c as EMediaServerType } from "./index-COZ_5UUZ.js";
 const extension = new Extension();
 const _sfc_main$2 = Vue.extend({
   data() {
