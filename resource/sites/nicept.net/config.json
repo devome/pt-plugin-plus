@@ -1,0 +1,190 @@
+{
+  "name": "NicePT",
+  "timezoneOffset": "+0800",
+  "description": "老师站，又称小馒头",
+  "url": "https://www.nicept.net/",
+  "icon": "https://www.nicept.net/favicon.ico",
+  "tags": ["成人"],
+  "schema": "NexusPHP",
+  "host": "www.nicept.net",
+  "levelRequirements": [
+    {
+      "level": 1,
+      "name": "Power User",
+      "interval": "4",
+      "downloaded": "50GB",
+      "ratio": "1.05",
+      "seedingPoints": "40000",
+      "privilege": "得到一個邀請名額；可以直接發布種子；可以檢視NFO文件；可以檢視用戶清單；可以要求續種； 可以傳送邀請； 可以檢視排行榜；可以檢視其他用戶的種子曆史(如果用戶隱私等級未設定為\"強\")； 可以移除自己上傳的字幕。"
+    },
+    {
+      "level": 2,
+      "name": "Elite User",
+      "interval": "8",
+      "downloaded": "120GB",
+      "ratio": "1.55",
+      "seedingPoints": "80000",
+      "privilege": "Elite User及以上用戶封存賬號后不會被移除。"
+    },
+    {
+      "level": 3,
+      "name": "Crazy User",
+      "interval": "15",
+      "downloaded": "300GB",
+      "ratio": "2.05",
+      "seedingPoints": "150000",
+      "privilege": "得到兩個邀請名額；可以在做種/下載/發布的時候選取匿名型態。"
+    },
+    {
+      "level": 4,
+      "name": "Insane User",
+      "interval": "25",
+      "downloaded": "500GB",
+      "ratio": "2.55",
+      "seedingPoints": "250000",
+      "privilege": "可以檢視普通日誌。"
+    },
+    {
+      "level": 5,
+      "name": "Veteran User",
+      "interval": "40",
+      "downloaded": "750GB",
+      "ratio": "3.05",
+      "seedingPoints": "400000",
+      "privilege": "得到三個邀請名額；可以檢視其他用戶的評論、帖子曆史。Veteran User及以上用戶會永遠保留賬號。"
+    },
+    {
+      "level": 6,
+      "name": "Extreme User",
+      "interval": "60",
+      "downloaded": "1TB",
+      "ratio": "3.55",
+      "seedingPoints": "600000",
+      "privilege": "可以更新過期的外部資訊；可以檢視Extreme User論壇。"
+    },
+    {
+      "level": 7,
+      "name": "Ultimate User",
+      "interval": "80",
+      "downloaded": "1.5TB",
+      "ratio": "4.05",
+      "seedingPoints": "800000",
+      "privilege": "得到五個邀請名額。"
+    },
+    {
+      "level": 8,
+      "name": "Nexus Master",
+      "interval": "100",
+      "downloaded": "3TB",
+      "ratio": "4.55",
+      "seedingPoints": "1000000",
+      "privilege": "得到十個邀請名額。"
+    }
+  ],
+  "selectors": {
+    "userSeedingTorrents": {
+        "page": "/getusertorrentlistajax.php?userid=$user.id$&type=seeding",
+        "fields": {
+            "seeding": {
+                "selector": [
+                    "b:first"
+                ],
+                "filters": [
+                    "query.text()"
+                ]
+            },
+            "seedingSize": {
+                "selector": "",
+                "filters": [
+                    "query.text().match(/總大小：(.*?)上一頁/g)",
+                    "(query && query.length>0) ? query[0].replace('總大小：', '').replace('<< 上一頁', '').trim() : 0",
+                    "(query != 0) ? query.sizeToNumber() : 0"
+                ]
+            }
+        }
+    }
+  },
+  "collaborator": "DXV5",
+  "searchEntry": [{
+      "name": "全站",
+      "enabled": true
+    },
+    {
+      "queryString": "cat401=1",
+      "name": "无码（限制级）",
+      "enabled": false
+    },
+    {
+      "queryString": "cat500=1",
+      "name": "有码（限制级）",
+      "enabled": false
+    },
+    {
+      "queryString": "cat402=1",
+      "name": "三级情色（限制级）",
+      "enabled": false
+    },
+    {
+      "queryString": "cat501=1",
+      "name": "其他（限制级）",
+      "enabled": false
+    },
+    {
+      "queryString": "cat403=1",
+      "name": "动漫（限制级）",
+      "enabled": false
+    },
+    {
+      "queryString": "cat503=1",
+      "name": "真人秀，自拍（限制级）",
+      "enabled": false
+    },
+    {
+      "queryString": "cat404=1",
+      "name": "套图（限制级）",
+      "enabled": false
+    },
+    {
+      "queryString": "cat504=1",
+      "name": "SM调教（限制级）",
+      "enabled": false
+    }
+  ],
+  "categories": [{
+    "entry": "torrents.php",
+    "result": "&cat$id$=1",
+    "category": [{
+        "id": 401,
+        "name": "无码（限制级）"
+      },
+      {
+        "id": 500,
+        "name": "有码（限制级）"
+      },
+      {
+        "id": 402,
+        "name": "三级情色（限制级）"
+      },
+      {
+        "id": 501,
+        "name": "其他（限制级）"
+      },
+      {
+        "id": 403,
+        "name": "动漫（限制级）"
+      },
+      {
+        "id": 503,
+        "name": "真人秀，自拍（限制级）"
+      },
+      {
+        "id": 404,
+        "name": "套图（限制级）"
+      },
+      {
+        "id": 504,
+        "name": "SM调教（限制级）"
+      }
+    ]
+  }]
+}
