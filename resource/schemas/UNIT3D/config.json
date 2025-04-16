@@ -1,0 +1,185 @@
+{
+  "name": "UNIT3D",
+  "ver": "0.0.1",
+  "plugins": [{
+    "name": "种子详情页面",
+    "pages": ["^/torrents/(.+)$", "^/torrent/(.+)$"],
+    "scripts": ["/schemas/NexusPHP/common.js", "details.js"]
+  }, {
+    "name": "种子列表",
+    "pages": ["^/torrents$"],
+    "scripts": ["/schemas/NexusPHP/common.js", "torrents.js"]
+  }, {
+    "name": "个人种子列表页面",
+    "pages": ["^/users/.*?/(uploads|downloads|seeds|active|torrents|unsatisfieds)"],
+    "scripts": ["/schemas/NexusPHP/common.js", "userTorrents.js"]
+  }],
+  "searchEntryConfig": {
+    "page": "/torrents",
+    "queryString": "perPage=100&name=$key$",
+    "area": [{
+      "name": "IMDB",
+      "keyAutoMatch": "^(tt\\d+)$",
+      "queryString": "perPage=100&imdbId=$key$",
+      "replaceKey": [
+        "tt", ""
+      ]
+    }],
+    "fieldSelector": {
+      "progress": {
+        "selector": [
+          "span.torrent-icons > i.fas.fa-arrow-circle-up.text-success.torrent-icons, i.fas.fa-thumbs-down",
+          "span.torrent-icons > i.fas.fa-do-not-enter.torrent-icons, span.torrent-icons > i.fa-arrow-circle-down.text-danger.torrent-icons",
+          ""
+        ],
+        "switchFilters": [
+          ["100"],
+          ["0"],
+          ["null"]
+        ]
+      },
+      "status": {
+        "selector": ["span.torrent-icons > i.fas.fa-arrow-circle-up.text-success.torrent-icons", "span.torrent-icons > i.fa-arrow-circle-down.text-danger.torrent-icons", "span.torrent-icons > i.fas.fa-thumbs-down.text-warning.torrent-icons", "span.torrent-icons > i.fas.fa-do-not-enter.torrent-icons"],
+        "switchFilters": [
+          ["2"],
+          ["1"],
+          ["255"],
+          ["3"]
+        ]
+      }
+    },
+    "resultType": "html",
+    "parseScriptFile": "getSearchResult.js"
+  },
+  "searchEntry": [{
+    "name": "全部",
+    "enabled": true
+  }],
+  "torrentTagSelectors": [{
+    "name": "Free",
+    "selector": "i.fa-star.text-gold, i.fa-globe.text-blue, i[title*='100% Free'], i[title*='Featured'], span[title*='100% Free'], i[data-original-title*='Featured']"
+  }, {
+    "name": "2xUp",
+    "selector": "i.fa-gem.text-green, i[title*='Double Upload'], i[title*='Featured'], i[data-original-title*='Featured']"
+  }, {
+    "name": "75%",
+    "selector": "i[title*='75% Free'], span[title*='75% Free']"
+  }, {
+    "name": "50%",
+    "selector": "i[title*='50% Free'], span[title*='50% Free']"
+  }, {
+    "name": "25%",
+    "selector": "i[title*='25% Free'], span[title*='25% Free']"
+  }],
+  "selectors": {
+    "userBaseInfo": {
+      "page": "/",
+      "fields": {
+        "name": {
+          "selector": ["a[href*='settings']:first"],
+          "attribute": "href",
+          "switchFilters": [
+            ["new URL(query).pathname.split('/')", "(query && query.length>2)?(query[2]):''"],
+            ["query ? decodeURI(query.getQueryString('id')):''"]
+          ]
+        },
+        "isLogged": {
+          "selector": ["i.fa-sign-out"],
+          "filters": ["query.length > 0"]
+        },
+        "uploaded": {
+          "selector": ["div.ratio-bar i.fa-arrow-up, li[title='Upload'] i.fa-arrow-up, ul.top-nav__ratio-bar i.fa-arrow-up, span[title='Upload'], span[title='上传']"],
+          "filters": ["query.parent().text().trim().replace(/,|\\s|\\n/g,'').match(/[\\d.]+ ?[ZEPTGMK]?i?B/)", "(query && query.length>=1)?(query[0]).sizeToNumber():0"]
+        },
+        "downloaded": {
+          "selector": ["div.ratio-bar i.fa-arrow-down, li[title='Download'] i.fa-arrow-down, ul.top-nav__ratio-bar i.fa-arrow-down, span[title='Download'], span[title='下载']"],
+          "filters": ["query.parent().text().trim().replace(/,|\\s|\\n/g,'').match(/[\\d.]+ ?[ZEPTGMK]?i?B/)", "(query && query.length>=1)?(query[0]).sizeToNumber():0"]
+        },
+        "bonus": {
+          "selector": ["div.ratio-bar i.fa-coins, li[title='My Bonus Points'] i.fa-coins, ul.top-nav__ratio-bar i.fa-coins, a[title='My Bonus Points'], a[title='我的魔力']"],
+          "filters": ["query.parent().text().trim().replace(/,|\\s|\\n/g,'').match(/[\\d.]+/)", "(query && query.length>=1)?parseFloat(query[0]):0"]
+        },
+        "seeding": {
+          "selector": ["div.ratio-bar i.fa-upload, li[title='Seeding'] i.fa-upload, ul.top-nav__ratio-bar i.fa-upload, span[title='Seeding'], span[title='做种']"],
+          "filters": ["query.parent().text().trim().replace(/,|\\s|\\n/g,'').match(/[\\d.]+/)", "(query && query.length>=1)?parseFloat(query[0]):0"]
+        }
+      }
+    },
+    "userExtendInfo": {
+      "page": "/users/$user.name$",
+      "fields": {
+        "seedingSize": {
+          "selector": ["table.table-condensed.table-striped.table-bordered:first td:contains('Seeding Size') + td", "table.table-condensed.table-striped.table-bordered:first td:contains('做种体积') + td", "table.table-condensed.table-striped.table-bordered:first td:contains('做種體積') + td"
+        , ".panelV2 dt:contains('Seeding Size') + dd", ".panelV2 dt:contains('做种体积') + dd", ".panelV2 dt:contains('做種體積') + dd"],
+          "filters": ["query.text().trim().replace(/,|\\s|\\n/g,'').sizeToNumber()"]
+        },
+        "levelName": {
+          "selector": ["div.content span.badge-user", "a.user-tag__link"],
+          "switchFilters": [["query.text()"],["query.attr('title')"]]
+        },
+        "messageCount": {
+          "selector": [".point, ul.top-nav__icon-bar circle"],
+          "filters": ["query.length?'11':'0'"]
+        },
+        "joinTime": {
+          "selector": ["div.content h4:contains('Registration date')", "div.content h4:contains('注册日期')", "div.content h4:contains('註冊日期')", "time.profile__registration"],
+          "filters": ["query.text().replace(/(Registration date|注册日期|註冊日期)/g, '').trim()", "dateTime(query).isValid()?dateTime(query).valueOf():query"]
+        },
+        "uploads": {
+          "selector": [".badge-user .fa-upload + span", "li:has(i.fas.fa-upload) a[href*='/uploads']"],
+          "switchFilters": [
+            ["query ? parseInt(query.text().trim().replace(/,/g,'')) : 0"],
+            ["query ? parseInt(query.contents().filter((_, el) => el.nodeType === 3).text().trim().replace(/[^0-9]/g, '')) : 0"]
+          ]
+        },
+        "unsatisfiedsPage": {
+          "selector": ["a[href$='unsatisfieds']:first"],
+          "attribute": "href",
+          "filters": ["query ? new URL(query).pathname : null"]
+        },
+        "averageSeedtime": {
+          "selector": ["table.table-condensed.table-striped.table-bordered:first td:contains('Average Seedtime') + td", "table.table-condensed.table-striped.table-bordered:first td:contains('平均做种时间') + td", "table.table-condensed.table-striped.table-bordered:first td:contains('平均做種時間') + td",
+            "dt:contains('Average Seedtime') + dd", "dt:contains('Average seedtime') + dd", "dt:contains('平均做种时间') + dd", "dt:contains('平均做種時間') + dd"],
+          "filters": ["query.text().trim().timeToDays()"]
+        },
+        "bonusPage": {
+          "selector": ["a[href$='bonus']:first","a[href$='earnings']:first"],
+          "attribute": "href",
+          "filters": ["query ? new URL(query).pathname : null"]
+        }
+      }
+    },
+    "bonusExtendInfo": {
+      "prerequisites": "!(!user.bonusPage)",
+      "page": "$user.bonusPage$",
+      "fields": {
+        "bonusPerHour": {
+          "selector": [".table-condensed tr:last",".panelV2 dl.key-value dd:nth(2)"],
+          "filters": ["parseFloat(query.text().replace(/,/g,'').match(/[\\d.]+/)[0])"]
+        }
+      }
+    },
+    "hnrExtendInfo": {
+      "prerequisites": "!(!user.unsatisfiedsPage)",
+      "page": "$user.unsatisfiedsPage$",
+      "fields": {
+        "unsatisfieds": {
+          "selector": ["tr[class='userFiltered'][hr='0'][immune='0']"],
+          "filters": ["query ? query.length : 0"]
+        }
+      }
+    },
+    "common": {
+      "fields": {
+        "size": {
+          "selector": ["td.col-sm-2:contains('Size') + td"],
+          "filters": ["query.text().replace(/,/g,'').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)", "(query && query.length>1)?(query[1]).sizeToNumber():0"]
+        },
+        "sayThanksButton": {
+          "selector": [".button-block button.btn.btn-sm.btn-primary"],
+          "filters": ["$(query[0])"]
+        }
+      }
+    }
+  }
+}

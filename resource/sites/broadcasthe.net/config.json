@@ -1,0 +1,225 @@
+{
+  "name": "BTN",
+  "timezoneOffset": "+0800",
+  "description": "著名剧集站点，又被戏称为鼻涕妞",
+  "url": "https://broadcasthe.net/",
+  "icon": "https://broadcasthe.net/favicon.ico",
+  "tags": ["剧集"],
+  "schema": "Gazelle",
+  "host": "broadcasthe.net",
+  "collaborator": ["ylxb2016", "enigmaz"],
+  "searchEntryConfig": {
+    "skipNonLatinCharacters": true,
+    "page": "/torrents.php",
+    "resultType": "html",
+    "parseScriptFile": "getSearchResult.js",
+    "queryString": "artistname==$key$",
+    "area": [{
+      "name": "IMDB",
+      "keyAutoMatch": "^(tt\\d+)$",
+      "queryString": "artistname=$name$&exactartist=1&action=advanced&year=$year$",
+      "replaceKeyByTVDB": [
+        "name", "year"
+      ],
+      "replaceKey": [
+        " ", "+"
+      ]
+    }]
+  },
+  "levelRequirements": [{
+      "level": "1",
+      "name": "Member",
+      "interval": "2W",
+      "totalTraffic": "100GiB",
+      "bonus":"100000",
+      "snatches":"100",
+      "privilege": "Can access the XXX forum."
+    },{
+      "level": "2",
+      "name": "Power User",
+      "interval": "4W",
+      "totalTraffic": "250GiB",
+      "bonus":"250000",
+      "snatches":"250",
+      "privilege": "Has access to the Power User forum, Official and Unofficial Invites forums, Top 10 filters, and can access notifications."
+    },{
+      "level": "3",
+      "name": "Extreme User",
+      "interval": "2M 3W",
+      "totalTraffic": "500GiB",
+      "bonus":"500000",
+      "snatches":"500",
+      "privilege": "Has access to the Extreme User forum."
+    },{
+      "level": "4",
+      "name": "Elite",
+      "interval": "5M 2W",
+      "totalTraffic": "1TiB",
+      "bonus":"850000",
+      "snatches":"1000",
+      "privilege": "Has access to the Elite forum and can set own Custom Title, and the ability to send invites purchased from the Lumens Store."
+    },{
+      "level": "5",
+      "name": "Guru",
+      "interval": "8M 1W",
+      "totalTraffic": "2.5TiB",
+      "bonus":"1500000",
+      "snatches":"1500",
+      "privilege": "Has access to the Guru forum."
+    },{
+      "level": "6",
+      "name": "Master",
+      "interval": "11M 4W",
+      "totalTraffic": "7.5TiB",
+      "bonus":"3000000",
+      "snatches":"3000",
+      "privilege": "Has access to the Master forum."
+    },{
+      "level": "7",
+      "name": "Overlord",
+      "interval": "2Y 11M",
+      "totalTraffic": "100TiB",
+      "bonus":"250000000",
+      "snatches":"35000",
+      "totalSeedtime":"250000",
+      "privilege": "Has access to the Overlord forum, Custom Title, Unlimited Invites, and more to come!"
+  }],
+  "searchEntry": [{
+      "name": "all",
+      "enabled": true
+    },
+    {
+      "queryString": "filter_cat[1]=1",
+      "name": "Episode",
+      "enabled": false
+    },
+    {
+      "queryString": "filter_cat[2]=1",
+      "name": "Season",
+      "enabled": false
+    }
+  ],
+  "categories": [{
+    "entry": "*",
+    "result": "&filter_cat[$id$]=1",
+    "category": [{
+        "id": 1,
+        "name": "Episode"
+      },
+      {
+        "id": 2,
+        "name": "Season"
+      }
+    ]
+  }],
+  "selectors": {
+    "userExtendInfo": {
+      "page": "/user.php?id=$user.id$",
+      "fields": {
+        "uploaded": {
+          "selector": "ul.nobullet > li:contains('Upload:')",
+          "filters": [
+            "query.text().replace(/,/g,'').match(/Upload.+?([\\d.]+ ?[TGMK]?i?B)/)",
+            "(query && query.length>=2)?(query[1]).sizeToNumber():null"
+          ]
+        },
+        "downloaded": {
+          "selector": "ul.nobullet > li:contains('Downloaded:')",
+          "filters": [
+            "query.text().replace(/,/g,'').match(/Downloaded.+?([\\d.]+ ?[TGMK]?i?B)/)",
+            "(query && query.length>=2)?(query[1]).sizeToNumber():null"
+          ]
+        },
+        "ratio": {
+          "value": null
+        },
+        "levelName": {
+          "selector": "ul.nobullet > li:contains('User Class:')",
+          "filters": [
+            "query.text().match(/Class:.+?(.+)/)",
+            "(query && query.length>=2)?query[1]:''"
+          ]
+        },
+        "bonus": {
+          "selector": "ul.nobullet > li:contains('Bonus Points:') > a",
+          "filters": [
+            "query.text().replace(/,/g,'')","parseFloat(query)"
+          ]
+        },
+        "joinTime": {
+          "selector": "ul.nobullet > li:contains('Joined:') > span",
+          "filters": [
+            "dateTime(query.attr('title')).isValid() ? query.attr('title') : query.text()",
+            "dateTime(query).isValid() ? dateTime(query).valueOf() : query"
+          ]
+        },
+        "totalTraffic": {
+          "selector": "ul.nobullet > li:contains('Total Traffic:')",
+          "filters": [
+            "query.text().replace(/,/g,'').match(/Total Traffic:.+?([\\d.]+ ?[TGMK]?i?B)/)",
+            "(query && query.length>=2)?(query[1]).sizeToNumber():0"
+        ]
+       },
+        "totalSeedtime": {
+          "selector": "ul.nobullet > li:contains('Total Time Seeded:')",
+          "filters": [
+            "query.text().replace(/,/g,'').match(/Total Time Seeded:.+?(\\d+).+?/)",
+            "(query && query.length>=2)?(query[1]):null"
+          ]
+        },
+        "seeding": {
+          "selector": "ul.nobullet > li:contains('Seeding:')",
+          "filters": [
+            "query.text().replace(/,/g,'').match(/Seeding:.+?(\\d+).+?/)",
+            "(query && query.length>=2)?(query[1]):null"
+          ]
+        },
+        "uploads": {
+          "selector": "ul.nobullet > li:contains('Uploaded:')",
+          "filters": [
+            "query.text().replace(/,/g,'').match(/Uploaded:.+?(\\d+).+?/)",
+            "(query && query.length>=2)?(query[1]):null"
+          ]
+        },
+        "bonusPerHour": {
+          "selector": "ul.nobullet > li:contains('Per Day:')",
+          "filters": ["query.text().replace(/,/g, '').match(/\\d+/)","query ? (parseFloat(query[0]) / 24) : 0"]
+        },
+        "seedingSize": {
+          "selector": "ul.nobullet > li:contains('Seeding Size:')",
+          "filters": [
+            "query.text().replace(/,/g,'').match(/Seeding Size:.+?([\\d.]+ ?[TGMK]?i?B)/)",
+            "(query && query.length>=2)?(query[1]).sizeToNumber():0"
+          ]
+        },
+        "averageSeedtime": {
+          "selector": ["ul.nobullet > li:contains('Average Time Seeded:')"],
+          "filters": ["query.text().replace('Average Time Seeded:', '').trim().timeToDays()"]
+        },
+        "snatches": {
+          "selector": "ul.nobullet > li:contains('Snatched:')",
+          "filters": ["query.text().replace(/,/g,'').match(/(\\d+)/g)",
+                      "query ? query.map(Number).reduce((sum, current) => {return sum + current;}, 0) : 0"]
+        }
+      }
+    },
+    "userSeedingTorrents": {
+      "page": "/bonus.php?action=rate",
+      "fields": {
+        "seedingList": {
+          "selector": ["a[href*='torrentid=']"],
+          "filters": ["jQuery.map(query, item=>$(item).attr('href').match(/torrentid=(\\d+)/)[1])"]
+        }
+      }
+    },
+    "hnrExtendInfo": {
+      "page": "snatchlist.php?type=ajax&id=$user.id$&sort=seedtimeleft&page=1",
+      "fields": {
+        "unsatisfieds": {
+          "selector": ["table td:nth-child(5):not(:contains('Complete'))"],
+          "filters": ["query ? query.length - 1 : 0"]
+        }
+      }
+    }
+  }
+}
