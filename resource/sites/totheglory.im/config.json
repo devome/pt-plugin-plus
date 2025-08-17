@@ -1,0 +1,325 @@
+{
+  "name": "TTG",
+  "timezoneOffset": "+0800",
+  "description": "ToTheGlory",
+  "url": "https://totheglory.im/",
+  "icon": "https://totheglory.im/favicon.ico",
+  "tags": ["影视", "音乐", "游戏", "综合"],
+  "schema": "TTG",
+  "plugins": [{
+    "name": "种子详情页面",
+    "pages": ["^/t/(\\d+)/$", "/details.php"],
+    "scripts": ["/schemas/NexusPHP/common.js", "details.js"]
+  }, {
+    "name": "种子列表",
+    "pages": ["/browse.php"],
+    "scripts": ["/schemas/NexusPHP/common.js", "browse.js"]
+  }, {
+    "name": "收藏列表",
+    "pages": ["/bookmarks.php"],
+    "scripts": ["/schemas/NexusPHP/common.js", "bookmarks.js"]
+  }],
+  "host": "totheglory.im",
+  "levelRequirements": [{
+    "level": "1", 
+    "name": "KiloByte",
+    "interval": "5",
+    "downloaded": "60GB",
+    "ratio": "1.1",
+    "privilege": "可申请种子候选"
+  },{
+    "level": "2", 
+    "name": "MegaByte",
+    "interval": "8",
+    "downloaded": "150GB",
+    "ratio": "2.0",
+    "privilege": "无"
+  },{
+    "level": "3", 
+    "name": "GigaByte",
+    "interval": "8",
+    "downloaded": "250GB",
+    "ratio": "2.0",
+    "privilege": "可挂起，可进入积分商城"
+  },{
+    "level": "4", 
+    "name": "TeraByte",
+    "interval": "8",
+    "downloaded": "500GB",
+    "ratio": "2.5",
+    "privilege": "可用积分购买邀请，并可浏览全站（新加游戏分类页），可以访问邀请区"
+  },{
+    "level": "5", 
+    "name": "PetaByte",
+    "interval": "16",
+    "downloaded": "750GB",
+    "ratio": "2.5",
+    "privilege": "可直接发布种子"
+  },{
+    "level": "6", 
+    "name": "ExaByte",
+    "interval": "24",
+    "downloaded": "1TB",
+    "ratio": "3.0",
+    "privilege": "自行挂起账号后不会被清除"
+  },{
+    "level": "7", 
+    "name": "ZettaByte",
+    "interval": "24",
+    "downloaded": "1.5TB",
+    "ratio": "3.5",
+    "privilege": "无"
+  },{
+    "level": "8", 
+    "name": "YottaByte",
+    "interval": "24",
+    "downloaded": "2.5TB",
+    "ratio": "4.0",
+    "privilege": "可查看排行榜"
+  },{
+    "level": "9", 
+    "name": "BrontoByte",
+    "interval": "32",
+    "downloaded": "3.5TB",
+    "ratio": "5.0",
+    "privilege": "永远保留账号"
+  },{
+    "level": "10", 
+    "name": "NonaByte",
+    "interval": "48",
+    "downloaded": "5TB",
+    "uploaded": "50TB",
+    "ratio": "6.0",
+    "privilege": "无"
+  },{
+    "level": "11", 
+    "name": "DoggaByte",
+    "interval": "48",
+    "downloaded": "10TB",
+    "uploaded": "100TB",
+    "ratio": "6.0",
+    "privilege": "无"
+  }],
+  "searchEntryConfig": {
+    "page": "/browse.php",
+    "queryString": "search_field=$key$",
+    "resultType": "html",
+    "parseScriptFile": "getSearchResult.js",
+    "resultSelector": "table#torrent_table:last > tbody > tr",
+    "area": [{
+      "name": "IMDB",
+      "keyAutoMatch": "^(tt\\d+)$",
+      "replaceKey": [
+        "tt", "IMDB"
+      ]
+    }],
+    "fieldSelector": {
+      "progress": {
+        "selector": ["div.process > span"],
+        "filters": ["query.attr('style')||''", "query.match(/width:.?(\\d.+)%/)", "(query && query.length>=2)?query[1]:null"]
+      },
+      "status": {
+        "selector": ["div.process > span"],
+        "filters": ["query.attr('style')||''", "query.match(/width:.?(\\d.+)%/)", "(query && query.length>=2)?query[1]:0", "parseInt(query)==100?2:1"]
+      }
+    }
+  },
+  "searchEntry": [{
+    "appendQueryString": "&c=M",
+    "name": "影视&音乐",
+    "enabled": true
+  }, {
+    "appendQueryString": "&c=G",
+    "name": "游戏&软件",
+    "enabled": true
+  }],
+  "categories": [{
+    "entry": "browse.php?c=M",
+    "appendToSearchKey": true,
+    "result": "分类:`$id$` ",
+    "category": [{
+      "id": "电影DVDRip",
+      "name": "电影DVDRip"
+    }, {
+      "id": "电影720p",
+      "name": "电影720p"
+    }, {
+      "id": "电影1080i/p",
+      "name": "电影1080i/p"
+    }, {
+      "id": "BluRay原盘",
+      "name": "BluRay原盘"
+    }, {
+      "id": "影视2160p",
+      "name": "影视2160p"
+    }, {
+      "id": "UHD原盘",
+      "name": "UHD原盘"
+    }, {
+      "id": "纪录片720p",
+      "name": "纪录片720p"
+    }, {
+      "id": "纪录片1080i/p",
+      "name": "纪录片1080i/p"
+    }, {
+      "id": "纪录片BluRay原盘",
+      "name": "纪录片BluRay原盘"
+    }, {
+      "id": "欧美剧720p",
+      "name": "欧美剧720p"
+    }, {
+      "id": "欧美剧1080i/p",
+      "name": "欧美剧1080i/p"
+    }, {
+      "id": "高清日剧",
+      "name": "高清日剧"
+    }, {
+      "id": "大陆港台剧1080i/p",
+      "name": "大陆港台剧1080i/p"
+    }, {
+      "id": "大陆港台剧720p",
+      "name": "大陆港台剧720p"
+    }, {
+      "id": "高清韩剧",
+      "name": "高清韩剧"
+    }, {
+      "id": "欧美剧包",
+      "name": "欧美剧包"
+    }, {
+      "id": "日剧包",
+      "name": "日剧包"
+    }, {
+      "id": "华语剧包",
+      "name": "华语剧包"
+    }, {
+      "id": "韩剧包",
+      "name": "韩剧包"
+    }, {
+      "id": "(电影原声&Game)OST",
+      "name": "(电影原声&Game)OST"
+    }, {
+      "id": "无损音乐FLAC&APE",
+      "name": "无损音乐FLAC&APE"
+    }, {
+      "id": "MV&演唱会",
+      "name": "MV&演唱会"
+    }, {
+      "id": "高清体育节目",
+      "name": "高清体育节目"
+    }, {
+      "id": "高清动漫",
+      "name": "高清动漫"
+    }, {
+      "id": "韩国综艺",
+      "name": "韩国综艺"
+    }, {
+      "id": "高清综艺",
+      "name": "高清综艺"
+    }, {
+      "id": "日本综艺",
+      "name": "日本综艺"
+    }, {
+      "id": "MiniVideo",
+      "name": "MiniVideo"
+    }, {
+      "id": "补充音轨",
+      "name": "补充音轨"
+    }, {
+      "id": "iPhone/iPad视频",
+      "name": "iPhone/iPad视频"
+    }]
+  }],
+  "torrentTagSelectors": [{
+    "name": "Free",
+    "selector": "img[alt='free']"
+  }, {
+    "name": "30%",
+    "selector": "img[alt='30%']"
+  }, {
+    "name": "50%",
+    "selector": "img[alt='50%']"
+  }, {
+    "name": "⛔️",
+    "selector": "span.browse.excl"
+  }],
+  "selectors": {
+    "userBaseInfo": {
+      "page": "/index.php",
+      "fields": {
+        "id": {
+          "selector": "a[href*='userdetails.php']:first",
+          "attribute": "href",
+          "filters": ["query ? query.getQueryString('id'):''"]
+        },
+        "name": {
+          "selector": "a[href*='userdetails.php']:first"
+        },
+        "isLogged": {
+          "selector": ["a[href*='logout.php']"],
+          "filters": ["query.length>0"]
+        },
+        "messageCount": {
+          "selector": ["td[style*='background'] > b > a[href*='messages.php'], a[href='#notice']"],
+          "filters": ["query.text().match(/(\\d+)/)", "(query && query.length>=2)?parseInt(query[1]):0"]
+        }
+      }
+    },
+    "userExtendInfo": {
+      "page": "/userdetails.php?id=$user.id$",
+      "fields": {
+        "uploads": {
+          "selector": ["div#ka1 tr:not(:eq(0))"],
+          "filters": ["query.length"]
+        },
+        "uploaded": {
+          "selector": ["td.rowhead:contains('上传量') + td", "td.rowhead:contains('上傳量') + td"],
+          "filters": ["query.text().replace(/,/g,'').sizeToNumber()"]
+        },
+        "downloaded": {
+          "selector": ["td.rowhead:contains('下载量') + td", "td.rowhead:contains('下載量') + td"],
+          "filters": ["query.text().replace(/,/g,'').sizeToNumber()"]
+        },
+        "ratio": {
+          "selector": "td.rowhead:contains('分享率') + td",
+          "filters": ["parseFloat(query.text())"]
+        },
+        "levelName": {
+          "selector": ["td.rowhead:contains('等级') + td", "td.rowhead:contains('等級') + td"]
+        },
+        "bonus": {
+          "selector": ["td.rowhead:contains('积分') + td", "td.rowhead:contains('積分') + td"],
+          "filters": ["parseFloat(query.text())"]
+        },
+        "joinTime": {
+          "selector": ["td.rowhead:contains('注册日期') + td", "td.rowhead:contains('註冊日期') + td"],
+          "filters": ["dateTime(query.text()).isValid()?dateTime(query.text()).valueOf():query.text()"]
+        },
+        "seeding": {
+          "selector": ["div#ka2 tr:not(:eq(0))"],
+          "filters": ["query.length"]
+        },
+        "seedingSize": {
+          "selector": ["div#ka2 tr:not(:eq(0))"],
+          "filters": ["jQuery.map(query.find('td:eq(3)'), (item)=>{return $(item).text();})", "_self.getTotalSize(query)"]
+        }
+      }
+    },
+    "bonusExtendInfo": {
+      "page": "/mybonus.php",
+      "fields": {
+        "bonusPerHour": {
+          "selector": ["td.rowhead:contains('总计') + td"],
+          "filters": ["parseFloat(query.text().match(/[\\d.]+/)[0])"]
+        }
+      }
+    },
+    "common": {
+      "fields": {
+        "size": {
+          "selector": ["td[valign='top'][align='left']:contains('字节')"],
+          "filters": ["query.text().replace(/,/g,'').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)", "(query && query.length>1)?(query[1]).sizeToNumber():0"]
+        }
+      }
+    }
+  }
+}

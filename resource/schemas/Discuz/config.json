@@ -1,0 +1,34 @@
+{
+  "name": "Discuz",
+  "ver": "0.0.1",
+  "plugins": [{
+    "name": "种子详情页面",
+    "pages": ["/forum.php?mod=viewthread"],
+    "scripts": ["/schemas/NexusPHP/common.js", "details.js"]
+  }, {
+    "name": "种子列表",
+    "pages": ["/forum.php?mod=torrents"],
+    "scripts": ["/schemas/NexusPHP/common.js", "torrents.js"]
+  }],
+  "searchEntryConfig": {
+    "page": "/forum.php",
+    "queryString": "mod=torrents&search=$key$",
+    "resultType": "html",
+    "parseScriptFile": "/schemas/Discuz/getSearchResult.js",
+    "resultSelector": "table.torrents:last"
+  },
+  "searchEntry": [{
+    "name": "全部",
+    "enabled": true
+  }],
+  "torrentTagSelectors": [{
+    "name": "Free",
+    "selector": "img.sp_4"
+  }, {
+    "name": "35%",
+    "selector": "img.sp_3"
+  }, {
+    "name": "50%",
+    "selector": "img.sp_2"
+  }]
+}

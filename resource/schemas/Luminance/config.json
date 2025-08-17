@@ -1,0 +1,88 @@
+{
+  "name": "Luminance",
+  "ver": "0.0.1",
+  "plugins": [{
+    "name": "种子列表",
+    "pages": ["/torrents.php"],
+    "scripts": ["/schemas/NexusPHP/common.js", "/schemas/Common/torrents.js"]
+  }],
+  "searchEntry": [{
+    "name": "all",
+    "enabled": true
+  }],
+  "searchEntryConfig": {
+    "page": "/torrents.php",
+    "queryString": "title=$key$&action=advanced",
+    "resultType": "html",
+    "parseScriptFile": "/schemas/Luminance/getSearchResult.js"
+  },
+  "selectors": {
+    "userBaseInfo": {
+      "page": "/index.php",
+      "fields": {
+        "id": {
+          "selector": ["a[href*=user]"],
+          "attribute": "href",
+          "filters": ["query.match(/\\d+/)[0]"]
+        },
+        "name": {
+          "selector": ".username"
+        },
+        "bonus": {
+          "selector": [".stat:eq(0)"]
+        },
+        "uploaded": {
+          "selector": [".stat:eq(1)"],
+          "filters":["query.text().sizeToNumber()"]
+        },
+        "downloaded": {
+          "selector": [".stat:eq(3)"],
+          "filters":["query.text().sizeToNumber()"]
+        },
+        "seeding": {
+          "selector": ["#nav_seeding"],
+          "filters": ["query.text().match(/\\d+/)[0]"]
+        },
+        "leeching": {
+          "selector": ["#nav_leeching"],
+          "filters": ["query.text().match(/\\d+/)[0]"]
+        }
+      }
+    },
+    "userExtendInfo": {
+      "page": "/user.php?id=$user.id$",
+      "fields": {
+        "levelName": {
+          "selector": [".rank"]
+        },
+        "uploads": {
+          "selector": [".stats:eq(3) > li:eq(8)"],
+          "filters": ["query.text().match(/\\d+/)[0]"]
+        },
+        "joinTime": {
+          "selector": [".stats > li > .time"],
+          "attribute": "title",
+          "filters": ["dateTime(query).valueOf()"]
+        }
+      }
+    },
+    "userSeedingTorrents": {
+      "page": "/torrents.php?type=seeding&userid=$user.id$",
+      "fields": {
+        "seedingSize": {
+          "selector": [".head:eq(1)"],
+          "filters": ["query.text().match(/Size: (.*)/)[1].sizeToNumber()"]
+        }
+      }
+    },
+    "common": {
+      "page": "/torrents.php",
+      "fields": {
+        "downloadURLs": {
+          "selector": ["table.torrent_table a[href*='action=download&id='],a.button.blueButton"],
+          "filters": ["query.toArray()"]
+        }
+      }
+    }
+  }
+}

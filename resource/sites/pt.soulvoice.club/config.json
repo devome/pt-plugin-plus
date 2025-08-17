@@ -1,0 +1,132 @@
+{
+  "name": "聆音Club",
+  "timezoneOffset": "+0800",
+  "schema": "NexusPHP",
+  "url": "https://pt.soulvoice.club/",
+  "description": "致力于建设一个有声资源，电子书为主，学习资料，影视资源为辅的PT分享站。",
+  "tags": [
+      "综合",
+      "电子书",
+      "有声书"
+  ],
+  "host": "pt.soulvoice.club",
+  "collaborator": [
+      "Gold John King",
+      "枕头啊枕头",
+      "Yincircle",
+      "yum",
+      "yiyule"
+  ],
+  "levelRequirements": [{
+    "level": "1",
+    "name": "Power User",
+    "interval": "4",
+    "downloaded": "50GB",
+    "ratio": "1.05",
+    "privilege": "可以直接发布种子；可以查看NFO文档；可以查看用户列表；可以请求续种； 可以查看排行榜；可以查看其它用户的种子历史(如果用户隐私等级未设置为\"强\")； 可以删除自己上传的字幕。"
+  },{
+    "level": "2",
+    "name": "Elite User",
+    "interval": "8",
+    "downloaded": "120GB",
+    "ratio": "1.55",
+    "privilege": "Elite User及以上用户封存账号后不会被删除。"
+  },{
+    "level": "3",
+    "name": "Crazy User",
+    "interval": "15",
+    "downloaded": "300GB",
+    "ratio": "2.05",
+    "privilege": "可以在做种/下载/发布的时候选择匿名模式。"
+  },{
+    "level": "4",
+    "name": "Insane User",
+    "interval": "25",
+    "downloaded": "500GB",
+    "ratio": "2.55",
+    "privilege": "可以查看普通日志。"
+  },{
+    "level": "5",
+    "name": "Veteran User",
+    "interval": "40",
+    "downloaded": "750GB",
+    "ratio": "3.05",
+    "privilege": "可以查看其它用户的评论、帖子历史。Veteran User及以上用户会永远保留账号。"
+  },{
+    "level": "6",
+    "name": "Extreme User",
+    "interval": "60",
+    "downloaded": "1TB",
+    "ratio": "3.55",
+    "privilege": "可以更新过期的外部信息；可以查看Extreme User论坛。"
+  },{
+    "level": "7",
+    "name": "Ultimate User",
+    "interval": "80",
+    "downloaded": "1.5TB",
+    "ratio": "4.05",
+    "privilege": ""
+  },{
+    "level": "8",
+    "name": "Nexus Master",
+    "interval": "100",
+    "downloaded": "3TB",
+    "ratio": "4.55",
+    "privilege": ""
+  }],
+  "plugins": [{
+    "name": "阅听专区",
+    "pages": ["/special.php"],
+    "scripts": ["/schemas/NexusPHP/common.js", "/schemas/NexusPHP/torrents.js"]
+  }],
+  "searchEntryConfig": {
+      "fieldSelector": {
+          "progress": {
+              "selector": [
+                  "> td:eq(8)"
+              ],
+              "filters": [
+                  "query.text()=='--'?null:parseFloat(query.text())"
+              ]
+          },
+          "status": {
+              "selector": [
+                  "> td:eq(8)"
+              ],
+              "filters": [
+                  "query.text()==='--'?null:(parseFloat(query.text())==100?255:3)"
+              ]
+          }
+      }
+  },
+  "searchEntry": [
+      {
+          "name": "种子",
+          "enabled": true
+      },
+      {
+          "entry": "special.php?search=$key$&notnewword=1",
+          "name": "阅听专区",
+          "enabled": false
+      }
+  ],
+  "selectors": {
+    "userSeedingTorrents": {
+      "page": "/getusertorrentlistajax.php?userid=$user.id$&type=seeding",
+      "fields": {
+        "seeding": {
+          "selector": ["b:first"],
+          "filters": ["query.text()"]
+        },
+        "seedingSize": {
+          "selector": "",
+          "filters": [
+            "query.text().match(/总大小：(.*?)上一页/g)",
+            "(query && query.length>0) ? query[0].replace('总大小：', '').replace('<< 上一页', '').trim() : 0",
+            "(query != 0) ? query.sizeToNumber() : 0"
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,223 @@
+{
+  "name": "PTLGS",
+  "timezoneOffset": "+0800",
+  "description": "ptlgs.org",
+  "url": "https://ptlgs.org/",
+  "icon": "https://ptlgs.org/favicon.ico",
+  "tags": [
+    "综合"
+  ],
+  "schema": "NexusPHP",
+  "host": "ptlgs.org",
+  "collaborator": [
+    "yxlimo"
+  ],
+  "levelRequirements": [
+    {
+      "level": 1,
+      "name": "Power User",
+      "interval": "0",
+      "downloaded": "100GB",
+      "seedingPoints": "20000",
+      "ratio": "1.1",
+      "privilege": "可以直接发布种子；可以查看NFO文档；可以查看用户列表；可以请求续种； 可以发送邀请； 可以查看排行榜；可以查看其它用户的种子历史(如果用户隐私等级未设置为\"强\")；可以删除自己上传的字幕。"
+    },
+    {
+      "level": 2,
+      "name": "Elite User",
+      "interval": "0",
+      "downloaded": "200GB",
+      "seedingPoints": "50000",
+      "ratio": "1.2",
+      "privilege": ""
+    },
+    {
+      "level": 3,
+      "name": "Crazy User",
+      "interval": "0",
+      "downloaded": "500GB",
+      "seedingPoints": "100000",
+      "ratio": "1.2",
+      "privilege": "可以在做种/下载/发布的时候选择匿名模式。"
+    },
+    {
+      "level": 4,
+      "name": "Insane user",
+      "seedingPoints": "200000",
+      "interval": "0",
+      "downloaded": "1TB",
+      "ratio": "1.2",
+      "privilege": "可以查看普通日志。"
+    },
+    {
+      "level": 5,
+      "name": "Veteran User",
+      "seedingPoints": "500000",
+      "interval": "0",
+      "downloaded": "2TB",
+      "ratio": "1.2",
+      "privilege": "得到1个邀请名额；可以查看其它用户的评论、帖子历史。Veteran User及以上用户会永远保留账号。"
+    },
+    {
+      "level": 6,
+      "name": "Extreme User",
+      "seedingPoints": "800000",
+      "interval": "0",
+      "downloaded": "3TB",
+      "ratio": "1.5",
+      "privilege": "可以更新过期的外部信息；可以查看Extreme User论坛。"
+    },
+    {
+      "level": 7,
+      "name": "Ultimate User",
+      "seedingPoints": "1000000",
+      "interval": "0",
+      "downloaded": "4TB",
+      "ratio": "1.5",
+      "privilege": "得到一个邀请名额。"
+    },
+    {
+      "level": 8,
+      "name": "Nexus User",
+      "seedingPoints": "2500000",
+      "interval": "0",
+      "downloaded": "5TB",
+      "ratio": "1.5",
+      "privilege": "得到一个邀请名额。"
+    }
+  ],
+  "categories": [
+    {
+      "entry": "torrents.php",
+      "result": "&cat$id$=1",
+      "category": [
+        {
+          "id": 409,
+          "name": "其它"
+        },
+        {
+          "id": 407,
+          "name": "体育"
+        },
+        {
+          "id": 406,
+          "name": "音乐"
+        },
+        {
+          "id": 403,
+          "name": "综艺"
+        },
+        {
+          "id": 402,
+          "name": "电视剧"
+        },
+        {
+          "id": 405,
+          "name": "动漫"
+        },
+        {
+          "id": 404,
+          "name": "纪录片"
+        },
+        {
+          "id": 401,
+          "name": "电影"
+        }
+      ]
+    }
+  ],
+  "searchEntry": [
+    {
+      "name": "全站",
+      "enabled": true
+    },
+    {
+      "name": "电影",
+      "enabled": false
+    },
+    {
+      "name": "电视剧",
+      "enabled": false
+    },
+    {
+      "name": "动漫",
+      "enabled": false
+    },
+    {
+      "name": "综艺",
+      "enabled": false
+    },
+    {
+      "name": "纪录片",
+      "enabled": false
+    },
+    {
+      "name": "音乐",
+      "enabled": false
+    },
+    {
+      "name": "体育",
+      "enabled": false
+    }
+  ],
+  "searchEntryConfig": {
+    "skipIMDbId": true,
+    "fieldSelector": {
+      "progress": {
+        "selector": [
+          "> td.rowfollow:eq(1) td.embedded:eq(1) > div:last"
+        ],
+        "filters": [
+          "query ? parseFloat(query.attr('title').match(/[\\d.]+/)) : null"
+        ]
+      },
+      "status": {
+        "selector": [
+          "> td.rowfollow:eq(1) td.embedded:eq(1) > div:last"
+        ],
+        "filters": [
+          "query ? query.attr('title') : ''",
+          "query.indexOf('seeding') != -1 ? 2 : query.indexOf('leeching') != -1 ? 1 : query.indexOf('100%') != -1 ? 255 : 3"
+        ]
+      }
+    }
+  },
+  "selectors": {
+    "userSeedingTorrents": {
+      "page": "/getusertorrentlistajax.php?userid=$user.id$&type=seeding",
+      "fields": {
+        "seeding": {
+          "selector": [
+            "b:first"
+          ],
+          "filters": [
+            "query.text()"
+          ]
+        },
+        "seedingSize": {
+          "selector": "",
+          "filters": [
+            "query.text().match(/总大小：(.*?)上一页/g)",
+            "(query && query.length>0) ? query[0].replace('总大小：', '').replace('<< 上一页', '').trim() : 0",
+            "(query != 0) ? query.sizeToNumber() : 0"
+          ]
+        }
+      }
+    },
+    "userExtendInfo": {
+      "merge": true,
+      "fields": {
+        "bonus": {
+          "selector": [
+            "td.rowhead:contains('工分') + td",
+            "td.rowhead:contains('Karma'):contains('Points') + td"
+          ],
+          "filters": [
+            "query.text().replace(/,/g,'')",
+            "parseFloat(query)"
+          ]
+        }
+      }
+    }
+  }
+}
