@@ -1,0 +1,252 @@
+{
+  "name": "SSD",
+  "timezoneOffset": "+0800",
+  "description": "Classic Movie Compression Team",
+  "url": "https://springsunday.net/",
+  "icon": "https://springsunday.net/favicon.ico",
+  "tags": [
+    "影视",
+    "音乐",
+    "综合"
+  ],
+  "schema": "NexusPHP",
+  "host": "springsunday.net",
+  "formerHosts": [
+    "hdcmct.org"
+  ],
+  "levelRequirements": [{
+    "level": "1", 
+    "name": "精英",
+    "downloaded": "500GB",
+    "ratio": "1.2",
+    "alternative": [
+      {
+        "seedingPoints": "100000",
+        "uploads": "1"
+      },
+      {
+        "seedingPoints": "150000"
+      }
+    ],
+    "privilege": "可以在做种/下载/发布的时候选择匿名模式；可以查看用户列表；可以查看排行榜；可以浏览论坛邀请区；自助申请保种员；等级加成 0.05。"
+  },{
+    "level": "2", 
+    "name": "大师",
+    "downloaded": "1TB",
+    "ratio": "1.2",
+    "alternative": [
+      {
+        "seedingPoints": "500000",
+        "uploads": "100"
+      },
+      {
+        "seedingPoints": "1000000"
+      }
+    ],
+    "privilege": "可以访问高级用户论坛，等级加成 0.15。"
+  },{
+    "level": "3", 
+    "name": "神仙",
+    "downloaded": "3TB",
+    "ratio": "2",
+    "alternative": [
+      {
+        "seedingPoints": "1200000",
+        "uploads": "300"
+      },
+      {
+        "seedingPoints": "2400000"
+      }
+    ],
+    "privilege": "彩色 ID 特权；可以查看普通日志；等级加成 0.25。"
+  }],
+  "searchEntry": [{
+      "name": "全部",
+      "enabled": true
+    },
+    {
+      "queryString": "cat501=1",
+      "name": "Movies(电影)",
+      "enabled": false
+    },
+    {
+      "queryString": "cat502=1",
+      "name": "TV Series(剧集)",
+      "enabled": false
+    },
+    {
+      "queryString": "cat503=1",
+      "name": "Docs(纪录)",
+      "enabled": false
+    },
+    {
+      "queryString": "cat504=1",
+      "name": "Animations(动画)",
+      "enabled": false
+    },
+    {
+      "queryString": "cat505=1",
+      "name": "TV Shows(综艺)",
+      "enabled": false
+    },
+    {
+      "queryString": "cat506=1",
+      "name": "Sports(体育)",
+      "enabled": false
+    },
+    {
+      "queryString": "cat507=1",
+      "name": "MV(音乐视频)",
+      "enabled": false
+    },
+    {
+      "queryString": "cat508=1",
+      "name": "Music(音乐)",
+      "enabled": false
+    },
+    {
+      "queryString": "cat509=1",
+      "name": "Others(其他)",
+      "enabled": false
+    }
+  ],
+  "categories": [{
+    "entry": "*",
+    "result": "&cat$id$=1",
+    "category": [{
+        "id": 501,
+        "name": "Movies(电影)"
+      },
+      {
+        "id": 502,
+        "name": "TV Series(剧集)"
+      },
+      {
+        "id": 503,
+        "name": "Docs(纪录)"
+      },
+      {
+        "id": 504,
+        "name": "Animations(动画)"
+      },
+      {
+        "id": 505,
+        "name": "TV Shows(综艺)"
+      },
+      {
+        "id": 506,
+        "name": "Sports(体育)"
+      },
+      {
+        "id": 507,
+        "name": "MV(音乐视频)"
+      },
+      {
+        "id": 508,
+        "name": "Music(音乐)"
+      },
+      {
+        "id": 509,
+        "name": "Others(其他)"
+      }
+    ]
+  }],
+  "searchEntryConfig": {
+    "fieldSelector": {
+      "subTitle": {
+        "selector": ["div.torrent-smalldescr:first > span"]
+      },
+      "progress": {
+        "selector": [".p_seeding", ".p_downloading", ".p_completed", ".p_inactive", ""],
+        "switchFilters": [
+          ["100"],
+          ["query.prev().attr('style').replace('width: ','').replace('%;','')"],
+          ["100"],
+          ["0"],
+          ["null"]
+        ]
+      },
+      "status": {
+        "selector": [".p_seeding", ".p_downloading", ".p_completed", ".p_inactive"],
+        "switchFilters": [
+          ["2"],
+          ["1"],
+          ["255"],
+          ["3"]
+        ]
+      }
+    }
+  },
+  "torrentTagSelectors": [{
+    "name": "Free",
+    "selector": "span.torrent-pro-free"
+  }, {
+    "name": "2xFree",
+    "selector": "span.torrent-pro-twoupfree"
+  }, {
+    "name": "2xUp",
+    "selector": "span.torrent-pro-twoup"
+  }, {
+    "name": "2x50%",
+    "selector": "span.torrent-pro-twouphalfdown"
+  }, {
+    "name": "30%",
+    "selector": "span.torrent-pro-thirtypercent"
+  }, {
+    "name": "50%",
+    "selector": "span.torrent-pro-halfdown"
+  }, {
+    "name": "⛔️",
+    "selector": "span.torrent-exclusive"
+  }, {
+    "name": "MiniDB",
+    "color": "amber",
+    "selector": "span.torrent-minibd"
+  }],
+  "selectors": {
+    "userBaseInfo": {
+      "merge": true,
+      "fields": {
+        "messageCount": {
+          "selector": ["a[href*='messages.php'] > b[style*='background: red'], a[href*='messages.php'] > b[style*='background: darkorange']"],
+          "filters": ["query.text().match(/(\\d+)/)", "(query && query.length>=2)?parseInt(query[1]):0"]
+        }
+      }
+    },
+    "userExtendInfo": {
+      "page": "/userdetails.php?id=$user.id$",
+      "merge": true,
+      "fields": {
+        "bonus": {
+          "selector": ["td.rowfollow a[href^='mybonus.php']"],
+          "filters": ["query.text().replace(/,/g,'')", "query ? parseFloat(query.match(/[\\d.]+/)[0]) : null"]
+        },
+        "seedingPoints": {
+          "selector": ["td.rowfollow a[href^='mybonus.php']"],
+          "filters": [
+            "query.parent().clone().children().remove().end().text().replace(/,/g,'')",
+            "query ? parseFloat(query.match(/[\\d.]+/)[0]) : null"]
+        }
+      }
+    },
+    "bonusExtendInfo": {
+    },
+    "userSeedingTorrents": {
+      "page": "/getusertorrentlistajax.php?userid=$user.id$&type=seeding",
+      "fields": {
+        "seeding": {
+          "selector": ["b:nth-child(1)"],
+          "filters": ["parseInt(query.text().replace(/,/g,''))"]
+        },
+        "seedingSize": {
+          "selector": ["b:nth-child(2)"],
+          "filters": ["query.text().replace(/,/g,'').sizeToNumber()"]
+        },
+        "bonusPerHour": {
+          "selector": ["b:nth-child(5)"],
+          "filters": ["parseFloat(query.text().replace(/,/g,''))"]
+        }
+      }
+    }
+  }
+}
