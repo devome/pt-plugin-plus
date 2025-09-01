@@ -1,0 +1,46 @@
+{
+    "name": "Kufirc",
+    "url": "https://kufirc.com/",
+    "icon": "https://kufirc.com/favicon.ico",
+    "host": "kufirc.com",
+    "schema": "Luminance",
+    "tags": ["成人"],
+    "collaborator": "haowenwu",
+    "levelRequirements": [
+      {
+        "level": 1,
+        "name": "Pályakezdö",
+        "interval": "1",
+        "uploaded": "10 GB",
+        "ratio": "1.0"
+      },
+      {
+        "level": 2,
+        "name": "Perverz",
+        "interval": "4",
+        "uploaded": "25 GB",
+        "ratio": "1.05"
+      },
+      {
+        "level": 3,
+        "name": "Szexmester",
+        "interval": "13",
+        "uploaded": "1 TB",
+        "ratio": "1.05"
+      },
+      {
+        "level": 4,
+        "name": "Veterán",
+        "interval": "26",
+        "uploaded": "10 TB",
+        "ratio": "1.05"
+      },
+      {
+        "level": 5,
+        "name": "Legenda",
+        "interval": "50",
+        "uploaded": "30 TB",
+        "ratio": "2.05"
+      }
+    ]
+}

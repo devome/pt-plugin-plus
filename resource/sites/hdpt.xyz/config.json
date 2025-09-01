@@ -1,0 +1,250 @@
+{
+    "name": "明教",
+    "timezoneOffset": "+0800",
+    "description": "综合性的PT论坛    欢迎您的加入！",
+    "url": "https://hdpt.xyz/",
+    "icon": "https://hdpt.xyz/favicon.ico",
+    "tags": ["影视", "综合"],
+    "schema": "NexusPHP",
+    "host": "hdpt.xyz",
+    "levelRequirements": [
+      {
+        "level": 1,
+        "name": "Power User",
+        "interval": "4",
+        "downloaded": "200GB",
+        "ratio": "2",
+        "seedingPoints": "50000",
+        "privilege": "得到一个邀请名额；可以直接发布种子；可以请求续种； 可以发送邀请。"
+      },
+      {
+        "level": 2,
+        "name": "Elite User",
+        "interval": "8",
+        "downloaded": "400GB",
+        "ratio": "3",
+        "seedingPoints": "110000",
+        "privilege": "得到一个邀请名额。"
+      },
+      {
+        "level": 3,
+        "name": "Crazy User",
+        "interval": "15",
+        "downloaded": "700GB",
+        "ratio": "4",
+        "seedingPoints": "200000",
+        "privilege": "得到二个邀请名额。"
+      },
+      {
+        "level": 4,
+        "name": "Insane User",
+        "interval": "25",
+        "downloaded": "1TB",
+        "ratio": "5",
+        "seedingPoints": "300000",
+        "privilege": "得到二个邀请名额；"
+      },
+      {
+        "level": 5,
+        "name": "Veteran User",
+        "interval": "40",
+        "downloaded": "2TB",
+        "ratio": "6",
+        "seedingPoints": "500000",
+        "privilege": "得到二个邀请名额。神蛇 (Veteran User)及以上等级的账号如果在封存后将保留，封存的账号如果连续400天不登录，将被封禁；未封存的账号如果连续90天不登录，将被封禁；没有流量的用户（即上传/下载数据都为0）如果连续90天不登录，将被封禁账号。"
+      },
+      {
+        "level": 6,
+        "name": "Extreme User",
+        "interval": "60",
+        "downloaded": "3TB",
+        "ratio": "7",
+        "seedingPoints": "700000",
+        "privilege": "得到二个邀请名额；可以更新过期的外部信息；可以查看Extreme User论坛。紫微 (Extreme User)及以上用户会永远保留账号。"
+      },
+      {
+        "level": 7,
+        "name": "Ultimate User",
+        "interval": "80",
+        "downloaded": "4TB",
+        "ratio": "8",
+        "seedingPoints": "1000000",
+        "privilege": "得到五个邀请名额。"
+      },
+      {
+        "level": 8,
+        "name": "Nexus Master",
+        "interval": "100",
+        "downloaded": "8TB",
+        "ratio": "9",
+        "seedingPoints": "1500000",
+        "privilege": "得到七个邀请名额。"
+      }
+    ],
+    "collaborator": ["koal", "zhuweitung"],
+    "selectors": {
+      "userSeedingTorrents": {
+          "page": "/getusertorrentlistajax.php?userid=$user.id$&type=seeding",
+          "fields": {
+              "seeding": {
+                  "selector": [
+                      "b:first"
+                  ],
+                  "filters": [
+                      "query.text()"
+                  ]
+              },
+              "seedingSize": {
+                  "selector": "",
+                  "filters": [
+                      "query.text().match(/总大小：(.*?)上一页/g)",
+                      "(query && query.length>0) ? query[0].replace('总大小：', '').replace('<< 上一页', '').trim() : 0",
+                      "(query != 0) ? query.sizeToNumber() : 0"
+                  ]
+              }
+          }
+      }
+    },
+    "searchEntry": [{
+        "name": "全站",
+        "enabled": true
+      },
+      {
+        "queryString": "cat401=1",
+        "name": "电影",
+        "enabled": false
+      },
+      {
+        "queryString": "cat404=1",
+        "name": "纪录片",
+        "enabled": false
+      },
+      {
+        "queryString": "cat405=1",
+        "name": "动漫",
+        "enabled": false
+      },
+      {
+        "queryString": "cat402=1",
+        "name": "电视剧",
+        "enabled": false
+      },
+      {
+        "queryString": "cat403=1",
+        "name": "综艺",
+        "enabled": false
+      },
+      {
+        "queryString": "cat406=1",
+        "name": "MV",
+        "enabled": false
+      },
+      {
+        "queryString": "cat407=1",
+        "name": "体育",
+        "enabled": false
+      },
+      {
+        "queryString": "cat409=1",
+        "name": "其他",
+        "enabled": false
+      },
+      {
+        "queryString": "cat408=1",
+        "name": "音乐",
+        "enabled": false
+      },
+      {
+        "queryString": "cat410=1",
+        "name": "软件",
+        "enabled": false
+      },
+      {
+        "queryString": "cat411=1",
+        "name": "电子书",
+        "enabled": false
+      },
+      {
+        "queryString": "cat412=1",
+        "name": "卡通",
+        "enabled": false
+      },
+      {
+        "queryString": "cat413=1",
+        "name": "学习资料",
+        "enabled": false
+      }
+    ],
+    "categories": [{
+      "entry": "torrents.php",
+      "result": "&cat$id$=1",
+      "category": [{
+          "id": 401,
+          "name": "电影"
+        },
+        {
+          "id": 404,
+          "name": "纪录片"
+        },
+        {
+          "id": 405,
+          "name": "动漫"
+        },
+        {
+          "id": 402,
+          "name": "电视剧"
+        },
+        {
+          "id": 403,
+          "name": "综艺"
+        },
+        {
+          "id": 406,
+          "name": "MV"
+        },
+        {
+          "id": 407,
+          "name": "体育"
+        },
+        {
+          "id": 409,
+          "name": "其他"
+        },
+        {
+          "id": 408,
+          "name": "音乐"
+        },
+        {
+          "id": 410,
+          "name": "软件"
+        },
+        {
+          "id": 411,
+          "name": "电子书"
+        },
+        {
+          "id": 412,
+          "name": "卡通"
+        },
+        {
+          "id": 413,
+          "name": "学习资料"
+        }
+      ]
+    }],
+    "searchEntryConfig": {
+      "fieldSelector": {
+        "progress": {
+          "selector": ["> td.rowfollow:eq(1) td.embedded:eq(1) > div:last"],
+          "filters": ["query ? parseFloat(query.attr('title').match(/[\\d.]+/)) : null"]
+        },
+        "status": {
+          "selector": ["> td.rowfollow:eq(1) td.embedded:eq(1) > div:last"],
+          "filters": [
+            "query ? query.attr('title') : ''",
+            "query.indexOf('seeding') != -1 ? 2 : query.indexOf('leeching') != -1 ? 1 : query.indexOf('100%') != -1 ? 255 : 3"
+          ]
+        }
+      }
+    }
+}

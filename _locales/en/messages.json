@@ -1,0 +1,11 @@
+{
+	"manifest_appName": {
+		"message": "PT Plugin Plus"
+	},
+	"manifest_shortName": {
+		"message": "PT Plugin Plus"
+	},
+	"manifest_appDescription": {
+		"message": "Just a tools for Private Tracker."
+	}
+}

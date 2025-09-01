@@ -1,0 +1,220 @@
+{
+  "name": "GGPT",
+  "timezoneOffset": "+0800",
+  "description": "gamegamept.com",
+  "url": "https://www.gamegamept.com/",
+  "icon": "https://www.gamegamept.com/favicon.ico",
+  "tags": ["游戏"],
+  "schema": "NexusPHP",
+  "host": "www.gamegamept.com",
+  "collaborator": [
+      "IITII",
+      "yiyule"
+  ],
+  "levelRequirements": [
+    {
+      "level": 1,
+      "name": "Power User",
+      "interval": "4",
+      "downloaded": "50GB",
+      "ratio": "2",
+      "seedingPoints": "40000",
+      "privilege": "可以直接发布种子；可以查看NFO文档；可以查看用户列表；可以请求续种； 可以发送邀请； 可以查看排行榜；可以查看其它用户的种子历史(如果用户隐私等级未设置为\"强\")； 可以删除自己上传的字幕。"
+    },
+    {
+      "level": 2,
+      "name": "Elite User",
+      "interval": "8",
+      "downloaded": "100GB",
+      "ratio": "2.5",
+      "seedingPoints": "80000",
+      "privilege": "没有新权限增加"
+    },
+    {
+      "level": 3,
+      "name": "Crazy User",
+      "interval": "15",
+      "downloaded": "300GB",
+      "ratio": "3",
+      "seedingPoints": "150000",
+      "privilege": "可以在做种/下载/发布的时候选择匿名模式。"
+    },
+    {
+      "level": 4,
+      "name": "Insane User",
+      "interval": "25",
+      "downloaded": "500GB",
+      "ratio": "3.5",
+      "seedingPoints": "250000",
+      "privilege": "可以查看普通日志。"
+    },
+    {
+      "level": 5,
+      "name": "Veteran User",
+      "interval": "40",
+      "downloaded": "1TB",
+      "ratio": "4",
+      "seedingPoints": "400000",
+      "privilege": "可以查看其它用户的评论、帖子历史。"
+    },
+    {
+      "level": 6,
+      "name": "Extreme User",
+      "interval": "60",
+      "downloaded": "2TB",
+      "ratio": "4.5",
+      "seedingPoints": "600000",
+      "privilege": "可以更新过期的外部信息。游戏大仙(Extreme User)及以上用户会永远保留账号。"
+    },
+    {
+      "level": 7,
+      "name": "Ultimate User",
+      "interval": "80",
+      "downloaded": "5TB",
+      "ratio": "5",
+      "seedingPoints": "800000",
+      "privilege": "这个等级会永远保留账号。"
+    },
+    {
+      "level": 8,
+      "name": "Nexus Master",
+      "interval": "100",
+      "downloaded": "10TB",
+      "ratio": "5.5",
+      "seedingPoints": "1000000",
+      "privilege": "这个等级会永远保留账号。"
+    }
+  ],
+  "plugins": [{
+    "name": "9KG专区",
+    "pages": ["/special.php"],
+    "scripts": ["/schemas/NexusPHP/common.js", "/schemas/NexusPHP/torrents.js"]
+  },{
+    "name": "种子列表封面模式",
+    "pages": ["/torrents.php", "/special.php"],
+    "scripts": ["/libs/album/album.js", "torrents.js"],
+    "styles": ["/libs/album/style.css"]
+  }],
+  "categories": [
+    {
+      "entry": "torrents.php",
+      "result": "&cat$id$=1",
+      "category": [
+        {
+          "id": 401,
+          "name": "PC游戏"
+        },
+        {
+          "id": 404,
+          "name": "索尼主机游戏"
+        },
+        {
+          "id": 405,
+          "name": "微软主机游戏"
+        },
+        {
+          "id": 406,
+          "name": "任天堂主机游戏"
+        },
+        {
+          "id": 407,
+          "name": "苹果游戏"
+        },
+        {
+          "id": 409,
+          "name": "安卓游戏"
+        },
+        {
+          "id": 410,
+          "name": "游戏书藉"
+        },
+        {
+          "id": 411,
+          "name": "其他"
+        }
+      ]
+    },{
+      "entry": "special.php",
+      "result": "&cat$id$=1",
+      "category": [
+        {
+          "id": 412,
+          "name": "9PC游戏"
+        },
+        {
+          "id": 413,
+          "name": "9索尼主机游戏"
+        },
+        {
+          "id": 414,
+          "name": "9KG-游戏"
+        },
+        {
+          "id": 415,
+          "name": "9任天堂主机游戏"
+        },
+        {
+          "id": 416,
+          "name": "9苹果游戏"
+        },
+        {
+          "id": 417,
+          "name": "9安卓游戏"
+        },
+        {
+          "id": 418,
+          "name": "其他"
+        }
+      ]
+    }
+  ],
+  "searchEntry": [
+    {
+      "name": "游戏",
+      "enabled": true
+    },
+    {
+      "entry": "special.php?search=$key$&notnewword=1",
+      "name": "9KG",
+      "enabled": false
+    }
+  ],
+  "searchEntryConfig": {
+    "fieldSelector": {
+      "progress": {
+        "selector": ["> td.rowfollow:eq(1) td.embedded:eq(1) > div:last"],
+        "filters": ["query ? parseFloat(query.attr('title').match(/[\\d.]+/)) : null"]
+      },
+      "status": {
+        "selector": ["> td.rowfollow:eq(1) td.embedded:eq(1) > div:last"],
+        "filters": [
+          "query ? query.attr('title') : ''",
+          "query.indexOf('seeding') != -1 ? 2 : query.indexOf('leeching') != -1 ? 1 : query.indexOf('100%') != -1 ? 255 : 3"
+        ]
+      }
+    }
+  },
+  "selectors": {
+    "userSeedingTorrents": {
+      "page": "/getusertorrentlistajax.php?userid=$user.id$&type=seeding",
+      "fields": {
+        "seeding": {
+          "selector": [
+            "b:first"
+          ],
+          "filters": [
+            "query.text()"
+          ]
+        },
+        "seedingSize": {
+          "selector": "",
+          "filters": [
+            "query.text().match(/总大小：(.*?)上一页/g)",
+            "(query && query.length>0) ? query[0].replace('总大小：', '').replace('<< 上一页', '').trim() : 0",
+            "(query != 0) ? query.sizeToNumber() : 0"
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,99 @@
+{
+  "name": "CinemaGeddon",
+  "timezoneOffset": "+0000",
+  "schema": "CinemaGeddon",
+  "url": "https://cinemageddon.net/",
+  "icon": "https://cinemageddon.net/favicon.ico",
+  "tags": ["影视"],
+  "host": "cinemageddon.net",
+  "collaborator": "DXV5",
+  "plugins": [{
+    "name": "种子详情页面",
+    "pages": ["/details.php"],
+    "scripts": ["/schemas/NexusPHP/common.js", "details.js"]
+  }, {
+    "name": "种子列表",
+    "pages": ["/browse.php"],
+    "scripts": ["/schemas/NexusPHP/common.js", "browse.js"]
+  }],
+  "levelRequirements": [
+    {
+      "level": "1",
+      "name": "Power User",
+      "uploaded": "25GB",
+      "downloaded": "20GB",
+      "ratio": "1.2",
+      "privilege": "Maximum of 8 concurrent downloads"
+    },
+    {
+      "level": "2",
+      "name": "CG Superfan",
+      "uploaded": "200GB",
+      "downloaded": "20GB",
+      "ratio": "1.5",
+      "privilege": "Maximum of 12 concurrent downloads"
+    }
+  ],
+  "searchEntryConfig": {
+    "page": "/browse.php",
+    "resultType": "html",
+    "parseScriptFile": "getSearchResult.js",
+    "queryString": "search=$key$&proj=0",
+    "resultSelector": "table.torrenttable:last > tbody > tr"
+  },
+  "searchEntry": [{
+    "name": "all",
+    "enabled": true
+  }],
+  "selectors": {
+    "userBaseInfo": {
+      "page": "/",
+      "fields": {
+        "id": {
+          "selector": ".statusbar a[href*='/userdetails.php?id=']",
+          "attribute": "href",
+          "filters": ["query ? query.getQueryString('id'):''"]
+        },
+        "name": {
+          "selector": ".statusbar a[href*='/userdetails.php?id=']"
+        }
+      }
+    },
+    "userExtendInfo": {
+      "page": "/userdetails.php?id=$user.id$",
+      "fields": {
+        "uploaded": {
+          "selector": ["td.clx > .frames td.rowhead:contains('Uploaded') + td:first"],
+          "filters": ["query.text().replace(/,/g,'').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)", "(query && query.length>=2)?(query[1]).sizeToNumber():null"]
+        },
+        "downloaded": {
+          "selector": ["td.clx > .frames td.rowhead:contains('Downloaded') + td:first"],
+          "filters": ["query.text().replace(/,/g,'').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)", "(query && query.length>=2)?(query[1]).sizeToNumber():null"]
+        },
+        "levelName": {
+          "selector": "td.clx > .frames td.rowhead:contains('Class') + td:first"
+        },
+        "messageCount": {
+          "selector": ["div.alert a[href*='messages.php']"],
+          "filters": ["query.text().match(/(\\d+)/)", "(query && query.length>=2)?parseInt(query[1]):0"]
+        },
+        "bonus": {
+          "selector": ["a[href='/credits.php']"],
+          "filters": ["query.text().replace(/,/g,'').match(/([\\d.]+)/)", "(query && query.length>=2)?query[1]:''"]
+        },
+        "joinTime": {
+          "selector": "td.clx > .frames td.rowhead:contains('Join') + td:first",
+          "filters": ["query.text().split(' (')[0]", "dateTime(query).isValid()?dateTime(query).valueOf():query"]
+        },
+        "seeding": {
+          "selector": ["div#ka2 table:first tr:not(:eq(0))"],
+          "filters": ["query.length"]
+        },
+        "seedingSize": {
+          "selector": ["div#ka2 table:first tr:not(:eq(0))"],
+          "filters": ["jQuery.map(query.find('td:eq(2)'), (item)=>{return $(item).text();})", "_self.getTotalSize(query)"]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "name": "伊甸园",
+  "timezoneOffset": "+0800",
+  "description": "这里是伊甸园 让我们赤裸坦诚相见",
+  "url": "https://pt.hdbd.us",
+  "icon": "https://pt.hdbd.us/favicon.ico",
+  "tags": ["综合", "XXX"],
+  "schema": "NexusPHP",
+  "host": "pt.hdbd.us",
+   "searchEntryConfig": {
+	"merge":true,
+    "fieldSelector": {
+      "progress": {
+        "selector": ["div[class*='probar_a']"],
+        "filters": ["query.attr('title')?(query.attr('title')=='下载过，已完成'?100:query.children().attr('style').match(/width:([ \\d.]+)%/)[1]):null"]
+      },
+      "status": {
+        "selector": ["div[class*='probar_a']"],
+        "filters": ["query.attr('title')||''", "query=='下载过，已完成'?255:(query.indexOf('下载过，未完成')!=-1?3:(query.indexOf('正在做种')!=-1?2:1))"]
+      }
+    }
+  }
+}

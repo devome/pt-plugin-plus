@@ -1,0 +1,233 @@
+{
+  "name": "葡萄",
+  "timezoneOffset": "+0800",
+  "description": "Free Share, Join us",
+  "url": "https://pt.sjtu.edu.cn/",
+  "icon": "https://pt.sjtu.edu.cn/favicon.ico",
+  "tags": [
+    "教育网",
+    "影视",
+    "综合"
+  ],
+  "schema": "NexusPHP",
+  "host": "pt.sjtu.edu.cn",
+  "collaborator": ["Rhilip","Yincircle"],
+  "levelRequirements": [{
+    "level": "1",
+    "name": "Power User",
+    "interval": "4",
+    "downloaded": "50GB",
+    "ratio": "1.05",
+    "privilege": "可以查看NFO文档; 可以查看用户列表; 可以请求续种; 可以在求种补种区发主题帖;可以查看友站邀请专区;可以查看排行榜; 可以查看其它用户的种子历史(如果用户隐私等级未设置为\"强\");  可以在魔力值系统购买更多邀请名额.可以同时下载5个种子."
+  },{
+    "level": "2",
+    "name": "Elite User",
+    "interval": "8",
+    "downloaded": "120GB",
+    "ratio": "1.55",
+    "privilege": "Elite User及以上用户Park后不会被删除帐号;可以直接上传种子.可以同时下载8个种子."
+  },{
+    "level": "3",
+    "name": "Crazy User",
+    "interval": "15",
+    "downloaded": "300GB",
+    "ratio": "2.05",
+    "privilege": "得到一个邀请名额; 可以发送邀请; 可以在做种/下载/上传的时候选择匿名模式.可以同时下载10个种子."
+  },{
+    "level": "4",
+    "name": "Insane User",
+    "interval": "25",
+    "downloaded": "500GB",
+    "ratio": "2.55",
+    "privilege": "得到一个邀请名额; 可以查看普通日志.同时下载种子线程无限制."
+  },{
+    "level": "5",
+    "name": "Veteran User",
+    "interval": "40",
+    "downloaded": "750GB",
+    "ratio": "3.05",
+    "privilege": "可以查看其它用户的评论、帖子历史;Veteran User及以上用户会永远保留账号."
+  },{
+    "level": "6",
+    "name": "Extreme User",
+    "interval": "60",
+    "downloaded": "1TB",
+    "ratio": "3.55",
+    "privilege": "得到一个邀请名额; 可以更新过期的外部信息."
+  },{
+    "level": "7",
+    "name": "Ultimate User",
+    "interval": "80",
+    "downloaded": "1.5TB",
+    "ratio": "4.05",
+    "privilege": "可以查看种子文件结构."
+  },{
+    "level": "8",
+    "name": "Nexus Master",
+    "interval": "100",
+    "downloaded": "3TB",
+    "ratio": "4.55",
+    "privilege": "得到一个邀请名额."
+  }],
+  "searchEntryConfig": {
+    "merge": true,
+    "fieldSelector": {
+      "progress": {
+        "selector": ["td.snatched_no_yes, td.snatched_yes_yes", "td.snatched_no_no, td.snatched_yes_no", ""],
+        "switchFilters": [
+          ["100"],
+          ["0"],
+          ["null"]
+        ]
+      },
+      "status": {
+        "selector": ["td.snatched_no_yes, td.snatched_yes_yes", "td.snatched_no_no, td.snatched_yes_no"],
+        "switchFilters": [
+          ["2"],
+          ["3"]
+        ]
+      }
+    }
+  },
+  "categories": [{
+    "entry": "*",
+    "result": "cat$id$=1",
+    "category": [{
+        "id": 401,
+        "name": "华语电影"
+      },
+      {
+        "id": 402,
+        "name": "欧美电影"
+      },
+      {
+        "id": 403,
+        "name": "亚洲电影"
+      },
+      {
+        "id": 406,
+        "name": "纪录片"
+      },
+      {
+        "id": 407,
+        "name": "港台电视剧"
+      },
+      {
+        "id": 408,
+        "name": "亚洲电视剧"
+      },
+      {
+        "id": 409,
+        "name": "大陆电视剧"
+      },
+      {
+        "id": 410,
+        "name": "欧美电视剧"
+      },
+      {
+        "id": 411,
+        "name": "大陆综艺节目"
+      },
+      {
+        "id": 412,
+        "name": "港台综艺节目"
+      },
+      {
+        "id": 413,
+        "name": "欧美综艺节目"
+      },
+      {
+        "id": 414,
+        "name": "日韩综艺节目"
+      },
+      {
+        "id": 420,
+        "name": "华语音乐"
+      },
+      {
+        "id": 421,
+        "name": "日韩音乐"
+      },
+      {
+        "id": 422,
+        "name": "欧美音乐"
+      },
+      {
+        "id": 423,
+        "name": "原声音乐"
+      },
+      {
+        "id": 425,
+        "name": "古典音乐"
+      },
+      {
+        "id": 426,
+        "name": "mp3合辑"
+      },
+      {
+        "id": 427,
+        "name": "Music Videos"
+      },
+      {
+        "id": 429,
+        "name": "游戏"
+      },
+      {
+        "id": 431,
+        "name": "动漫"
+      },
+      {
+        "id": 432,
+        "name": "体育"
+      },
+      {
+        "id": 434,
+        "name": "软件"
+      },
+      {
+        "id": 435,
+        "name": "学习"
+      },
+      {
+        "id": 440,
+        "name": "mac"
+      },
+      {
+        "id": 451,
+        "name": "校园原创"
+      },
+      {
+        "id": 450,
+        "name": "其他"
+      }
+    ]
+  }],
+  "selectors": {
+    "userUploadedTorrents": {
+      "merge": true,
+      "page": "/viewtorrentsdetail.php?id=$user.id$",
+      "fields": {
+        "uploads": {
+            "selector": ["div#ka"],
+            "filters": [
+              "query.parent().clone().children().remove().end().text().replace(/,/g,'')",
+              "query ? parseInt(query.match(/[\\d]+/)[0]) : null"]
+        }
+      }
+    },
+    "userSeedingTorrents": {
+      "merge": true,
+      "page": "/viewusertorrents.php?id=$user.id$&show=seeding",
+      "fields": {
+        "seeding": {
+          "selector": ["tr:not(:eq(0))"],
+          "filters": ["query.find('td.rowfollow:eq(2)').length != 0 ? query.find('td.rowfollow:eq(2)').length : query.length"]
+        },
+        "seedingSize": {
+          "selector": ["tr:not(:eq(0))"],
+          "filters": ["jQuery.map(query.find('td.rowfollow:eq(1)'), (item)=>{return $(item).text();})", "_self.getTotalSize(query)"]
+        }
+      }
+    }
+  }
+}

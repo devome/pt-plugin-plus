@@ -1,0 +1,105 @@
+{
+  "name": "烧包",
+  "timezoneOffset": "+0800",
+  "schema": "NexusPHP",
+  "url": "https://ptsbao.club/",
+  "description": "烧包 - 扬帆远航 风雨同路",
+  "icon": "https://ptsbao.club/favicon.ico",
+  "tags": ["影视", "综合"],
+  "host": "ptsbao.club",
+  "levelRequirements": [
+    {
+      "level": 1,
+      "name": "Power User",
+      "interval": "1",
+      "downloaded": "50GB",
+      "ratio": "1.05"
+    },
+    {
+      "level": 2,
+      "name": "Elite User",
+      "interval": "2",
+      "downloaded": "150GB",
+      "ratio": "1.55"
+    },
+    {
+      "level": 3,
+      "name": "Crazy User",
+      "interval": "4",
+      "downloaded": "300GB",
+      "ratio": "2.05"
+    },
+    {
+      "level": 4,
+      "name": "Insane User",
+      "interval": "8",
+      "downloaded": "500GB",
+      "ratio": "2.55"
+    },
+    {
+      "level": 5,
+      "name": "Veteran User",
+      "interval": "16",
+      "downloaded": "750GB",
+      "ratio": "3.05"
+    },
+    {
+      "level": 6,
+      "name": "Extreme User",
+      "interval": "24",
+      "downloaded": "1TB",
+      "ratio": "3.55"
+    },
+    {
+      "level": 7,
+      "name": "Ultimate User",
+      "interval": "36",
+      "downloaded": "1.5TB",
+      "ratio": "4.05"
+    },
+    {
+      "level": 8,
+      "name": "Nexus Master",
+      "interval": "52",
+      "downloaded": "3TB",
+      "ratio": "4.55"
+    }
+  ],
+  "collaborator": ["laizony", "ted423"],
+  "searchEntryConfig": {
+	"merge": true,
+    "fieldSelector": {
+      "progress": {
+        "selector": ["tr.finished,tr.seeders"],
+        "filters": ["query.length?100:null"]
+      },
+      "status": {
+        "selector": ["tr.finished", "tr.seeders"],
+        "switchFilters": [
+        	["255"],
+        	["2"]
+        ]
+      }
+    }
+  },
+  "selectors": {
+    "userBaseInfo": {
+      "merge": true,
+      "fields": {
+        "messageCount": {
+          "selector": ["td[style*='background: indigo'] a[href*='messages.php']"],
+          "filters": ["query.text().match(/(\\d+)/)", "(query && query.length>=2)?parseInt(query[1]):0"]
+        }
+      }
+    },
+    "userExtendInfo": {
+      "merge": true,
+      "fields": {
+        "levelName": {
+          "selector": ["td.rowhead:contains('等级') + td b b[class]"],
+          "filters": ["query.text().trim() + '(' + query.attr('class').replace('User_Name',' User') + ')'"]
+        }
+      }
+    }
+  }
+}
